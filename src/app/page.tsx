@@ -1,65 +1,467 @@
-import Image from "next/image";
+import type { Metadata } from "next";
+import { getHomePage } from "@/lib/api/pages";
+import { resolveMediaUrl } from "@/lib/media";
+import type {
+  HomePageResponse,
+  HomeHero,
+  HomeSubHero,
+  HomeDirection,
+} from "@/types/api";
 
-export default function Home() {
+import { InteriorSection } from "@/components/home/InteriorSection";
+
+// SEO из блока seo
+export async function generateMetadata(): Promise<Metadata> {
+  const data: HomePageResponse = await getHomePage();
+  const seo = data.seo;
+
+  if (!seo) return {};
+
+  const robots: Metadata["robots"] = {
+    index: seo.robotsIndex ?? true,
+    follow: seo.robotsFollow ?? true,
+  };
+
+  return {
+    title: seo.metaTitle ?? undefined,
+    description: seo.metaDescription ?? undefined,
+    alternates: seo.canonicalUrl
+      ? { canonical: seo.canonicalUrl }
+      : undefined,
+    robots,
+    openGraph: {
+      title: seo.ogTitle ?? seo.metaTitle ?? undefined,
+      description: seo.ogDescription ?? seo.metaDescription ?? undefined,
+      images: seo.ogImage
+        ? [
+            {
+              url: resolveMediaUrl(seo.ogImage.url),
+              width: seo.ogImage.width ?? undefined,
+              height: seo.ogImage.height ?? undefined,
+              alt: seo.ogImage.alt ?? undefined,
+            },
+          ]
+        : undefined,
+    },
+  };
+}
+
+export default async function HomePage() {
+  const data = await getHomePage();
+  const { hero, directions, subHero, interior } = data;
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
+    <main className="bg-white">
+      <HeroSection hero={hero} />
+      <div className="mx-auto max-w-6xl px-4 pb-16 pt-10">
+        <DirectionsSection directions={directions} />
+      </div>
+      <SubHeroSection subHero={subHero} />
+      <div className="mx-auto max-w-6xl px-4 pb-16 pt-10">
+        <InteriorSection interior={interior} />
+        <BottomCtaSection />
+      </div>
+    </main>
+  );
+}
+
+// ---------------- HERO (full width, 70–75% высоты, украшенный) ----------------
+
+function HeroSection({ hero }: { hero: HomeHero }) {
+  const mainImage = hero.images[0];
+
+  return (
+    <section className="relative w-full min-h-[72vh] overflow-hidden">
+      {/* Фоновая картинка из hero.images */}
+      {mainImage && (
+        <img
+          src={resolveMediaUrl(mainImage.url)}
+          alt={mainImage.alt ?? ""}
+          className="absolute inset-0 h-full w-full object-cover"
         />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
+      )}
+
+      {/* Слой с градиентным затемнением фирменными цветами */}
+      <div className="absolute inset-0">
+        <div className="absolute inset-0 bg-gradient-to-tr from-[#0D1321]/90 via-[#1D2D44]/85 to-[#1D2D44]/60" />
+
+        {/* Декоративные пятна/ореолы поверх градиента */}
+        <div className="pointer-events-none absolute inset-0">
+          <div className="absolute -left-24 top-10 h-64 w-64 rounded-full bg-[#F3F7FA]/10 blur-3xl" />
+          <div className="absolute right-[-80px] bottom-[-40px] h-72 w-72 rounded-full bg-[#F3F7FA]/8 blur-3xl" />
+        </div>
+      </div>
+
+      {/* Контентная часть */}
+      <div className="relative mx-auto flex max-w-6xl flex-col gap-10 px-4 py-12 text-[#F3F7FA] md:flex-row md:items-center md:py-16">
+        {/* Левая колонка: заголовок/подзаголовок/CTA — строго из hero */}
+        <div className="flex-1 animate-[fade-up_0.7s_ease-out_both]">
+          {/* Маленький бейдж над заголовком */}
+          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#F3F7FA]/20 bg-white/5 px-3 py-1 text-[11px] font-medium text-[#F3F7FA]/80 backdrop-blur-md">
+            <span className="inline-block h-1.5 w-1.5 rounded-full bg-[#F3F7FA]" />
+            <span>Клиника OCTAVA</span>
+          </div>
+
+          <h1 className="text-balance text-3xl font-semibold tracking-tight sm:text-4xl md:text-5xl">
+            {hero.title}
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
+
+          <p className="mt-4 max-w-xl text-sm leading-relaxed text-[#F3F7FA]/85 sm:text-base">
+            {hero.subtitle}
+          </p>
+
+          <div className="mt-7 flex flex-wrap items-center gap-4">
+            {hero.ctaText && hero.ctaUrl && (
+              <a
+                href={hero.ctaUrl}
+                className="relative inline-flex items-center justify-center rounded-full bg-[#F3F7FA] px-6 py-2.5 text-sm font-medium text-[#1D2D44] shadow-[0_18px_45px_rgba(0,0,0,0.35)] transition hover:-translate-y-0.5 hover:bg-white hover:shadow-[0_22px_55px_rgba(0,0,0,0.45)]"
+              >
+                {/* Светящийся контур вокруг кнопки */}
+                <span className="pointer-events-none absolute inset-[-2px] rounded-full border border-[#F3F7FA]/50 opacity-40 blur-[1px]" />
+                <span className="relative">{hero.ctaText}</span>
+              </a>
+            )}
+
             <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+              href="#services"
+              className="inline-flex items-center justify-center rounded-full border border-[#F3F7FA]/40 bg-white/0 px-5 py-2.5 text-sm font-medium text-[#F3F7FA] backdrop-blur-sm transition hover:-translate-y-0.5 hover:border-[#F3F7FA] hover:bg-white/5"
             >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+              Смотреть направления
+            </a>
+          </div>
+        </div>
+
+        {/* Правая колонка: акцентная стеклянная карточка */}
+        <div className="flex-1 animate-[fade-up_0.9s_ease-out_both]">
+          <div className="ml-auto w-full max-w-sm">
+            {/* Плавающий блёр-бейдж (чистая декоративщина) */}
+            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#F3F7FA]/20 bg-white/5 px-3 py-1 text-[11px] text-[#F3F7FA]/80 backdrop-blur-md animate-[float_8s_ease-in-out_infinite]">
+              <span className="inline-block h-1.5 w-1.5 rounded-full bg-[#F3F7FA]" />
+              <span>Антивозрастная и эстетическая медицина</span>
+            </div>
+
+            <div className="overflow-hidden rounded-2xl border border-[#F3F7FA]/15 bg-white/5 p-4 backdrop-blur-xl shadow-[0_18px_45px_rgba(0,0,0,0.55)]">
+              <div className="rounded-xl border border-[#F3F7FA]/10 bg-[#0D1321]/40 px-4 py-3 text-xs text-[#F3F7FA]/80">
+                <p className="font-medium">
+                  Клиника OCTAVA — антивозрастная и эстетическая медицина
+                </p>
+              </div>
+
+              <div className="mt-4 grid gap-3 text-[11px] text-[#F3F7FA]/80">
+                <div className="flex items-start gap-2">
+                  <span className="mt-[3px] inline-block h-1.5 w-1.5 rounded-full bg-[#F3F7FA]" />
+                  <p>Современные методы косметологии и медицины.</p>
+                </div>
+                <div className="flex items-start gap-2">
+                  <span className="mt-[3px] inline-block h-1.5 w-1.5 rounded-full bg-[#F3F7FA]" />
+                  <p>Индивидуальный подбор процедур.</p>
+                </div>
+                <div className="flex items-start gap-2">
+                  <span className="mt-[3px] inline-block h-1.5 w-1.5 rounded-full bg-[#F3F7FA]" />
+                  <p>Работа с комфортом и безопасностью пациента.</p>
+                </div>
+              </div>
+
+              <div className="mt-4 flex items-center justify-between rounded-xl border border-[#F3F7FA]/10 bg-[#0D1321]/45 px-4 py-3 text-[11px]">
+                <div className="flex flex-col">
+                  <span className="text-[#F3F7FA]/65">Запись онлайн</span>
+                  <span className="text-xs font-medium">
+                    Выберите удобное время на консультацию
+                  </span>
+                </div>
+                <span className="rounded-full bg-[#F3F7FA] px-3 py-1 text-[10px] font-semibold text-[#1D2D44]">
+                  OCTAVA
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ---------------- DIRECTIONS (2 в ряд, карточки с фото) ----------------
+
+function DirectionsSection({ directions }: { directions: HomeDirection[] }) {
+  if (!directions?.length) return null;
+
+  return (
+    <section id="services" className="mb-12">
+      <div className="mb-6 flex items-end justify-between gap-3">
+        <div>
+          <p className="inline-flex rounded-full bg-[#F3F7FA] px-3 py-1 text-2xl font-normal text-slate-700">
+            Направления OCTAVA
           </p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+      </div>
+
+      <div className="grid gap-5 sm:grid-cols-2">
+        {directions.map((direction, index) => {
+          const image = direction.heroImage;
+
+          return (
+            <a
+              key={`${direction.slug}-${index}-${direction.id}`}
+              href={`/services/${direction.slug}`} // при необходимости поменяешь маршрут
+              className="group relative flex min-h-[220px] overflow-hidden rounded-3xl bg-[#ffffff] text-[#F3F7FA] shadow-[0_18px_45px_rgba(0,0,0,0.15)] transition hover:-translate-y-1 hover:shadow-[0_24px_60px_rgba(0,0,0,0.25)]"
+            >
+              {image && (
+                <img
+                  src={resolveMediaUrl(image.url)}
+                  alt={image.alt ?? direction.name}
+                  className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105"
+                />
+              )}
+
+              {/* градиентное затемнение снизу */}
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#0D1321]/90 via-[#0D1321]/75 to-transparent" />
+
+              {/* декоративные пятна */}
+              <div className="pointer-events-none absolute inset-0">
+                <div className="absolute -right-20 top-[-40px] h-40 w-40 rounded-full bg-[#F3F7FA]/10 blur-3xl" />
+                <div className="absolute -left-24 bottom-[-40px] h-48 w-48 rounded-full bg-[#F3F7FA]/8 blur-3xl" />
+              </div>
+
+              {/* контент карточки */}
+              <div className="relative z-10 flex flex-1 flex-col justify-end gap-3 p-5">
+                
+
+                <h3 className="text-lg font-semibold">
+                  {direction.name}
+                </h3>
+
+                {direction.description && (
+                  <p className="text-sm text-[#F3F7FA]/85">
+                    {direction.description}
+                  </p>
+                )}
+
+                <div className="mt-1 flex items-center gap-2 text-xs font-medium text-[#F3F7FA]/85">
+                  <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-white/10 transition group-hover:bg-white/15">
+                    <svg
+                      viewBox="0 0 20 20"
+                      aria-hidden="true"
+                      className="h-3.5 w-3.5"
+                    >
+                      <path
+                        d="M6 4.75L12.25 4.75L12.25 11"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                      <path
+                        d="M6.25 12.5L12.25 4.75"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </span>
+                  <span>Подробнее о направлении</span>
+                </div>
+              </div>
+            </a>
+          );
+        })}
+      </div>
+    </section>
+  );
+}
+
+
+// ---------------- SUB HERO (градиентный блок в фирменных цветах) ----------------
+
+function SubHeroSection({
+  subHero,
+}: {
+  subHero: HomeSubHero;
+}) {
+  if (!subHero.title && !subHero.subtitle) return null;
+
+  return (
+    <section className="relative w-full overflow-hidden">
+      {subHero.image?.url && (
+        <img
+          src={resolveMediaUrl(subHero.image.url)}
+          alt=""
+          className="pointer-events-none absolute inset-0 h-full w-full object-cover"
+        />
+      )}
+
+      {/* мощное затемнение в фирменных синих */}
+      <div className="absolute inset-0 bg-gradient-to-r from-[#0D1321]/90 via-[#1D2D44]/85 to-[#0D1321]/90" />
+
+      <div className="relative mx-auto max-w-6xl px-4 py-12 md:py-16">
+        {/* градиентная рамка */}
+        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-[#0D1321] via-[#1D2D44] to-[#0D1321] p-[1px] shadow-[0_22px_60px_rgba(13,19,33,0.35)]">
+          {/* внутренний тёмный слой */}
+          <div className="relative rounded-[calc(1.5rem-1px)] bg-[#0D1321]/60 px-6 py-8 backdrop-blur-xl md:px-8 md:py-10">
+            {/* декоративные мягкие пятна */}
+            <div className="pointer-events-none absolute inset-0">
+              <div className="absolute -left-16 -top-10 h-32 w-32 rounded-full bg-[#F3F7FA]/10 blur-3xl" />
+              <div className="absolute -right-20 bottom-[-32px] h-40 w-40 rounded-full bg-[#F3F7FA]/12 blur-3xl" />
+            </div>
+
+            {/* текст из subHero */}
+            <div className="relative max-w-3xl animate-[fade-up_0.6s_ease-out_both]">
+              {subHero.title && (
+                <h2 className="text-2xl font-semibold tracking-tight text-[#F3F7FA] sm:text-3xl md:text-[32px]">
+                  {subHero.title}
+                </h2>
+              )}
+              {subHero.subtitle && (
+                <p className="mt-4 text-base leading-relaxed text-[#F3F7FA]/85 md:text-lg">
+                  {subHero.subtitle}
+                </p>
+              )}
+            </div>
+          </div>
         </div>
-      </main>
-    </div>
+      </div>
+    </section>
+  );
+}
+
+// ---------------- FORM (внизу, с учётом 152-ФЗ) ----------------
+
+function BottomCtaSection() {
+  return (
+    <section
+      id="booking"
+      className="rounded-3xl bg-[#1D2D44] px-5 py-8 text-[#F3F7FA] shadow-xl md:px-8 md:py-10"
+    >
+      <div className="flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
+        <div className="md:max-w-sm">
+          <h2 className="text-lg font-semibold sm:text-xl">
+            Оставьте контакты для связи
+          </h2>
+          <p className="mt-2 text-sm text-[#F3F7FA]/80">
+            Мы используем ваши данные только для обработки обращения и связи с
+            вами по указанному вопросу.
+          </p>
+        </div>
+
+        <div className="w-full max-w-md">
+          <form className="flex flex-col gap-3">
+            {/* Имя */}
+            <div>
+              <label
+                htmlFor="callback-name"
+                className="mb-1 block text-xs font-medium text-[#F3F7FA]/80"
+              >
+                Имя
+              </label>
+              <input
+                id="callback-name"
+                name="name"
+                type="text"
+                required
+                className="w-full rounded-xl border border-[#F3F7FA]/20 bg-[#0D1321]/20 px-3 py-2 text-sm text-[#F3F7FA] placeholder:text-[#F3F7FA]/60 outline-none transition focus:border-[#F3F7FA] focus:bg-[#0D1321]/30"
+                placeholder="Как к вам обращаться"
+              />
+            </div>
+
+            {/* Телефон */}
+            <div>
+              <label
+                htmlFor="callback-phone"
+                className="mb-1 block text-xs font-medium text-[#F3F7FA]/80"
+              >
+                Телефон
+              </label>
+              <input
+                id="callback-phone"
+                name="phone"
+                type="tel"
+                required
+                className="w-full rounded-xl border border-[#F3F7FA]/20 bg-[#0D1321]/20 px-3 py-2 text-sm text-[#F3F7FA] placeholder:text-[#F3F7FA]/60 outline-none transition focus:border-[#F3F7FA] focus:bg-[#0D1321]/30"
+                placeholder="+7 ___ ___-__-__"
+              />
+            </div>
+
+            {/* (опционально) комментарий без медицинских деталей */}
+            {/* если не хочешь собирать лишнее — можно вообще убрать это поле */}
+            <div>
+              <label
+                htmlFor="callback-comment"
+                className="mb-1 block text-xs font-medium text-[#F3F7FA]/80"
+              >
+                Комментарий (по желанию)
+              </label>
+              <textarea
+                id="callback-comment"
+                name="comment"
+                rows={3}
+                className="w-full resize-none rounded-xl border border-[#F3F7FA]/20 bg-[#0D1321]/20 px-3 py-2 text-sm text-[#F3F7FA] placeholder:text-[#F3F7FA]/60 outline-none transition focus:border-[#F3F7FA] focus:bg-[#0D1321]/30"
+                placeholder="Кратко опишите вопрос (без указания данных о состоянии здоровья)"
+              />
+            </div>
+
+            {/* Обязательное согласие на обработку ПД */}
+            <div className="mt-1 flex items-start gap-2 rounded-xl bg-[#0D1321]/30 px-3 py-3 text-[11px] leading-snug text-[#F3F7FA]/80">
+              <input
+                id="pd-consent"
+                name="pdConsent"
+                type="checkbox"
+                required
+                className="mt-[3px] h-3.5 w-3.5 accent-[#F3F7FA]"
+              />
+              <label htmlFor="pd-consent" className="cursor-pointer">
+                Я ознакомился(лась) с{" "}
+                <a
+                  href="/personal-data-policy"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="underline underline-offset-2"
+                >
+                  Политикой обработки персональных данных
+                </a>{" "}
+                и даю{" "}
+                <a
+                  href="/personal-data-consent"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="underline underline-offset-2"
+                >
+                  согласие на обработку персональных данных
+                </a>{" "}
+                в целях обработки моего обращения и обратной связи.
+              </label>
+            </div>
+
+            {/* Отдельное согласие на рекламу (по желанию) */}
+            <div className="flex items-start gap-2 text-[11px] leading-snug text-[#F3F7FA]/70">
+              <input
+                id="marketing-consent"
+                name="marketingConsent"
+                type="checkbox"
+                className="mt-[3px] h-3.5 w-3.5 accent-[#F3F7FA]"
+              />
+              <label htmlFor="marketing-consent" className="cursor-pointer">
+                Согласен(на) на получение информационных и рекламных сообщений
+                о услугах клиники OCTAVA по указанным контактам.
+              </label>
+            </div>
+
+            <button
+              type="submit"
+              className="mt-2 inline-flex items-center justify-center rounded-xl bg-[#F3F7FA] px-4 py-2.5 text-sm font-semibold text-[#1D2D44] shadow-lg transition hover:bg-white"
+            >
+              Отправить заявку
+            </button>
+
+            <p className="mt-1 text-[11px] leading-snug text-[#F3F7FA]/60">
+              Оператор персональных данных – Клиника OCTAVA
+              {/* TODO: подставь полное юридическое наименование, ОГРН/ИНН при необходимости */}
+            </p>
+          </form>
+        </div>
+      </div>
+    </section>
   );
 }
