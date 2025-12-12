@@ -212,3 +212,22 @@ export type ServiceDetailResponse = {
   faq: FaqItem[];
   legalDisclaimer: string | null;
 };
+
+// Телефон организации
+export type OrgPhone = {
+  type: string;        // например, "MAIN"
+  number: string;      // "+7 (495) 000-00-00"
+  isPrimary: boolean;
+};
+
+// Организация / оператор ПД
+export type Organization = {
+  id: number;
+  fullName: string;    // "ООО «Октава»"
+  ogrn: string;
+  inn: string;
+  kpp: string | null;
+  address: string;
+  email: string;
+  phones: OrgPhone[];
+};

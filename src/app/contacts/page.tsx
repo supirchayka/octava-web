@@ -1,9 +1,10 @@
 // src/app/contacts/page.tsx
 
 import type { Metadata } from "next";
+import { getOrg } from "@/lib/api/org";
 
 type PageProps = {
-  // в новой версии Next searchParams тоже может быть Promise
+  // в новой версии Next searchParams может быть Promise
   searchParams: Promise<{ service?: string }>;
 };
 
@@ -16,6 +17,10 @@ export const metadata: Metadata = {
 export default async function ContactsPage(props: PageProps) {
   const { service } = await props.searchParams;
   const serviceSlug = service ?? "";
+
+  const org = await getOrg();
+  const primaryPhone =
+    org.phones?.find((p) => p.isPrimary) ?? org.phones?.[0];
 
   return (
     <main className="bg-white">
@@ -53,35 +58,42 @@ export default async function ContactsPage(props: PageProps) {
               <dl className="space-y-3 text-sm text-[#F3F7FA]/90">
                 <div>
                   <dt className="text-xs uppercase tracking-[0.16em] text-[#F3F7FA]/60">
-                    Телефон
+                    Оператор
                   </dt>
                   <dd className="mt-1 text-base font-medium">
-                    +7 (___) ___-__-__ {/* TODO: подставь реальный номер */}
+                    {org.fullName}
                   </dd>
                 </div>
+
+                {primaryPhone && (
+                  <div>
+                    <dt className="text-xs uppercase tracking-[0.16em] text-[#F3F7FA]/60">
+                      Телефон
+                    </dt>
+                    <dd className="mt-1 text-base font-medium">
+                      {primaryPhone.number}
+                    </dd>
+                  </div>
+                )}
+
                 <div>
                   <dt className="text-xs uppercase tracking-[0.16em] text-[#F3F7FA]/60">
                     Адрес
                   </dt>
-                  <dd className="mt-1">
-                    Улица, дом, город {/* TODO: реальный адрес клиники */}
-                  </dd>
+                  <dd className="mt-1">{org.address}</dd>
                 </div>
+
                 <div>
                   <dt className="text-xs uppercase tracking-[0.16em] text-[#F3F7FA]/60">
-                    График работы
+                    E-mail
                   </dt>
                   <dd className="mt-1">
-                    Ежедневно, 10:00–21:00 {/* TODO: реальный график */}
-                  </dd>
-                </div>
-                <div>
-                  <dt className="text-xs uppercase tracking-[0.16em] text-[#F3F7FA]/60">
-                    Мессенджеры
-                  </dt>
-                  <dd className="mt-1">
-                    {/* TODO: подставь реальные ссылки */}
-                    WhatsApp / Telegram
+                    <a
+                      href={`mailto:${org.email}`}
+                      className="underline underline-offset-2"
+                    >
+                      {org.email}
+                    </a>
                   </dd>
                 </div>
               </dl>
@@ -93,8 +105,8 @@ export default async function ContactsPage(props: PageProps) {
       {/* Контент: форма + боковая панель */}
       <section className="mx-auto max-w-6xl px-4 py-10 md:py-12">
         <div className="grid gap-8 md:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] md:items-start">
-          <ContactForm serviceSlug={serviceSlug} />
-          <ContactSidePanel />
+          <ContactForm serviceSlug={serviceSlug} org={org} />
+          <ContactSidePanel org={org} />
         </div>
       </section>
     </main>
@@ -103,7 +115,15 @@ export default async function ContactsPage(props: PageProps) {
 
 // ---------------- ФОРМА ----------------
 
-function ContactForm({ serviceSlug }: { serviceSlug?: string }) {
+import type { Organization } from "@/types/api";
+
+function ContactForm({
+  serviceSlug,
+  org,
+}: {
+  serviceSlug?: string;
+  org: Organization;
+}) {
   const hasService = Boolean(serviceSlug && serviceSlug.trim().length > 0);
 
   return (
@@ -129,7 +149,6 @@ function ContactForm({ serviceSlug }: { serviceSlug?: string }) {
       </div>
 
       <form className="flex flex-col gap-3">
-        {/* скрытое поле со slug услуги, если есть */}
         {hasService && (
           <input
             type="hidden"
@@ -219,7 +238,8 @@ function ContactForm({ serviceSlug }: { serviceSlug?: string }) {
             >
               согласие на обработку персональных данных
             </a>{" "}
-            в целях обработки моего обращения и обратной связи.
+            в целях обработки моего обращения и обратной связи с{" "}
+            {org.fullName}.
           </label>
         </div>
 
@@ -245,8 +265,9 @@ function ContactForm({ serviceSlug }: { serviceSlug?: string }) {
         </button>
 
         <p className="mt-1 text-[11px] leading-snug text-slate-500">
-          Оператор персональных данных – Клиника OCTAVA
-          {/* TODO: подставь полное юр. лицо / ОГРН/ИНН при необходимости */}
+          Оператор персональных данных — {org.fullName}, ОГРН {org.ogrn},
+          ИНН {org.inn}
+          {org.kpp ? `, КПП ${org.kpp}` : ""}, адрес: {org.address}.
         </p>
       </form>
     </section>
@@ -255,7 +276,10 @@ function ContactForm({ serviceSlug }: { serviceSlug?: string }) {
 
 // ---------------- ПРАВАЯ ПАНЕЛЬ (карта/доп.инфо) ----------------
 
-function ContactSidePanel() {
+function ContactSidePanel({ org }: { org: Organization }) {
+  const primaryPhone =
+    org.phones?.find((p) => p.isPrimary) ?? org.phones?.[0];
+
   return (
     <section className="space-y-4">
       <div className="rounded-3xl border border-slate-100 bg-white px-5 py-5 shadow-[0_10px_28px_rgba(13,19,33,0.06)] md:px-6 md:py-6">
@@ -263,17 +287,24 @@ function ContactSidePanel() {
           Как нас найти
         </h2>
         <p className="mt-2 text-sm leading-relaxed text-slate-700 sm:text-[15px]">
-          Здесь можно разместить краткое описание маршрута: ближайшее метро,
-          ориентиры, парковку и особенности входа в клинику.
+          {org.address}
         </p>
+        {primaryPhone && (
+          <p className="mt-1 text-sm text-slate-700">
+            Телефон для связи:{" "}
+            <span className="font-medium">{primaryPhone.number}</span>
+          </p>
+        )}
       </div>
 
-      <div className="relative h-[260px] w-full overflow-hidden rounded-3xl sm:h-[320px]">
-        
-
-        <div className="relative flex h-full flex-col items-center justify-center px-4 text-center">
-          <iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3A28dd05ca9b6d38be2b7a73b4717361155d924ffa0ab2474b03317efcc9a45b1c&amp;source=constructor" width="100%" height="500"></iframe>
-        </div>
+      <div className="relative h-[360px] w-full overflow-hidden rounded-3xl text-[#F3F7FA] shadow-[0_18px_45px_rgba(13,19,33,0.45)] sm:h-[320px]">
+        <iframe
+          src="https://yandex.ru/map-widget/v1/?ll=37.6208%2C55.7536&z=14"
+          width="100%"
+          height="100%"
+          style={{ border: 0 }}
+          allowFullScreen
+        />
       </div>
     </section>
   );
