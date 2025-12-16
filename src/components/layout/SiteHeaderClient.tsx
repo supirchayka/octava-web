@@ -31,7 +31,7 @@ export function SiteHeaderClient({
           </div>
           <div className="flex flex-col">
             <span className="text-sm font-semibold tracking-wide text-[#0D1321]">
-              {orgName}
+              OCTAVA
             </span>
             <span className="text-xs text-slate-500">
               Антивозрастная и эстетическая медицина

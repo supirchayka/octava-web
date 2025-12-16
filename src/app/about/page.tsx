@@ -189,9 +189,6 @@ function AboutHeroSection({
       <div className="relative mx-auto flex max-w-6xl flex-col gap-8 px-4 py-12 text-[#F3F7FA] md:flex-row md:items-center md:py-16">
         {/* Текст слева */}
         <div className="flex-1 space-y-4">
-          <p className="inline-flex rounded-full bg-white/10 px-3 py-1 text-xs font-medium text-[#F3F7FA]/80 backdrop-blur-md">
-            О клинике OCTAVA
-          </p>
           <h1 className="text-balance text-3xl font-semibold tracking-tight sm:text-4xl md:text-5xl">
             {hero.title}
           </h1>
@@ -203,7 +200,7 @@ function AboutHeroSection({
             <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
               <a
                 href="/contacts"
-                className="inline-flex items-center justify-center rounded-full bg-[#F3F7FA] px-6 py-2.5 text-sm font-medium text-[#1D2D44] shadow-[0_18px_45px_rgba(0,0,0,0.35)] transition hover:-translate-y-0.5 hover:bg-white hover:shadow-[0_22px_55px_rgba(0,0,0,0.45)]"
+                className="inline-flex items-center text-center justify-center rounded-full bg-[#F3F7FA] px-6 py-2.5 text-sm font-medium text-[#1D2D44] shadow-[0_18px_45px_rgba(0,0,0,0.35)] transition hover:-translate-y-0.5 hover:bg-white hover:shadow-[0_22px_55px_rgba(0,0,0,0.45)]"
               >
                 {heroCta.title}
               </a>
