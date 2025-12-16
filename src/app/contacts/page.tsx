@@ -116,6 +116,7 @@ export default async function ContactsPage(props: PageProps) {
 // ---------------- ФОРМА ----------------
 
 import type { Organization } from "@/types/api";
+import { ContactLeadForm } from "@/components/ContactLeadForm";
 
 function ContactForm({
   serviceSlug,
@@ -148,128 +149,14 @@ function ContactForm({
         )}
       </div>
 
-      <form className="flex flex-col gap-3">
-        {hasService && (
-          <input
-            type="hidden"
-            name="serviceSlug"
-            value={serviceSlug}
-          />
-        )}
+      <ContactLeadForm serviceSlug={serviceSlug} operatorNote={null} />
 
-        {/* Имя */}
-        <div>
-          <label
-            htmlFor="contact-name"
-            className="mb-1 block text-xs font-medium text-slate-700"
-          >
-            Имя
-          </label>
-          <input
-            id="contact-name"
-            name="name"
-            type="text"
-            required
-            className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 outline-none transition focus:border-[#1D2D44] focus:ring-1 focus:ring-[#1D2D44]"
-            placeholder="Как к вам обращаться"
-          />
-        </div>
-
-        {/* Телефон */}
-        <div>
-          <label
-            htmlFor="contact-phone"
-            className="mb-1 block text-xs font-medium text-slate-700"
-          >
-            Телефон
-          </label>
-          <input
-            id="contact-phone"
-            name="phone"
-            type="tel"
-            required
-            className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 outline-none transition focus:border-[#1D2D44] focus:ring-1 focus:ring-[#1D2D44]"
-            placeholder="+7 ___ ___-__-__"
-          />
-        </div>
-
-        {/* Комментарий */}
-        <div>
-          <label
-            htmlFor="contact-comment"
-            className="mb-1 block text-xs font-medium text-slate-700"
-          >
-            Комментарий (по желанию)
-          </label>
-          <textarea
-            id="contact-comment"
-            name="comment"
-            rows={4}
-            className="w-full resize-none rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 outline-none transition focus:border-[#1D2D44] focus:ring-1 focus:ring-[#1D2D44]"
-            placeholder="Кратко опишите вопрос (без указания подробных медицинских данных)"
-          />
-        </div>
-
-        {/* Согласие на ПД */}
-        <div className="mt-1 flex items-start gap-2 rounded-xl bg-white px-3 py-3 text-[11px] leading-snug text-slate-700">
-          <input
-            id="pd-consent"
-            name="pdConsent"
-            type="checkbox"
-            required
-            className="mt-[3px] h-3.5 w-3.5 accent-[#1D2D44]"
-          />
-          <label htmlFor="pd-consent" className="cursor-pointer">
-            Я ознакомился(лась) с{" "}
-            <a
-              href="/personal-data-policy"
-              target="_blank"
-              rel="noreferrer"
-              className="underline underline-offset-2"
-            >
-              Политикой обработки персональных данных
-            </a>{" "}
-            и даю{" "}
-            <a
-              href="/personal-data-consent"
-              target="_blank"
-              rel="noreferrer"
-              className="underline underline-offset-2"
-            >
-              согласие на обработку персональных данных
-            </a>{" "}
-            в целях обработки моего обращения и обратной связи с{" "}
-            {org.fullName}.
-          </label>
-        </div>
-
-        {/* Согласие на рекламу (опционально) */}
-        <div className="flex items-start gap-2 text-[11px] leading-snug text-slate-600">
-          <input
-            id="marketing-consent"
-            name="marketingConsent"
-            type="checkbox"
-            className="mt-[3px] h-3.5 w-3.5 accent-[#1D2D44]"
-          />
-          <label htmlFor="marketing-consent" className="cursor-pointer">
-            Согласен(на) на получение информационных и рекламных сообщений
-            о услугах клиники OCTAVA по указанным контактам.
-          </label>
-        </div>
-
-        <button
-          type="submit"
-          className="mt-2 inline-flex items-center justify-center rounded-xl bg-[#1D2D44] px-4 py-2.5 text-sm font-semibold text-[#F3F7FA] shadow-[0_10px_28px_rgba(13,19,33,0.45)] transition hover:bg-[#0D1321] hover:shadow-[0_14px_36px_rgba(13,19,33,0.6)]"
-        >
-          Отправить заявку
-        </button>
-
-        <p className="mt-1 text-[11px] leading-snug text-slate-500">
-          Оператор персональных данных — {org.fullName}, ОГРН {org.ogrn},
-          ИНН {org.inn}
-          {org.kpp ? `, КПП ${org.kpp}` : ""}, адрес: {org.address}.
-        </p>
-      </form>
+      <p className="mt-3 text-[11px] leading-snug text-slate-500">
+        Оператор персональных данных — {org.fullName}, ОГРН {org.ogrn}, ИНН
+        {" "}
+        {org.inn}
+        {org.kpp ? `, КПП ${org.kpp}` : ""}, адрес: {org.address}.
+      </p>
     </section>
   );
 }
