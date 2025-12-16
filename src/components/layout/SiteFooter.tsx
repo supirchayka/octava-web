@@ -1,6 +1,26 @@
 // src/components/layout/SiteFooter.tsx
+import Link from "next/link";
 
-export function SiteFooter() {
+import { getOrg } from "@/lib/api/org";
+import type { Organization } from "@/types/api";
+
+function getPrimaryPhone(org: Organization): string | null {
+  const phone = org.phones?.find((p) => p.isPrimary) ?? org.phones?.[0];
+  return phone?.number ?? null;
+}
+
+function buildTelHref(phone: string | null): string | null {
+  if (!phone) return null;
+  const normalized = phone.replace(/[^+\d]/g, "");
+  if (!normalized) return null;
+  return `tel:${normalized}`;
+}
+
+export async function SiteFooter() {
+  const org = await getOrg();
+  const phoneNumber = getPrimaryPhone(org);
+  const phoneHref = buildTelHref(phoneNumber);
+
   return (
     <footer className="mt-16 border-t border-slate-100 bg-white pb-6 pt-8 text-sm text-slate-600">
       <div className="mx-auto flex max-w-6xl flex-col gap-8 px-4 md:flex-row md:justify-between">
@@ -20,29 +40,29 @@ export function SiteFooter() {
             </p>
             <ul className="space-y-1">
               <li>
-                <a href="/" className="hover:text-[#1D2D44]">
+                <Link href="/" className="hover:text-[#1D2D44]">
                   Главная
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="/services" className="hover:text-[#1D2D44]">
+                <Link href="/services" className="hover:text-[#1D2D44]">
                   Услуги
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="/devices" className="hover:text-[#1D2D44]">
+                <Link href="/devices" className="hover:text-[#1D2D44]">
                   Аппараты
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="/about" className="hover:text-[#1D2D44]">
+                <Link href="/about" className="hover:text-[#1D2D44]">
                   О клинике
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="/contacts" className="hover:text-[#1D2D44]">
+                <Link href="/contacts" className="hover:text-[#1D2D44]">
                   Контакты
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
@@ -54,17 +74,18 @@ export function SiteFooter() {
             <ul className="space-y-1">
               <li>
                 Телефон:{" "}
-                <a href="tel:+79999999999" className="hover:text-[#1D2D44]">
-                  +7&nbsp;999&nbsp;999-99-99
-                </a>
+                {phoneHref ? (
+                  <a href={phoneHref} className="hover:text-[#1D2D44]">
+                    {phoneNumber}
+                  </a>
+                ) : (
+                  <span>{phoneNumber ?? "—"}</span>
+                )}
               </li>
               <li>
                 Email:{" "}
-                <a
-                  href="mailto:info@example.com"
-                  className="hover:text-[#1D2D44]"
-                >
-                  info@example.com
+                <a href={`mailto:${org.email}`} className="hover:text-[#1D2D44]">
+                  {org.email}
                 </a>
               </li>
             </ul>
@@ -81,10 +102,7 @@ export function SiteFooter() {
                 </a>
               </li>
               <li>
-                <a
-                  href="/personal-data-policy"
-                  className="hover:text-[#1D2D44]"
-                >
+                <a href="/personal-data-policy" className="hover:text-[#1D2D44]">
                   Политика обработки персональных данных
                 </a>
               </li>

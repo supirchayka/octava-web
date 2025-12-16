@@ -1,95 +1,14 @@
 // src/app/about/page.tsx
 
-import type { Metadata } from "next";
+import { getAboutPage } from "@/lib/api/pages";
 import { resolveMediaUrl } from "@/lib/media";
-
-// ---------- Типы под /pages/about ----------
-
-type AboutImage = {
-  id: number;
-  url: string;
-  mime: string;
-  width: number | null;
-  height: number | null;
-  alt: string | null;
-};
-
-type AboutSeo = {
-  metaTitle: string | null;
-  metaDescription: string | null;
-  canonicalUrl: string | null;
-  robotsIndex: boolean;
-  robotsFollow: boolean;
-  ogTitle: string | null;
-  ogDescription: string | null;
-  ogImage: AboutImage | null;
-};
-
-type AboutHero = {
-  title: string;
-  description: string;
-  image: AboutImage | null;
-};
-
-type AboutTrustKind =
-  | "LICENSE"
-  | "CERTIFICATE"
-  | "AWARD"
-  | "ATTESTATION";
-
-type AboutTrustItem = {
-  id: number;
-  kind: AboutTrustKind;
-  title: string;
-  number: string | null;
-  issuedAt: string | null;
-  issuedBy: string | null;
-  image: AboutImage | null;
-  file: unknown | null;
-};
-
-type AboutFact = {
-  id: number;
-  title: string;
-  text: string;
-  order: number;
-};
-
-type AboutHeroCta = {
-  title: string;
-  subtitle: string | null;
-};
-
-type AboutPageResponse = {
-  page: {
-    type: "ABOUT";
-    slug: string;
-  };
-  seo: AboutSeo;
-  hero: AboutHero;
-  trustItems: AboutTrustItem[];
-  howWeAchieve: string | null;
-  facts: AboutFact[];
-  heroCta: AboutHeroCta | null;
-};
-
-// ---------- API helper (без "@/api") ----------
-
-const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:3005";
-
-async function getAboutPage(): Promise<AboutPageResponse> {
-  const res = await fetch(`${API_BASE_URL}/pages/about`, {
-    // можешь подправить стратегию кеширования при необходимости
-    next: { revalidate: 60 },
-  });
-
-  if (!res.ok) {
-    throw new Error(`Failed to load /pages/about: ${res.status}`);
-  }
-
-  return res.json();
-}
+import type {
+  AboutHero,
+  AboutHeroCta,
+  AboutTrustItem,
+  AboutTrustKind,
+} from "@/types/about";
+import type { Metadata } from "next";
 
 // ---------- SEO ----------
 
@@ -97,32 +16,36 @@ export async function generateMetadata(): Promise<Metadata> {
   const data = await getAboutPage();
   const seo = data.seo;
 
-  const robots: Metadata["robots"] = {
-    index: seo.robotsIndex ?? true,
-    follow: seo.robotsFollow ?? true,
-  };
+  const robots: Metadata["robots"] | undefined = seo
+    ? {
+        index: seo.robotsIndex ?? true,
+        follow: seo.robotsFollow ?? true,
+      }
+    : undefined;
 
   return {
-    title: seo.metaTitle ?? undefined,
-    description: seo.metaDescription ?? undefined,
-    alternates: seo.canonicalUrl
+    title: seo?.metaTitle ?? undefined,
+    description: seo?.metaDescription ?? undefined,
+    alternates: seo?.canonicalUrl
       ? { canonical: seo.canonicalUrl }
       : undefined,
     robots,
-    openGraph: {
-      title: seo.ogTitle ?? seo.metaTitle ?? undefined,
-      description: seo.ogDescription ?? seo.metaDescription ?? undefined,
-      images: seo.ogImage
-        ? [
-            {
-              url: resolveMediaUrl(seo.ogImage.url),
-              alt: seo.ogImage.alt ?? undefined,
-              width: seo.ogImage.width ?? undefined,
-              height: seo.ogImage.height ?? undefined,
-            },
-          ]
-        : undefined,
-    },
+    openGraph: seo
+      ? {
+          title: seo.ogTitle ?? seo.metaTitle ?? undefined,
+          description: seo.ogDescription ?? seo.metaDescription ?? undefined,
+          images: seo.ogImage
+            ? [
+                {
+                  url: resolveMediaUrl(seo.ogImage.url),
+                  alt: seo.ogImage.alt ?? undefined,
+                  width: seo.ogImage.width ?? undefined,
+                  height: seo.ogImage.height ?? undefined,
+                },
+              ]
+            : undefined,
+        }
+      : undefined,
   };
 }
 
@@ -237,10 +160,10 @@ function AboutHeroSection({
 
   return (
     <section className="relative w-full overflow-hidden border-b border-slate-100">
-      {hasImage && (
+      {hasImage && hero.image && (
         <img
-          src={resolveMediaUrl(hero.image!.url)}
-          alt={hero.image!.alt ?? hero.title}
+          src={resolveMediaUrl(hero.image.url)}
+          alt={hero.image.alt ?? hero.title}
           className="pointer-events-none absolute inset-0 h-full w-full object-cover"
         />
       )}
