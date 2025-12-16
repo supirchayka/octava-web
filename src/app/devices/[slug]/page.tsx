@@ -1,5 +1,6 @@
 // src/app/devices/[slug]/page.tsx
 
+import Image from "next/image";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { getDeviceBySlug } from "@/lib/api/devices";
@@ -139,9 +140,11 @@ export default async function DevicePage(props: PageProps) {
                       key={img.id}
                       className="overflow-hidden rounded-xl border border-slate-100 bg-[#F3F7FA]"
                     >
-                      <img
+                      <Image
                         src={resolveMediaUrl(img.url)}
                         alt={img.alt ?? ""}
+                        width={img.file?.width ?? 800}
+                        height={img.file?.height ?? 600}
                         className="h-32 w-full object-cover sm:h-40"
                       />
                       {img.caption && (
@@ -164,10 +167,12 @@ export default async function DevicePage(props: PageProps) {
                 </div>
                 <div className="flex gap-2 overflow-x-auto px-3 py-3">
                   {inlineImages.map((img) => (
-                    <img
+                    <Image
                       key={img.id}
                       src={resolveMediaUrl(img.url)}
                       alt={img.alt ?? ""}
+                      width={img.file?.width ?? 320}
+                      height={img.file?.height ?? 240}
                       className="h-24 w-auto rounded-xl border border-slate-100 object-cover"
                     />
                   ))}
@@ -270,10 +275,13 @@ function DeviceHero({
   return (
     <section className="relative w-full min-h-[55vh] overflow-hidden">
       {mainImage && (
-        <img
+        <Image
           src={resolveMediaUrl(mainImage.url)}
           alt={mainImage.alt ?? `${device.brand} ${device.model}`}
+          fill
           className="absolute inset-0 h-full w-full object-cover"
+          sizes="100vw"
+          priority
         />
       )}
 

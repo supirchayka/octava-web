@@ -1,3 +1,6 @@
+import Image from "next/image";
+import Link from "next/link";
+
 import { getServiceCategories } from "@/lib/api/serviceCategories";
 import type { ServiceCategory } from "@/types/api";
 import { resolveMediaUrl } from "@/lib/media";
@@ -43,16 +46,19 @@ function CategoryCard({ category }: { category: ServiceCategory }) {
   const image = category.heroImage;
 
   return (
-    <a
+    <Link
       href={`/services/${category.slug}`}
       className="group relative flex min-h-[230px] overflow-hidden rounded-3xl bg-[#ffffff] text-[#F3F7FA] shadow-[0_18px_45px_rgba(13,19,33,0.18)] transition hover:-translate-y-1 hover:shadow-[0_24px_60px_rgba(13,19,33,0.3)]"
     >
       {/* Фоновое изображение категории */}
       {image && (
-        <img
+        <Image
           src={resolveMediaUrl(image.url)}
           alt={image.alt ?? category.name}
+          fill
           className="absolute inset-0 h-full w-full object-cover transition duration-700 ease-out group-hover:scale-105"
+          sizes="(max-width: 1024px) 100vw, 33vw"
+          priority
         />
       )}
 
@@ -111,6 +117,6 @@ function CategoryCard({ category }: { category: ServiceCategory }) {
           <span>Перейти к процедурам категории</span>
         </div>
       </div>
-    </a>
+    </Link>
   );
 }

@@ -1,5 +1,7 @@
 // src/app/service/[slug]/page.tsx
 
+import Image from "next/image";
+import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import type { ReactNode } from "react";
@@ -217,10 +219,13 @@ function ServiceHero({
   return (
     <section className="relative w-full min-h-[55vh] overflow-hidden">
       {mainImage && (
-        <img
+        <Image
           src={resolveMediaUrl(mainImage.url)}
           alt={mainImage.alt ?? hero.title}
+          fill
           className="absolute inset-0 h-full w-full object-cover"
+          sizes="100vw"
+          priority
         />
       )}
 
@@ -236,16 +241,16 @@ function ServiceHero({
       <div className="relative mx-auto max-w-6xl px-4 py-10 md:py-14">
         {/* хлебные крошки */}
         <div className="mb-4 text-xs text-[#F3F7FA]/80">
-          <a href="/services" className="hover:underline">
+          <Link href="/services" className="hover:underline">
             Услуги
-          </a>
+          </Link>
           <span className="mx-1.5 opacity-60">/</span>
-          <a
+          <Link
             href={`/services/${service.category.slug}`}
             className="hover:underline"
           >
             {service.category.name}
-          </a>
+          </Link>
           <span className="mx-1.5 opacity-60">/</span>
           <span>{service.name}</span>
         </div>
