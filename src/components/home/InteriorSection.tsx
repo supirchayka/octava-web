@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import type { HomeInterior } from "@/types/api";
 import { resolveMediaUrl } from "@/lib/media";
 
@@ -54,11 +55,14 @@ export function InteriorSection({ interior }: Props) {
         {/* Правая колонка — слайдер */}
         <div className="relative h-[260px] w-full overflow-hidden rounded-3xl bg-[#0D1321] shadow-[0_18px_45px_rgba(13,19,33,0.25)] sm:h-[320px]">
           {currentImage && (
-            <img
+            <Image
               key={currentImage.id}
               src={resolveMediaUrl(currentImage.url)}
               alt=""
+              fill
               className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out"
+              sizes="100vw"
+              priority
             />
           )}
 

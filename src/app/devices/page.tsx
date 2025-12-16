@@ -1,5 +1,7 @@
 // src/app/devices/page.tsx
 
+import Image from "next/image";
+import Link from "next/link";
 import type { Metadata } from "next";
 import { getDevices } from "@/lib/api/devices";
 import { resolveMediaUrl } from "@/lib/media";
@@ -65,7 +67,7 @@ function DeviceCard({ device }: { device: DeviceListItem }) {
   const heroImage = device.heroImage;
 
   return (
-    <a
+    <Link
       href={`/devices/${device.slug}`}
       className="group block h-full"
     >
@@ -74,10 +76,13 @@ function DeviceCard({ device }: { device: DeviceListItem }) {
         <div className="relative h-40 w-full overflow-hidden">
           {heroImage && (
             <>
-              <img
+              <Image
                 src={resolveMediaUrl(heroImage.url)}
                 alt={heroImage.alt ?? `${device.brand} ${device.model}`}
+                fill
                 className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                sizes="(max-width: 768px) 100vw, 33vw"
+                priority
               />
               <div
                 className="absolute inset-0"
@@ -120,6 +125,6 @@ function DeviceCard({ device }: { device: DeviceListItem }) {
           </div>
         </div>
       </article>
-    </a>
+    </Link>
   );
 }
