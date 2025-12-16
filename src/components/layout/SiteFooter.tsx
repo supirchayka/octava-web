@@ -76,8 +76,8 @@ export function SiteFooter() {
             </p>
             <ul className="space-y-1">
               <li>
-                <a href="/org-info" className="hover:text-[#1D2D44]">
-                  О клинике и лицензии
+                <a href="/personal-data-consent" className="hover:text-[#1D2D44]">
+                  Согласие на обработку персональных данных
                 </a>
               </li>
               <li>
@@ -85,7 +85,7 @@ export function SiteFooter() {
                   href="/personal-data-policy"
                   className="hover:text-[#1D2D44]"
                 >
-                  Обработка персональных данных
+                  Политика обработки персональных данных
                 </a>
               </li>
             </ul>

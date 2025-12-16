@@ -95,6 +95,12 @@ export type MediaFile = {
   height: number | null;
 };
 
+export type MediaImage = ApiImage & {
+  fileId: number;
+  purpose: string;
+  file: MediaFile;
+};
+
 
 export type ServiceCategory = {
   id: number;
@@ -180,13 +186,6 @@ export type ChecklistItem = {
   order: number;
 };
 
-export type FaqItem = {
-  id: number;
-  question: string;
-  answer: string;
-  order: number;
-};
-
 export type ServiceDetailResponse = {
   service: {
     id: number;
@@ -206,7 +205,7 @@ export type ServiceDetailResponse = {
   contraindications: string[];
   preparationChecklist: ChecklistItem[];
   rehabChecklist: ChecklistItem[];
-  //devices: any[]; // пока пусто, можно потом типизировать
+  devices: DeviceRelatedService[]; // пока пусто, можно потом типизировать
   galleryImages: ApiImage[];
   inlineImages: ApiImage[];
   faq: FaqItem[];
@@ -230,4 +229,88 @@ export type Organization = {
   address: string;
   email: string;
   phones: OrgPhone[];
+};
+
+// ---- /devices (каталог) ----
+
+export type DeviceListItem = {
+  id: number;
+  slug: string;
+  brand: string;
+  model: string;
+  positioning: string;
+  heroImage: ApiImage | null;
+};
+
+// ---- /devices/:slug (детальная) ----
+
+export type DeviceCore = {
+  id: number;
+  slug: string;
+  brand: string;
+  model: string;
+  positioning: string;
+  principle: string | null;
+  safetyNotes: string | null;
+};
+
+export type DeviceHero = {
+  brand: string | null;
+  model: string | null;
+  positioning: string | null;
+  certBadges: string[]; // массив бейджей/сертификатов (названия)
+  images: MediaImage[];
+};
+
+export type DeviceSideEffect = {
+  id: number;
+  text: string;
+  rarity: string | null; // например COMMON/RARE и т.п.
+};
+
+// FAQ у тебя уже есть для услуг, можно переиспользовать:
+export type FaqItem = {
+  id: number;
+  question: string;
+  answer: string;
+  order: number;
+};
+
+// Если у тебя уже есть CategoryService для услуг, переиспользуем
+export type DeviceRelatedService = {
+  id: number;
+  slug: string;
+  name: string;
+  shortOffer: string | null;
+  priceFrom: string | null;
+  durationMinutes: number | null;
+  benefits?: string[] | null;
+  ctaText?: string | null;
+  ctaUrl?: string | null;
+};
+
+export type DeviceDetailResponse = {
+  device: DeviceCore;
+  seo: SeoBlock | null;
+  hero: DeviceHero;
+  galleryImages: MediaImage[];
+  inlineImages: MediaImage[];
+  attachments: MediaFile[]; // структура может отличаться, но ключ обязателен
+  indications: string[];
+  contraindications: string[];
+  sideEffects: DeviceSideEffect[];
+  documents: MediaFile[]; // тоже массив, даже если пустой
+  faq: FaqItem[];
+  services: DeviceRelatedService[];
+};
+
+export type GenericFileRef = {
+  id?: number;
+  title?: string | null;
+  name?: string | null;
+  label?: string | null;
+  description?: string | null;
+  caption?: string | null;
+  url?: string | null;
+  file?: MediaFile | null;
 };

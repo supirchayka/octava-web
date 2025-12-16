@@ -58,7 +58,7 @@ export default async function ContactsPage(props: PageProps) {
               <dl className="space-y-3 text-sm text-[#F3F7FA]/90">
                 <div>
                   <dt className="text-xs uppercase tracking-[0.16em] text-[#F3F7FA]/60">
-                    Оператор
+                    Юр. Наименование
                   </dt>
                   <dd className="mt-1 text-base font-medium">
                     {org.fullName}
@@ -297,7 +297,7 @@ function ContactSidePanel({ org }: { org: Organization }) {
         )}
       </div>
 
-      <div className="relative h-[360px] w-full overflow-hidden rounded-3xl text-[#F3F7FA] shadow-[0_18px_45px_rgba(13,19,33,0.45)] sm:h-[320px]">
+      <div className="relative h-[360px] w-full overflow-hidden rounded-3xl text-[#F3F7FA] shadow-[0_4px_25px_rgba(13,19,33,0.15)] sm:h-[320px]">
         <iframe
           src="https://yandex.ru/map-widget/v1/?ll=37.6208%2C55.7536&z=14"
           width="100%"
