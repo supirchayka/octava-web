@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { Suspense } from "react";
 import type { Metadata } from "next";
 import { getHomePage } from "@/lib/api/pages";
 import { resolveMediaUrl } from "@/lib/media";
@@ -359,7 +360,9 @@ function BottomCtaSection() {
         </div>
 
         <div className="w-full max-w-md">
-          <ContactLeadForm variant="dark" />
+          <Suspense fallback={<div className="h-10 w-full" />}>
+            <ContactLeadForm variant="dark" />
+          </Suspense>
         </div>
       </div>
     </section>
