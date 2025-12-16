@@ -8,6 +8,7 @@ import type {
   AboutTrustItem,
   AboutTrustKind,
 } from "@/types/about";
+import Image from "next/image";
 import type { Metadata } from "next";
 
 // ---------- SEO ----------
@@ -161,10 +162,13 @@ function AboutHeroSection({
   return (
     <section className="relative w-full overflow-hidden border-b border-slate-100">
       {hasImage && hero.image && (
-        <img
+        <Image
           src={resolveMediaUrl(hero.image.url)}
           alt={hero.image.alt ?? hero.title}
+          fill
           className="pointer-events-none absolute inset-0 h-full w-full object-cover"
+          sizes="100vw"
+          priority
         />
       )}
 

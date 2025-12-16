@@ -1,3 +1,5 @@
+import Image from "next/image";
+import Link from "next/link";
 import type { Metadata } from "next";
 import { getHomePage } from "@/lib/api/pages";
 import { resolveMediaUrl } from "@/lib/media";
@@ -74,10 +76,13 @@ function HeroSection({ hero }: { hero: HomeHero }) {
     <section className="relative w-full min-h-[72vh] overflow-hidden">
       {/* Фоновая картинка из hero.images */}
       {mainImage && (
-        <img
+        <Image
           src={resolveMediaUrl(mainImage.url)}
           alt={mainImage.alt ?? ""}
+          fill
           className="absolute inset-0 h-full w-full object-cover"
+          sizes="100vw"
+          priority
         />
       )}
 
@@ -201,16 +206,19 @@ function DirectionsSection({ directions }: { directions: HomeDirection[] }) {
           const image = direction.heroImage;
 
           return (
-            <a
+            <Link
               key={`${direction.slug}-${index}-${direction.id}`}
-              href={`/services/${direction.slug}`} // при необходимости поменяешь маршрут
+              href={`/services/${direction.slug}`}
               className="group relative flex min-h-[220px] overflow-hidden rounded-3xl bg-[#ffffff] text-[#F3F7FA] shadow-[0_18px_45px_rgba(0,0,0,0.15)] transition hover:-translate-y-1 hover:shadow-[0_24px_60px_rgba(0,0,0,0.25)]"
             >
               {image && (
-                <img
+                <Image
                   src={resolveMediaUrl(image.url)}
                   alt={image.alt ?? direction.name}
+                  fill
                   className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105"
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  priority
                 />
               )}
 
@@ -265,7 +273,7 @@ function DirectionsSection({ directions }: { directions: HomeDirection[] }) {
                   <span>Подробнее о направлении</span>
                 </div>
               </div>
-            </a>
+            </Link>
           );
         })}
       </div>
@@ -286,10 +294,13 @@ function SubHeroSection({
   return (
     <section className="relative w-full overflow-hidden">
       {subHero.image?.url && (
-        <img
+        <Image
           src={resolveMediaUrl(subHero.image.url)}
           alt=""
+          fill
           className="pointer-events-none absolute inset-0 h-full w-full object-cover"
+          sizes="100vw"
+          priority
         />
       )}
 
