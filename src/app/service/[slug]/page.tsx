@@ -8,6 +8,7 @@ import type { ReactNode } from "react";
 
 import { getServiceBySlug } from "@/lib/api/services";
 import { resolveMediaUrl } from "@/lib/media";
+import { ServiceContactForm } from "../ServiceContactForm";
 import type {
   ServiceDetailResponse,
   ServiceDetailHero,
@@ -19,6 +20,7 @@ import type {
 type PageProps = {
   // в новой версии Next params прилетает как Promise
   params: Promise<{ slug: string }>;
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
 };
 
 // ---------- SEO из seo блока услуги ----------
@@ -71,6 +73,7 @@ export async function generateMetadata(
 
 export default async function ServicePage(props: PageProps) {
   const { slug } = await props.params;
+  const searchParams = await props.searchParams;
 
   let data: ServiceDetailResponse;
   try {
@@ -95,6 +98,7 @@ export default async function ServicePage(props: PageProps) {
   const bookingUrl = `/contacts?service=${encodeURIComponent(
     service.slug
   )}`;
+  const utm = extractUtm(searchParams);
 
   return (
     <main className="bg-white">
@@ -189,6 +193,22 @@ export default async function ServicePage(props: PageProps) {
             </div>
           </section>
         )}
+
+        {/* Форма контактов по услуге */}
+        <section className="rounded-3xl border border-slate-100 bg-[#F3F7FA] px-5 py-7 shadow-[0_12px_32px_rgba(13,19,33,0.08)] md:px-7 md:py-8">
+          <h2 className="text-xl font-semibold text-[#0D1321] sm:text-2xl">
+            Оставьте заявку на услугу
+          </h2>
+          <p className="mt-2 text-sm leading-relaxed text-slate-700 sm:text-[15px]">
+            Заполните форму — администратор свяжется с вами, уточнит детали и подберёт программу.
+          </p>
+
+          <ServiceContactForm
+            serviceId={service.id}
+            serviceSlug={service.slug}
+            utm={utm}
+          />
+        </section>
 
         {/* Дисклеймер */}
         {legalDisclaimer && (
@@ -433,4 +453,31 @@ function FaqItem({ item }: { item: FaqItem }) {
       </div>
     </details>
   );
+}
+
+// ---------- UTM ----------
+
+type UtmParams = {
+  utm_source?: string;
+  utm_medium?: string;
+  utm_campaign?: string;
+  utm_content?: string;
+  utm_term?: string;
+};
+
+function extractUtm(
+  searchParams: Record<string, string | string[] | undefined>
+): UtmParams {
+  const get = (key: string) => {
+    const v = searchParams[key];
+    return typeof v === "string" ? v : undefined;
+  };
+
+  return {
+    utm_source: get("utm_source"),
+    utm_medium: get("utm_medium"),
+    utm_campaign: get("utm_campaign"),
+    utm_content: get("utm_content"),
+    utm_term: get("utm_term"),
+  };
 }

@@ -11,6 +11,7 @@ import type {
 } from "@/types/api";
 
 import { InteriorSection } from "@/components/home/InteriorSection";
+import { ContactLeadForm } from "@/components/ContactLeadForm";
 
 // SEO из блока seo
 export async function generateMetadata(): Promise<Metadata> {
@@ -358,119 +359,7 @@ function BottomCtaSection() {
         </div>
 
         <div className="w-full max-w-md">
-          <form className="flex flex-col gap-3">
-            {/* Имя */}
-            <div>
-              <label
-                htmlFor="callback-name"
-                className="mb-1 block text-xs font-medium text-[#F3F7FA]/80"
-              >
-                Имя
-              </label>
-              <input
-                id="callback-name"
-                name="name"
-                type="text"
-                required
-                className="w-full rounded-xl border border-[#F3F7FA]/20 bg-[#0D1321]/20 px-3 py-2 text-sm text-[#F3F7FA] placeholder:text-[#F3F7FA]/60 outline-none transition focus:border-[#F3F7FA] focus:bg-[#0D1321]/30"
-                placeholder="Как к вам обращаться"
-              />
-            </div>
-
-            {/* Телефон */}
-            <div>
-              <label
-                htmlFor="callback-phone"
-                className="mb-1 block text-xs font-medium text-[#F3F7FA]/80"
-              >
-                Телефон
-              </label>
-              <input
-                id="callback-phone"
-                name="phone"
-                type="tel"
-                required
-                className="w-full rounded-xl border border-[#F3F7FA]/20 bg-[#0D1321]/20 px-3 py-2 text-sm text-[#F3F7FA] placeholder:text-[#F3F7FA]/60 outline-none transition focus:border-[#F3F7FA] focus:bg-[#0D1321]/30"
-                placeholder="+7 ___ ___-__-__"
-              />
-            </div>
-
-            {/* (опционально) комментарий без медицинских деталей */}
-            {/* если не хочешь собирать лишнее — можно вообще убрать это поле */}
-            <div>
-              <label
-                htmlFor="callback-comment"
-                className="mb-1 block text-xs font-medium text-[#F3F7FA]/80"
-              >
-                Комментарий (по желанию)
-              </label>
-              <textarea
-                id="callback-comment"
-                name="comment"
-                rows={3}
-                className="w-full resize-none rounded-xl border border-[#F3F7FA]/20 bg-[#0D1321]/20 px-3 py-2 text-sm text-[#F3F7FA] placeholder:text-[#F3F7FA]/60 outline-none transition focus:border-[#F3F7FA] focus:bg-[#0D1321]/30"
-                placeholder="Кратко опишите вопрос (без указания данных о состоянии здоровья)"
-              />
-            </div>
-
-            {/* Обязательное согласие на обработку ПД */}
-            <div className="mt-1 flex items-start gap-2 rounded-xl bg-[#0D1321]/30 px-3 py-3 text-[11px] leading-snug text-[#F3F7FA]/80">
-              <input
-                id="pd-consent"
-                name="pdConsent"
-                type="checkbox"
-                required
-                className="mt-[3px] h-3.5 w-3.5 accent-[#F3F7FA]"
-              />
-              <label htmlFor="pd-consent" className="cursor-pointer">
-                Я ознакомился(лась) с{" "}
-                <a
-                  href="/personal-data-policy"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="underline underline-offset-2"
-                >
-                  Политикой обработки персональных данных
-                </a>{" "}
-                и даю{" "}
-                <a
-                  href="/personal-data-consent"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="underline underline-offset-2"
-                >
-                  согласие на обработку персональных данных
-                </a>{" "}
-                в целях обработки моего обращения и обратной связи.
-              </label>
-            </div>
-
-            {/* Отдельное согласие на рекламу (по желанию) */}
-            <div className="flex items-start gap-2 text-[11px] leading-snug text-[#F3F7FA]/70">
-              <input
-                id="marketing-consent"
-                name="marketingConsent"
-                type="checkbox"
-                className="mt-[3px] h-3.5 w-3.5 accent-[#F3F7FA]"
-              />
-              <label htmlFor="marketing-consent" className="cursor-pointer">
-                Согласен(на) на получение информационных и рекламных сообщений
-                о услугах клиники OCTAVA по указанным контактам.
-              </label>
-            </div>
-
-            <button
-              type="submit"
-              className="mt-2 inline-flex items-center justify-center rounded-xl bg-[#F3F7FA] px-4 py-2.5 text-sm font-semibold text-[#1D2D44] shadow-lg transition hover:bg-white"
-            >
-              Отправить заявку
-            </button>
-
-            <p className="mt-1 text-[11px] leading-snug text-[#F3F7FA]/60">
-              Оператор персональных данных – Клиника OCTAVA
-              {/* TODO: подставь полное юридическое наименование, ОГРН/ИНН при необходимости */}
-            </p>
-          </form>
+          <ContactLeadForm variant="dark" />
         </div>
       </div>
     </section>
