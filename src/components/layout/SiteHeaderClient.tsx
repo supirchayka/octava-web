@@ -2,6 +2,13 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import Image from "next/image";
+import { Tenor_Sans } from 'next/font/google'
+
+const tenorSans = Tenor_Sans({
+  weight: '400',
+  subsets: ['latin'],
+})
 
 type SiteHeaderClientProps = {
   phoneDisplay: string | null;
@@ -26,15 +33,20 @@ export function SiteHeaderClient({
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3">
         {/* Логотип + название (можно дополнить брендингом из SEO) */}
         <div className="flex items-center gap-2">
+          <Image src="/octava_logo.png" alt={"Octava Logo"}
+          className=""
+          width={40}
+          height={40}
+          sizes="(max-width: 40px)"
+          priority />
+          {/*
           <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#1D2D44] text-[#F3F7FA] shadow-lg">
             <span className="text-sm font-semibold">OC</span>
           </div>
+          */}
           <div className="flex flex-col">
-            <span className="text-sm font-semibold tracking-wide text-[#0D1321]">
-              OCTAVA
-            </span>
-            <span className="text-xs text-slate-500">
-              Антивозрастная и эстетическая медицина
+            <span className="text-2xl font-semibold tracking-wide text-[#0D1321]">
+              <span className={tenorSans.className}>OCTAVA</span>
             </span>
           </div>
         </div>

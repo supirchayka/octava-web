@@ -99,16 +99,11 @@ function HeroSection({ hero }: { hero: HomeHero }) {
       </div>
 
       {/* Контентная часть */}
-      <div className="relative mx-auto flex max-w-6xl flex-col gap-10 px-4 py-12 text-[#F3F7FA] md:flex-row md:items-center md:py-16">
+      <div className="relative mx-auto flex max-w-6xl flex-col gap-10 px-4 py-12 text-[#F3F7FA] md:flex-row md:items-center md:py-16 mt-8">
         {/* Левая колонка: заголовок/подзаголовок/CTA — строго из hero */}
-        <div className="flex-1 animate-[fade-up_0.7s_ease-out_both]">
-          {/* Маленький бейдж над заголовком */}
-          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#F3F7FA]/20 bg-white/5 px-3 py-1 text-[11px] font-medium text-[#F3F7FA]/80 backdrop-blur-md">
-            <span className="inline-block h-1.5 w-1.5 rounded-full bg-[#F3F7FA]" />
-            <span>Клиника OCTAVA</span>
-          </div>
+        <div className="flex-1 mt-6 animate-[fade-up_0.7s_ease-out_both]">
 
-          <h1 className="text-balance text-3xl font-semibold tracking-tight sm:text-4xl md:text-5xl">
+          <h1 className="text-balance text-3xl font-semibold tracking-tight sm:text-4xl md:text-5xl mt-16">
             {hero.title}
           </h1>
 
@@ -134,52 +129,6 @@ function HeroSection({ hero }: { hero: HomeHero }) {
             >
               Смотреть направления
             </a>
-          </div>
-        </div>
-
-        {/* Правая колонка: акцентная стеклянная карточка */}
-        <div className="flex-1 animate-[fade-up_0.9s_ease-out_both]">
-          <div className="ml-auto w-full max-w-sm">
-            {/* Плавающий блёр-бейдж (чистая декоративщина) */}
-            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#F3F7FA]/20 bg-white/5 px-3 py-1 text-[11px] text-[#F3F7FA]/80 backdrop-blur-md animate-[float_8s_ease-in-out_infinite]">
-              <span className="inline-block h-1.5 w-1.5 rounded-full bg-[#F3F7FA]" />
-              <span>Антивозрастная и эстетическая медицина</span>
-            </div>
-
-            <div className="overflow-hidden rounded-2xl border border-[#F3F7FA]/15 bg-white/5 p-4 backdrop-blur-xl shadow-[0_18px_45px_rgba(0,0,0,0.55)]">
-              <div className="rounded-xl border border-[#F3F7FA]/10 bg-[#0D1321]/40 px-4 py-3 text-xs text-[#F3F7FA]/80">
-                <p className="font-medium">
-                  Клиника OCTAVA — антивозрастная и эстетическая медицина
-                </p>
-              </div>
-
-              <div className="mt-4 grid gap-3 text-[11px] text-[#F3F7FA]/80">
-                <div className="flex items-start gap-2">
-                  <span className="mt-[3px] inline-block h-1.5 w-1.5 rounded-full bg-[#F3F7FA]" />
-                  <p>Современные методы косметологии и медицины.</p>
-                </div>
-                <div className="flex items-start gap-2">
-                  <span className="mt-[3px] inline-block h-1.5 w-1.5 rounded-full bg-[#F3F7FA]" />
-                  <p>Индивидуальный подбор процедур.</p>
-                </div>
-                <div className="flex items-start gap-2">
-                  <span className="mt-[3px] inline-block h-1.5 w-1.5 rounded-full bg-[#F3F7FA]" />
-                  <p>Работа с комфортом и безопасностью пациента.</p>
-                </div>
-              </div>
-
-              <div className="mt-4 flex items-center justify-between rounded-xl border border-[#F3F7FA]/10 bg-[#0D1321]/45 px-4 py-3 text-[11px]">
-                <div className="flex flex-col">
-                  <span className="text-[#F3F7FA]/65">Запись онлайн</span>
-                  <span className="text-xs font-medium">
-                    Выберите удобное время на консультацию
-                  </span>
-                </div>
-                <span className="rounded-full bg-[#F3F7FA] px-3 py-1 text-[10px] font-semibold text-[#1D2D44]">
-                  OCTAVA
-                </span>
-              </div>
-            </div>
           </div>
         </div>
       </div>

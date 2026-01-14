@@ -1,8 +1,17 @@
 // src/components/layout/SiteFooter.tsx
+import Image from "next/image";
+import { Tenor_Sans } from 'next/font/google'
+
 import Link from "next/link";
 
 import { getOrg } from "@/lib/api/org";
 import type { Organization } from "@/types/api";
+
+const tenorSans = Tenor_Sans({
+  weight: '400',
+  subsets: ['latin'],
+})
+
 
 function getPrimaryPhone(org: Organization): string | null {
   const phone = org.phones?.find((p) => p.isPrimary) ?? org.phones?.[0];
@@ -25,9 +34,25 @@ export async function SiteFooter() {
     <footer className="mt-16 border-t border-slate-100 bg-white pb-6 pt-8 text-sm text-slate-600">
       <div className="mx-auto flex max-w-6xl flex-col gap-8 px-4 md:flex-row md:justify-between">
         <div className="max-w-sm">
-          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">
-            OCTAVA
-          </p>
+          <div className="flex items-center gap-2">
+                    <Image src="/octava_logo.png" alt={"Octava Logo"}
+                    className=""
+                    width={40}
+                    height={40}
+                    sizes="(max-width: 40px)"
+                    priority />
+                    {/*
+                    <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#1D2D44] text-[#F3F7FA] shadow-lg">
+                      <span className="text-sm font-semibold">OC</span>
+                    </div>
+                    */}
+                    <div className="flex flex-col">
+                      <span className="text-2xl font-semibold tracking-wide text-[#0D1321]">
+                        <span className={tenorSans.className}>OCTAVA</span>
+                      </span>
+                    </div>
+                  </div>
+          
           <p className="mt-2 text-sm text-[#0D1321]">
             Антивозрастная и эстетическая медицина.
           </p>
