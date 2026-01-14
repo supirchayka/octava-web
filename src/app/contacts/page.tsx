@@ -2,6 +2,7 @@
 
 import type { Metadata } from "next";
 import { getOrg } from "@/lib/api/org";
+import { Suspense } from "react";
 
 type PageProps = {
   // в новой версии Next searchParams может быть Promise
@@ -149,7 +150,9 @@ function ContactForm({
         )}
       </div>
 
-      <ContactLeadForm serviceSlug={serviceSlug} operatorNote={null} />
+      <Suspense fallback={<div className="h-10 w-full" />}>
+        <ContactLeadForm serviceSlug={serviceSlug} operatorNote={null} />
+      </Suspense>
 
       <p className="mt-3 text-[11px] leading-snug text-slate-500">
         Оператор персональных данных — {org.fullName}, ОГРН {org.ogrn}, ИНН
