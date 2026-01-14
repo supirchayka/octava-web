@@ -60,12 +60,6 @@ export function SiteHeaderClient({
             Главная
           </Link>
           <Link
-            href="/specialists"
-            className="transition-colors hover:text-[#1D2D44]"
-          >
-            Специалисты
-          </Link>
-          <Link
             href="/services"
             className="transition-colors hover:text-[#1D2D44]"
           >
@@ -76,6 +70,12 @@ export function SiteHeaderClient({
             className="transition-colors hover:text-[#1D2D44]"
           >
             Аппараты
+          </Link>
+          <Link
+            href="/specialists"
+            className="transition-colors hover:text-[#1D2D44]"
+          >
+            Специалисты
           </Link>
           <Link
             href="/about"

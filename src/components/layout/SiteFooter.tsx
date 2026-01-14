@@ -80,6 +80,11 @@ export async function SiteFooter() {
                 </Link>
               </li>
               <li>
+                <Link href="/specialists" className="hover:text-[#1D2D44]">
+                  Специалисты
+                </Link>
+              </li>
+              <li>
                 <Link href="/about" className="hover:text-[#1D2D44]">
                   О клинике
                 </Link>
@@ -112,6 +117,10 @@ export async function SiteFooter() {
                 <a href={`mailto:${org.email}`} className="hover:text-[#1D2D44]">
                   {org.email}
                 </a>
+              </li>
+              <li>
+                Адрес:{" "}
+                <span>{org.address}</span>
               </li>
             </ul>
           </div>

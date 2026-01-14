@@ -244,7 +244,7 @@ export function ServiceContactForm({ serviceId, serviceSlug, utm }: Props) {
           disabled={isSubmitting}
           className="mt-2 inline-flex items-center justify-center rounded-xl bg-[#1D2D44] px-4 py-2.5 text-sm font-semibold text-[#F3F7FA] shadow-[0_10px_28px_rgba(13,19,33,0.45)] transition hover:bg-[#0D1321] hover:shadow-[0_14px_36px_rgba(13,19,33,0.6)] disabled:cursor-not-allowed disabled:opacity-60"
         >
-          {isSubmitting ? "Отправка..." : "Отправить заявку"}
+          {isSubmitting ? "Отправка..." : "Заказать звонок"}
         </button>
 
         {result && !result.ok && (

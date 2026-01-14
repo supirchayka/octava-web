@@ -197,7 +197,7 @@ export default async function ServicePage(props: PageProps) {
         {/* Форма контактов по услуге */}
         <section className="rounded-3xl border border-slate-100 bg-[#F3F7FA] px-5 py-7 shadow-[0_12px_32px_rgba(13,19,33,0.08)] md:px-7 md:py-8">
           <h2 className="text-xl font-semibold text-[#0D1321] sm:text-2xl">
-            Оставьте заявку на услугу
+            Записаться на процедуру
           </h2>
           <p className="mt-2 text-sm leading-relaxed text-slate-700 sm:text-[15px]">
             Заполните форму — администратор свяжется с вами, уточнит детали и подберёт программу.
