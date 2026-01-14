@@ -8,24 +8,14 @@ function getPrimaryPhone(org: Organization): string | null {
   return phone?.number ?? null;
 }
 
-function buildTelHref(phone: string | null): string | null {
-  if (!phone) return null;
-  const normalized = phone.replace(/[^+\d]/g, "");
-  if (!normalized) return null;
-  return `tel:${normalized}`;
-}
-
 export async function SiteHeader() {
   const org = await getOrg();
   const phoneNumber = getPrimaryPhone(org);
-  const phoneHref = buildTelHref(phoneNumber);
 
   return (
     <SiteHeaderClient
       phoneDisplay={phoneNumber}
-      phoneHref={phoneHref}
       email={org.email}
-      orgName={org.fullName}
     />
   );
 }
