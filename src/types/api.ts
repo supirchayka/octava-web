@@ -314,3 +314,32 @@ export type GenericFileRef = {
   url?: string | null;
   file?: MediaFile | null;
 };
+
+export type SpecialistService = {
+  id: number;
+  slug: string;
+  name: string;
+  shortOffer: string | null;
+  priceFrom: string | null;
+};
+
+export type SpecialistPhoto = {
+  id: number;
+  url: string;
+  originalName: string;
+  mime: string;
+  sizeBytes: number;
+  width: number | null;
+  height: number | null;
+};
+
+export type Specialist = {
+  id: number;
+  firstName: string;
+  lastName: string;
+  specialization: string;
+  biography: string | null;
+  experienceYears: number;
+  photo: SpecialistPhoto | null;
+  services: SpecialistService[];
+};
