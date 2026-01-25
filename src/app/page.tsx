@@ -156,12 +156,12 @@ function DirectionsSection({ directions }: { directions: HomeDirection[] }) {
         <GenderLink
           label="Женщины"
           description="Категории эстетического и оздоровительного ухода, собранные для женских запросов."
-          href="/services?gender=female"
+          href="/services/female"
         />
         <GenderLink
           label="Мужчины"
           description="Процедуры и консультации, разработанные для мужских направлений и задач."
-          href="/services?gender=male"
+          href="/services/male"
         />
       </div>
     </section>

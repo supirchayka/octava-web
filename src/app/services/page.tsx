@@ -1,139 +1,78 @@
-import Image from "next/image";
 import Link from "next/link";
-
-import {
-  getServiceCategories,
-  getServiceCategoriesByGender,
-} from "@/lib/api/serviceCategories";
-import type { ServiceCategory } from "@/types/api";
-import { resolveMediaUrl } from "@/lib/media";
 
 export const dynamic = "force-static";
 
-type ServicesPageProps = {
-  searchParams?: Promise<{ gender?: string }>;
-};
-
-const genderCopy = {
-  female: {
-    badge: "Женские направления",
-    title: "Категории услуг для женщин",
-    description:
-      "Подберите процедуры и программы для женского ухода — от косметологии до восстановительной терапии.",
-  },
-  male: {
-    badge: "Мужские направления",
-    title: "Категории услуг для мужчин",
-    description:
-      "Собрали процедуры и консультации для мужского ухода — от косметологии до трихологии.",
-  },
-  all: {
-    badge: "Услуги клиники OCTAVA",
-    title: "Направления и категории услуг",
-    description:
-      "Выберите категорию, чтобы посмотреть процедуры внутри: от аппаратной косметологии и инъекционных методик до эстетической терапии и диагностических консультаций.",
-  },
-};
-
-export default async function ServicesPage(props: ServicesPageProps) {
-  const params = await props.searchParams;
-  const genderParam = params?.gender?.toLowerCase();
-  const gender =
-    genderParam === "female" || genderParam === "male"
-      ? genderParam
-      : "all";
-  const categories =
-    gender === "all"
-      ? await getServiceCategories()
-      : await getServiceCategoriesByGender(gender);
-  const copy = genderCopy[gender];
-
+export default function ServicesLandingPage() {
   return (
     <main className="bg-white">
       <section className="mx-auto max-w-6xl px-4 pb-16 pt-10 md:pt-12">
-        {/* Заголовок страницы */}
         <header className="mb-10 max-w-3xl animate-[fade-up_0.6s_ease-out_both]">
           <p className="mb-3 inline-flex rounded-full bg-[#F3F7FA] px-3 py-1 text-xs font-medium text-slate-700">
             {copy.badge}
           </p>
           <h1 className="text-2xl font-semibold tracking-tight text-[#0D1321] sm:text-3xl">
-            {copy.title}
+            Выберите направление
           </h1>
           <p className="mt-3 text-sm leading-relaxed text-slate-600">
-            {copy.description}
+            Перейдите к женским или мужским категориям услуг, чтобы посмотреть
+            подборку процедур и программ.
           </p>
         </header>
 
-        {/* Сетка категорий */}
-        <div className="grid gap-6 sm:grid-cols-2">
-          {categories.map((category, index) => (
-            <CategoryCard
-              key={`${category.slug}-${category.id}-${index}`}
-              category={category}
-            />
-          ))}
+        <div className="grid gap-5 sm:grid-cols-2">
+          <GenderLink
+            label="Женщины"
+            description="Категории эстетического и оздоровительного ухода, собранные для женских запросов."
+            href="/services/female"
+          />
+          <GenderLink
+            label="Мужчины"
+            description="Процедуры и консультации, разработанные для мужских направлений и задач."
+            href="/services/male"
+          />
         </div>
       </section>
     </main>
   );
 }
 
-function CategoryCard({ category }: { category: ServiceCategory }) {
-  const image = category.heroImage;
-
+function GenderLink({
+  label,
+  description,
+  href,
+}: {
+  label: string;
+  description: string;
+  href: string;
+}) {
   return (
     <Link
-      href={`/services/${category.slug}`}
-      className="group relative flex min-h-[230px] overflow-hidden rounded-3xl bg-[#ffffff] text-[#F3F7FA] shadow-[0_18px_45px_rgba(13,19,33,0.18)] transition hover:-translate-y-1 hover:shadow-[0_24px_60px_rgba(13,19,33,0.3)]"
+      href={href}
+      className="group relative flex min-h-[220px] overflow-hidden rounded-3xl bg-[#ffffff] text-[#F3F7FA] shadow-[0_18px_45px_rgba(0,0,0,0.15)] transition hover:-translate-y-1 hover:shadow-[0_24px_60px_rgba(0,0,0,0.25)]"
     >
-      {/* Фоновое изображение категории */}
-      {image && (
-        <Image
-          src={resolveMediaUrl(image.url)}
-          alt={image.alt ?? category.name}
-          fill
-          className="absolute inset-0 h-full w-full object-cover transition duration-700 ease-out group-hover:scale-105"
-          sizes="(max-width: 1024px) 100vw, 33vw"
-          priority
-        />
-      )}
+      <div className="absolute inset-0 bg-gradient-to-br from-[#1D2D44] via-[#0D1321] to-[#1D2D44]" />
 
-      {/* Градиентное затемнение фирменными цветами */}
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#0D1321]/92 via-[#0D1321]/80 to-transparent" />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#0D1321]/90 via-[#0D1321]/75 to-transparent" />
 
-      {/* Декоративные «ореолы» */}
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute -left-20 bottom-[-40px] h-40 w-40 rounded-full bg-[#F3F7FA]/10 blur-3xl" />
-        <div className="absolute -right-16 top-[-32px] h-32 w-32 rounded-full bg-[#F3F7FA]/12 blur-3xl" />
+        <div className="absolute -right-20 top-[-40px] h-40 w-40 rounded-full bg-[#F3F7FA]/10 blur-3xl" />
+        <div className="absolute -left-24 bottom-[-40px] h-48 w-48 rounded-full bg-[#F3F7FA]/8 blur-3xl" />
       </div>
 
-      {/* Контент карточки */}
-      <div className="relative z-10 flex flex-1 flex-col justify-between p-5">
-        <div className="flex items-start justify-between gap-3">
-          <div className="space-y-2">
-            <div className="inline-flex items-center gap-2 rounded-2xl border border-[#F3F7FA]/2 bg-[#0D1321]/60 px-3 py-1 text-[22px] font-medium text-[#FFFFFF]/90 backdrop-blur-md">
-              <h2>{category.name}</h2>
-            </div>
-          </div>
+      <div className="relative z-10 flex flex-1 flex-col justify-end gap-3 p-5">
+        <h3 className="text-lg font-semibold">{label}</h3>
 
-          
-        </div>
+        <p className="text-sm text-[#F3F7FA]/85">{description}</p>
 
-        {category.description && (
-          <p className="mt-3 line-clamp-3 max-w-lg text-sm text-[#F3F7FA]/85">
-            
-          </p>
-        )}
-
-        <div className="mt-4 flex items-center gap-2 text-xs font-medium text-[#F3F7FA]/90">
-          <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/10 transition group-hover:bg-white/16">
+        <div className="mt-1 flex items-center gap-2 text-xs font-medium text-[#F3F7FA]/85">
+          <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-white/10 transition group-hover:bg-white/15">
             <svg
               viewBox="0 0 20 20"
-              className="h-4 w-4"
               aria-hidden="true"
+              className="h-3.5 w-3.5"
             >
               <path
-                d="M6.25 4.75H13.5V12"
+                d="M6 4.75L12.25 4.75L12.25 11"
                 fill="none"
                 stroke="currentColor"
                 strokeWidth="1.5"
@@ -141,7 +80,7 @@ function CategoryCard({ category }: { category: ServiceCategory }) {
                 strokeLinejoin="round"
               />
               <path
-                d="M6.5 12.75L13.5 4.75"
+                d="M6.25 12.5L12.25 4.75"
                 fill="none"
                 stroke="currentColor"
                 strokeWidth="1.5"
@@ -150,7 +89,7 @@ function CategoryCard({ category }: { category: ServiceCategory }) {
               />
             </svg>
           </span>
-          <span>Перейти к процедурам категории</span>
+          <span>Подробнее о направлении</span>
         </div>
       </div>
     </Link>
