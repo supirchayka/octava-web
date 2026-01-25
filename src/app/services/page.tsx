@@ -1,14 +1,52 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import { getServiceCategories } from "@/lib/api/serviceCategories";
+import {
+  getServiceCategories,
+  getServiceCategoriesByGender,
+} from "@/lib/api/serviceCategories";
 import type { ServiceCategory } from "@/types/api";
 import { resolveMediaUrl } from "@/lib/media";
 
 export const dynamic = "force-static";
 
-export default async function ServicesPage() {
-  const categories = await getServiceCategories();
+type ServicesPageProps = {
+  searchParams?: Promise<{ gender?: string }>;
+};
+
+const genderCopy = {
+  female: {
+    badge: "Женские направления",
+    title: "Категории услуг для женщин",
+    description:
+      "Подберите процедуры и программы для женского ухода — от косметологии до восстановительной терапии.",
+  },
+  male: {
+    badge: "Мужские направления",
+    title: "Категории услуг для мужчин",
+    description:
+      "Собрали процедуры и консультации для мужского ухода — от косметологии до трихологии.",
+  },
+  all: {
+    badge: "Услуги клиники OCTAVA",
+    title: "Направления и категории услуг",
+    description:
+      "Выберите категорию, чтобы посмотреть процедуры внутри: от аппаратной косметологии и инъекционных методик до эстетической терапии и диагностических консультаций.",
+  },
+};
+
+export default async function ServicesPage(props: ServicesPageProps) {
+  const params = await props.searchParams;
+  const genderParam = params?.gender?.toLowerCase();
+  const gender =
+    genderParam === "female" || genderParam === "male"
+      ? genderParam
+      : "all";
+  const categories =
+    gender === "all"
+      ? await getServiceCategories()
+      : await getServiceCategoriesByGender(gender);
+  const copy = genderCopy[gender];
 
   return (
     <main className="bg-white">
@@ -16,15 +54,13 @@ export default async function ServicesPage() {
         {/* Заголовок страницы */}
         <header className="mb-10 max-w-3xl animate-[fade-up_0.6s_ease-out_both]">
           <p className="mb-3 inline-flex rounded-full bg-[#F3F7FA] px-3 py-1 text-xs font-medium text-slate-700">
-            Услуги клиники OCTAVA
+            {copy.badge}
           </p>
           <h1 className="text-2xl font-semibold tracking-tight text-[#0D1321] sm:text-3xl">
-            Направления и категории услуг
+            {copy.title}
           </h1>
           <p className="mt-3 text-sm leading-relaxed text-slate-600">
-            Выберите категорию, чтобы посмотреть процедуры внутри: от
-            аппаратной косметологии и инъекционных методик до эстетической
-            терапии и диагностических консультаций.
+            {copy.description}
           </p>
         </header>
 
