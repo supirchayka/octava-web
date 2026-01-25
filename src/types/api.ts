@@ -101,12 +101,14 @@ export type MediaImage = ApiImage & {
   file: MediaFile;
 };
 
+export type Gender = "FEMALE" | "MALE";
 
 export type ServiceCategory = {
   id: number;
   slug: string;
   name: string;
   description: string | null;
+  gender: Gender;
   sortOrder: number;
   servicesCount: number;
   seo: SeoBlock | null;
@@ -151,6 +153,7 @@ export type ServiceCategoryDetails = {
     slug: string;
     name: string;
     description: string | null;
+    gender: Gender;
     sortOrder: number;
     heroImage: CategoryHeroImage | null;
     galleryImages: ApiImage[];

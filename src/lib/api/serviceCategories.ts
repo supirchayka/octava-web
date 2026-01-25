@@ -8,6 +8,14 @@ export async function getServiceCategories(): Promise<ServiceCategory[]> {
   });
 }
 
+export async function getServiceCategoriesByGender(
+  gender: "female" | "male"
+): Promise<ServiceCategory[]> {
+  return apiGet<ServiceCategory[]>(`/service-categories/${gender}`, {
+    next: { revalidate: 60 },
+  });
+}
+
 export async function getServiceCategoryBySlug(
   slug: string
 ): Promise<ServiceCategoryDetails> {
