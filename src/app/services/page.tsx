@@ -8,7 +8,7 @@ export default function ServicesLandingPage() {
       <section className="mx-auto max-w-6xl px-4 pb-16 pt-10 md:pt-12">
         <header className="mb-10 max-w-3xl animate-[fade-up_0.6s_ease-out_both]">
           <p className="mb-3 inline-flex rounded-full bg-[#F3F7FA] px-3 py-1 text-xs font-medium text-slate-700">
-            Услуги клиники OCTAVA
+            {copy.badge}
           </p>
           <h1 className="text-2xl font-semibold tracking-tight text-[#0D1321] sm:text-3xl">
             Выберите направление
