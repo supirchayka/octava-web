@@ -15,6 +15,7 @@ import type {
   ServicePriceExtended,
   ChecklistItem,
   FaqItem,
+  Specialist,
 } from "@/types/api";
 
 type PageProps = {
@@ -86,6 +87,7 @@ export default async function ServicePage(props: PageProps) {
     service,
     hero,
     about,
+    specialists,
     pricesExtended,
     indications,
     contraindications,
@@ -99,6 +101,12 @@ export default async function ServicePage(props: PageProps) {
     service.slug
   )}`;
   const utm = extractUtm(searchParams);
+  const sortedSpecialists = [...(specialists ?? [])].sort((a, b) =>
+    `${a.lastName} ${a.firstName}`.localeCompare(
+      `${b.lastName} ${b.firstName}`,
+      "ru"
+    )
+  );
 
   return (
     <main className="bg-white">
@@ -118,6 +126,23 @@ export default async function ServicePage(props: PageProps) {
             <p className="text-base leading-relaxed text-slate-700 sm:text-[17px]">
               {about}
             </p>
+          </section>
+        )}
+
+        {/* Врачи, оказывающие услугу */}
+        {sortedSpecialists.length > 0 && (
+          <section className="space-y-4">
+            <h2 className="text-xl font-semibold text-[#0D1321] sm:text-2xl">
+              Врачи, оказывающие услугу
+            </h2>
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {sortedSpecialists.map((specialist) => (
+                <SpecialistCard
+                  key={specialist.id}
+                  specialist={specialist}
+                />
+              ))}
+            </div>
           </section>
         )}
 
@@ -455,6 +480,55 @@ function FaqItem({ item }: { item: FaqItem }) {
   );
 }
 
+function SpecialistCard({ specialist }: { specialist: Specialist }) {
+  const fullName = `${specialist.firstName} ${specialist.lastName}`;
+  const initials = getInitials(specialist.firstName, specialist.lastName);
+  const experienceLabel = formatExperience(specialist.experienceYears);
+
+  return (
+    <article className="flex h-full flex-col overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-[0_12px_32px_rgba(13,19,33,0.08)]">
+      <div className="relative h-48 w-full overflow-hidden bg-[#0D1321]/10">
+        {specialist.photo ? (
+          <>
+            <Image
+              src={resolveMediaUrl(specialist.photo.url)}
+              alt={fullName}
+              fill
+              className="h-full w-full object-cover"
+              sizes="(max-width: 768px) 100vw, 33vw"
+            />
+            <div
+              className="absolute inset-0"
+              style={{
+                background:
+                  "linear-gradient(145deg, rgba(13,19,33,0.35), rgba(29,45,68,0.15), rgba(29,45,68,0.0))",
+              }}
+            />
+          </>
+        ) : (
+          <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-[#1D2D44] to-[#0D1321] text-lg font-semibold text-[#F3F7FA]">
+            {initials}
+          </div>
+        )}
+      </div>
+
+      <div className="flex flex-1 flex-col gap-2 px-4 py-4">
+        <div className="space-y-1">
+          <h3 className="text-base font-semibold text-[#0D1321] sm:text-lg">
+            {fullName}
+          </h3>
+          <p className="text-sm text-slate-600">
+            {specialist.specialization}
+          </p>
+        </div>
+        <p className="text-sm text-slate-600">
+          {experienceLabel} опыта
+        </p>
+      </div>
+    </article>
+  );
+}
+
 // ---------- UTM ----------
 
 type UtmParams = {
@@ -480,4 +554,28 @@ function extractUtm(
     utm_content: get("utm_content"),
     utm_term: get("utm_term"),
   };
+}
+
+function formatExperience(years: number) {
+  const mod10 = years % 10;
+  const mod100 = years % 100;
+  let suffix = "лет";
+
+  if (mod10 === 1 && mod100 !== 11) {
+    suffix = "год";
+  } else if (
+    mod10 >= 2 &&
+    mod10 <= 4 &&
+    (mod100 < 12 || mod100 > 14)
+  ) {
+    suffix = "года";
+  }
+
+  return `${years} ${suffix}`;
+}
+
+function getInitials(firstName: string, lastName: string) {
+  const first = firstName.trim()[0] ?? "";
+  const last = lastName.trim()[0] ?? "";
+  return `${first}${last}`.toUpperCase();
 }

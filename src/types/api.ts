@@ -204,6 +204,7 @@ export type ServiceDetailResponse = {
   seo: SeoBlock | null;
   hero: ServiceDetailHero;
   about: string | null;
+  specialists: Specialist[];
   pricesExtended: ServicePriceExtended[];
   indications: string[];
   contraindications: string[];
