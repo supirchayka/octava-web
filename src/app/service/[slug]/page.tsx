@@ -9,6 +9,7 @@ import type { ReactNode } from "react";
 import { getServiceBySlug } from "@/lib/api/services";
 import { resolveMediaUrl } from "@/lib/media";
 import { ServiceContactForm } from "../ServiceContactForm";
+import { ServiceTabsClient } from "./ServiceTabsClient";
 import type {
   ServiceDetailResponse,
   ServiceDetailHero,
@@ -116,118 +117,76 @@ export default async function ServicePage(props: PageProps) {
       />
 
       <section className="mx-auto max-w-6xl space-y-10 px-4 pb-16 pt-8">
-        <section className="space-y-6">
-          <div
-            className="flex flex-wrap gap-2"
-            role="tablist"
-            aria-label="Разделы услуги"
-          >
-            <input
-              type="radio"
-              name="service-tabs"
-              id="tab-about"
-              className="peer/about sr-only"
-              defaultChecked
-            />
-            <label
-              htmlFor="tab-about"
-              className="cursor-pointer rounded-full border border-slate-200 px-4 py-2 text-sm font-medium text-slate-600 transition peer-checked/about:border-[#1D2D44] peer-checked/about:bg-[#1D2D44] peer-checked/about:text-white"
-            >
-              Об услуге
-            </label>
-
-            <input
-              type="radio"
-              name="service-tabs"
-              id="tab-prices"
-              className="peer/prices sr-only"
-            />
-            <label
-              htmlFor="tab-prices"
-              className="cursor-pointer rounded-full border border-slate-200 px-4 py-2 text-sm font-medium text-slate-600 transition peer-checked/prices:border-[#1D2D44] peer-checked/prices:bg-[#1D2D44] peer-checked/prices:text-white"
-            >
-              Цены
-            </label>
-
-            <input
-              type="radio"
-              name="service-tabs"
-              id="tab-specialists"
-              className="peer/specialists sr-only"
-            />
-            <label
-              htmlFor="tab-specialists"
-              className="cursor-pointer rounded-full border border-slate-200 px-4 py-2 text-sm font-medium text-slate-600 transition peer-checked/specialists:border-[#1D2D44] peer-checked/specialists:bg-[#1D2D44] peer-checked/specialists:text-white"
-            >
-              Специалисты
-            </label>
-          </div>
-
-          <div className="rounded-2xl border border-slate-100 bg-white p-6 shadow-[0_12px_32px_rgba(13,19,33,0.08)]">
-            <div className="hidden space-y-4 peer-checked/about:block">
-              <div className="space-y-3">
-                <h2 className="text-xl font-semibold text-[#0D1321] sm:text-2xl">
-                  Об услуге
-                </h2>
-                <p className="text-base leading-relaxed text-slate-700 sm:text-[17px]">
-                  {service.about}
-                </p>
-              </div>
-              {hero.benefits?.length > 0 && (
+        <section>
+          <ServiceTabsClient
+            about={
+              <>
                 <div className="space-y-3">
-                  <h3 className="text-lg font-semibold text-[#0D1321]">
-                    Преимущества
-                  </h3>
-                  <BenefitsList
-                    items={hero.benefits}
-                    serviceId={service.id}
-                  />
+                  <h2 className="text-xl font-semibold text-[#0D1321] sm:text-2xl">
+                    Об услуге
+                  </h2>
+                  <p className="text-base leading-relaxed text-slate-700 sm:text-[17px]">
+                    {service.about}
+                  </p>
                 </div>
-              )}
-            </div>
-
-            <div className="hidden space-y-4 peer-checked/prices:block">
-              <h2 className="text-xl font-semibold text-[#0D1321] sm:text-2xl">
-                Цены
-              </h2>
-              {pricesExtended.length > 0 ? (
-                <div className="overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-[0_12px_32px_rgba(13,19,33,0.08)]">
-                  <div className="divide-y divide-slate-100">
-                    {pricesExtended
-                      .slice()
-                      .sort((a, b) => a.order - b.order)
-                      .map((item) => (
-                        <PriceRow
-                          key={item.id}
-                          item={item}
-                          bookingUrl={bookingUrl}
-                        />
-                      ))}
-                  </div>
-                </div>
-              ) : (
-                <EmptyState text="Цены для этой услуги будут добавлены позже." />
-              )}
-            </div>
-
-            <div className="hidden space-y-4 peer-checked/specialists:block">
-              <h2 className="text-xl font-semibold text-[#0D1321] sm:text-2xl">
-                Специалисты
-              </h2>
-              {sortedSpecialists.length > 0 ? (
-                <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                  {sortedSpecialists.map((specialist) => (
-                    <SpecialistCard
-                      key={specialist.id}
-                      specialist={specialist}
+                {hero.benefits?.length > 0 && (
+                  <div className="space-y-3">
+                    <h3 className="text-lg font-semibold text-[#0D1321]">
+                      Преимущества
+                    </h3>
+                    <BenefitsList
+                      items={hero.benefits}
+                      serviceId={service.id}
                     />
-                  ))}
-                </div>
-              ) : (
-                <EmptyState text="Команда специалистов будет доступна в ближайшее время." />
-              )}
-            </div>
-          </div>
+                  </div>
+                )}
+              </>
+            }
+            prices={
+              <>
+                <h2 className="text-xl font-semibold text-[#0D1321] sm:text-2xl">
+                  Цены
+                </h2>
+                {pricesExtended.length > 0 ? (
+                  <div className="overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-[0_12px_32px_rgba(13,19,33,0.08)]">
+                    <div className="divide-y divide-slate-100">
+                      {pricesExtended
+                        .slice()
+                        .sort((a, b) => a.order - b.order)
+                        .map((item) => (
+                          <PriceRow
+                            key={item.id}
+                            item={item}
+                            bookingUrl={bookingUrl}
+                          />
+                        ))}
+                    </div>
+                  </div>
+                ) : (
+                  <EmptyState text="Цены для этой услуги будут добавлены позже." />
+                )}
+              </>
+            }
+            specialists={
+              <>
+                <h2 className="text-xl font-semibold text-[#0D1321] sm:text-2xl">
+                  Специалисты
+                </h2>
+                {sortedSpecialists.length > 0 ? (
+                  <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                    {sortedSpecialists.map((specialist) => (
+                      <SpecialistCard
+                        key={specialist.id}
+                        specialist={specialist}
+                      />
+                    ))}
+                  </div>
+                ) : (
+                  <EmptyState text="Команда специалистов будет доступна в ближайшее время." />
+                )}
+              </>
+            }
+          />
         </section>
 
         {/* Показания / противопоказания */}
