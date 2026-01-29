@@ -325,13 +325,13 @@ function ServiceHero({
             {hero.title}
           </h1>
 
-          {hero.shortOffer && (
+          {/*hero.shortOffer && (
             <p className="text-base leading-relaxed text-[#F3F7FA]/85 sm:text-lg">
               {hero.shortOffer}
             </p>
-          )}
+          )*/}
 
-          {/* чипы: цена и длительность */}
+          {/* чипы: цена и длительность 
           <div className="flex flex-wrap items-center gap-2 text-s text-[#F3F7FA]/85">
             {hero.priceFrom && (
               <span className="rounded-full bg-[#0D1321]/60 px-3 py-1">
@@ -344,7 +344,7 @@ function ServiceHero({
               </span>
             )}
           </div>
-
+            */}
           {/* CTA */}
           <div className="pt-2">
             <a
