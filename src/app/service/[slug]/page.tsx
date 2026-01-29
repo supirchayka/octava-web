@@ -86,7 +86,6 @@ export default async function ServicePage(props: PageProps) {
   const {
     service,
     hero,
-    about,
     specialists,
     pricesExtended,
     indications,
@@ -118,13 +117,13 @@ export default async function ServicePage(props: PageProps) {
 
       <section className="mx-auto max-w-6xl space-y-10 px-4 pb-16 pt-8">
         {/* Описание услуги */}
-        {about && (
+        {(
           <section className="space-y-3">
             <h2 className="text-xl font-semibold text-[#0D1321] sm:text-2xl">
               Об услуге
             </h2>
             <p className="text-base leading-relaxed text-slate-700 sm:text-[17px]">
-              {about}
+              {service.about }
             </p>
           </section>
         )}

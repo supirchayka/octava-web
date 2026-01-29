@@ -192,6 +192,7 @@ export type ChecklistItem = {
 
 export type ServiceDetailResponse = {
   service: {
+    about: string;
     id: number;
     slug: string;
     name: string;
@@ -203,7 +204,6 @@ export type ServiceDetailResponse = {
   };
   seo: SeoBlock | null;
   hero: ServiceDetailHero;
-  about: string | null;
   specialists: Specialist[];
   pricesExtended: ServicePriceExtended[];
   indications: string[];
