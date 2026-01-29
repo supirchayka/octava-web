@@ -45,7 +45,7 @@ export function SiteHeaderClient({
           </div>
           */}
           <div className="flex flex-col">
-            <span className="text-2xl font-semibold tracking-wide text-[#0D1321]">
+            <span className="hidden text-2xl font-semibold tracking-wide text-[#0D1321]">
               <span className={tenorSans.className}>OCTAVA</span>
             </span>
           </div>
