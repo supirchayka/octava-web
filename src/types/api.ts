@@ -180,6 +180,7 @@ export type ServicePriceExtended = {
   price: string;
   durationMinutes: number | null;
   type: string; // "BASE" | "EXTRA" и т.п.
+  sessionsCount?: number | null;
   order: number;
 };
 
@@ -213,6 +214,23 @@ export type ServiceDetailResponse = {
   inlineImages: ApiImage[];
   faq: FaqItem[];
   legalDisclaimer: string | null;
+};
+
+export type ServicePriceCategory = {
+  id: number;
+  slug: string;
+  name: string;
+  description: string | null;
+  sortOrder: number;
+  services: {
+    id: number;
+    slug: string;
+    name: string;
+    shortOffer: string | null;
+    priceFrom: string | null;
+    durationMinutes: number | null;
+    pricesExtended: ServicePriceExtended[];
+  }[];
 };
 
 // Телефон организации

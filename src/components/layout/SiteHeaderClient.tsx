@@ -72,6 +72,12 @@ export function SiteHeaderClient({
             Аппараты
           </Link>
           <Link
+            href="/prices"
+            className="transition-colors hover:text-[#1D2D44]"
+          >
+            Цены
+          </Link>
+          <Link
             href="/specialists"
             className="transition-colors hover:text-[#1D2D44]"
           >
@@ -200,6 +206,13 @@ export function SiteHeaderClient({
               onClick={() => setOpen(false)}
             >
               Аппараты
+            </Link>
+            <Link
+              href="/prices"
+              className="py-1 text-[#0D1321]"
+              onClick={() => setOpen(false)}
+            >
+              Цены
             </Link>
             <Link
               href="/about"

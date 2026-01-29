@@ -80,6 +80,11 @@ export async function SiteFooter() {
                 </Link>
               </li>
               <li>
+                <Link href="/prices" className="hover:text-[#1D2D44]">
+                  Цены
+                </Link>
+              </li>
+              <li>
                 <Link href="/specialists" className="hover:text-[#1D2D44]">
                   Специалисты
                 </Link>
