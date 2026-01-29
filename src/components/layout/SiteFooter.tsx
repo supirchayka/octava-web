@@ -37,7 +37,7 @@ export async function SiteFooter() {
           <div className="flex items-center gap-2">
                     <Image src="/octava-logo.png" alt={"Octava Logo"}
                     className=""
-                    width={40}
+                    width={160}
                     height={40}
                     sizes="(max-width: 40px)"
                     priority />
@@ -47,7 +47,7 @@ export async function SiteFooter() {
                     </div>
                     */}
                     <div className="flex flex-col">
-                      <span className="text-2xl font-semibold tracking-wide text-[#0D1321]">
+                      <span className="hidden text-2xl font-semibold tracking-wide text-[#0D1321]">
                         <span className={tenorSans.className}>OCTAVA</span>
                       </span>
                     </div>

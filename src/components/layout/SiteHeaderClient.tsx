@@ -35,7 +35,7 @@ export function SiteHeaderClient({
         <div className="flex items-center gap-2">
           <Image src="/octava-logo.png" alt={"Octava Logo"}
           className=""
-          width={40}
+          width={160}
           height={40}
           sizes="(max-width: 40px)"
           priority />
