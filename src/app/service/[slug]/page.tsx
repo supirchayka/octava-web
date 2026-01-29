@@ -140,25 +140,25 @@ export default async function ServicePage(props: PageProps) {
 
           <div className="flex justify-center">
             <div
-              className="inline-flex flex-wrap justify-center gap-1 rounded-full border border-slate-200 bg-white p-1 shadow-[0_12px_24px_rgba(13,19,33,0.08)] peer-checked/about:[&_.tab-about]:bg-[#1D2D44] peer-checked/about:[&_.tab-about]:text-white peer-checked/about:[&_.tab-about]:shadow-[0_8px_18px_rgba(13,19,33,0.25)] peer-checked/prices:[&_.tab-prices]:bg-[#1D2D44] peer-checked/prices:[&_.tab-prices]:text-white peer-checked/prices:[&_.tab-prices]:shadow-[0_8px_18px_rgba(13,19,33,0.25)] peer-checked/specialists:[&_.tab-specialists]:bg-[#1D2D44] peer-checked/specialists:[&_.tab-specialists]:text-white peer-checked/specialists:[&_.tab-specialists]:shadow-[0_8px_18px_rgba(13,19,33,0.25)]"
+              className="inline-flex flex-wrap justify-center gap-1 rounded-full border border-slate-200 bg-white p-1 shadow-[0_12px_24px_rgba(13,19,33,0.08)]"
               role="tablist"
               aria-label="Разделы услуги"
             >
               <label
                 htmlFor="tab-about"
-                className="tab-about cursor-pointer rounded-full px-5 py-2 text-sm font-medium text-slate-600 transition hover:text-[#1D2D44]"
+                className="cursor-pointer rounded-full px-5 py-2 text-sm font-medium text-slate-600 transition hover:text-[#1D2D44] peer-checked/about:bg-[#1D2D44] peer-checked/about:text-white peer-checked/about:shadow-[0_8px_18px_rgba(13,19,33,0.25)]"
               >
                 Об услуге
               </label>
               <label
                 htmlFor="tab-prices"
-                className="tab-prices cursor-pointer rounded-full px-5 py-2 text-sm font-medium text-slate-600 transition hover:text-[#1D2D44]"
+                className="cursor-pointer rounded-full px-5 py-2 text-sm font-medium text-slate-600 transition hover:text-[#1D2D44] peer-checked/prices:bg-[#1D2D44] peer-checked/prices:text-white peer-checked/prices:shadow-[0_8px_18px_rgba(13,19,33,0.25)]"
               >
                 Цены
               </label>
               <label
                 htmlFor="tab-specialists"
-                className="tab-specialists cursor-pointer rounded-full px-5 py-2 text-sm font-medium text-slate-600 transition hover:text-[#1D2D44]"
+                className="cursor-pointer rounded-full px-5 py-2 text-sm font-medium text-slate-600 transition hover:text-[#1D2D44] peer-checked/specialists:bg-[#1D2D44] peer-checked/specialists:text-white peer-checked/specialists:shadow-[0_8px_18px_rgba(13,19,33,0.25)]"
               >
                 Специалисты
               </label>
