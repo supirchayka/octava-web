@@ -33,7 +33,7 @@ export function SiteHeaderClient({
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3">
         {/* Логотип + название (можно дополнить брендингом из SEO) */}
         <div className="flex items-center gap-2">
-          <Image src="/octava_logo.png" alt={"Octava Logo"}
+          <Image src="/octava-logo.png" alt={"Octava Logo"}
           className=""
           width={40}
           height={40}
