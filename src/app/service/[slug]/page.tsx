@@ -117,65 +117,10 @@ export default async function ServicePage(props: PageProps) {
       />
 
       <section className="mx-auto max-w-6xl space-y-10 px-4 pb-16 pt-8">
-        <section className="space-y-6">
-          <input
-            type="radio"
-            name="service-tabs"
-            id="tab-about"
-            className="peer/about sr-only"
-            defaultChecked
-          />
-          <input
-            type="radio"
-            name="service-tabs"
-            id="tab-prices"
-            className="peer/prices sr-only"
-          />
-          <input
-            type="radio"
-            name="service-tabs"
-            id="tab-specialists"
-            className="peer/specialists sr-only"
-          />
-
-          <div className="flex justify-center">
-            <div
-              className="inline-flex flex-wrap justify-center gap-1 rounded-full border border-slate-200 bg-white p-1 shadow-[0_12px_24px_rgba(13,19,33,0.08)]"
-              role="tablist"
-              aria-label="Разделы услуги"
-            >
-              <label
-                htmlFor="tab-about"
-                className="cursor-pointer rounded-full px-5 py-2 text-sm font-medium text-slate-600 transition hover:text-[#1D2D44] peer-checked/about:bg-[#1D2D44] peer-checked/about:text-white peer-checked/about:shadow-[0_8px_18px_rgba(13,19,33,0.25)]"
-              >
-                Об услуге
-              </label>
-              <label
-                htmlFor="tab-prices"
-                className="cursor-pointer rounded-full px-5 py-2 text-sm font-medium text-slate-600 transition hover:text-[#1D2D44] peer-checked/prices:bg-[#1D2D44] peer-checked/prices:text-white peer-checked/prices:shadow-[0_8px_18px_rgba(13,19,33,0.25)]"
-              >
-                Цены
-              </label>
-              <label
-                htmlFor="tab-specialists"
-                className="cursor-pointer rounded-full px-5 py-2 text-sm font-medium text-slate-600 transition hover:text-[#1D2D44] peer-checked/specialists:bg-[#1D2D44] peer-checked/specialists:text-white peer-checked/specialists:shadow-[0_8px_18px_rgba(13,19,33,0.25)]"
-              >
-                Специалисты
-              </label>
-            </div>
-          </div>
-
-          <div className="rounded-2xl border border-slate-100 bg-white p-6 shadow-[0_12px_32px_rgba(13,19,33,0.08)]">
-            <div className="hidden space-y-4 peer-checked/about:block">
-              <div className="space-y-3">
-                <h2 className="text-xl font-semibold text-[#0D1321] sm:text-2xl">
-                  Об услуге
-                </h2>
-                <p className="text-base leading-relaxed text-slate-700 sm:text-[17px]">
-                  {service.about}
-                </p>
-              </div>
-              {hero.benefits?.length > 0 && (
+        <section>
+          <ServiceTabsClient
+            about={
+              <>
                 <div className="space-y-3">
                   <h2 className="text-xl font-semibold text-[#0D1321] sm:text-2xl">
                     Об услуге
