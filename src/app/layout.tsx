@@ -1,6 +1,7 @@
 // src/app/layout.tsx
 import type { Metadata } from "next";
 import "./globals.css";
+import { Inter } from "next/font/google";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 
@@ -9,14 +10,17 @@ export const metadata: Metadata = {
   description: "Антивозрастная и эстетическая медицина",
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+const inter = Inter({
+  subsets: ["latin", "cyrillic"],
+  weight: ["400", "500", "600", "700"],
+  display: "swap",
+  variable: "--font-sans",
+});
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="ru">
-      <body className="bg-white text-[#1D2D44]">
+    <html lang="ru" className={inter.variable}>
+      <body className={`bg-white text-[#1D2D44] ${inter.className}`}>
         <SiteHeader />
         {children}
         <SiteFooter />

@@ -34,14 +34,13 @@ export function SiteHeaderClient({
         {/* Логотип + название (можно дополнить брендингом из SEO) */}
         <div className="flex items-center gap-2">
           <Link href="/">
-                      <a>
                         <Image src="/octava-logo.png" alt={"Octava Logo"}
                         className=""
                         width={160}
                         height={40}
                         sizes="(max-width: 40px)"
                         priority />
-                      </a>
+                  
                     </Link>
           {/*
           <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#1D2D44] text-[#F3F7FA] shadow-lg">
