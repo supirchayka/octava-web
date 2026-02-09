@@ -218,6 +218,7 @@ export type ServiceDetailResponse = {
 };
 
 export type ServicePriceCategory = {
+  gender: any;
   id: number;
   slug: string;
   name: string;
