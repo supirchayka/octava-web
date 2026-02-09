@@ -74,8 +74,7 @@ function HeroSection({ hero }: { hero: HomeHero }) {
   const mainImage = hero.images[0];
 
   return (
-    <section className="relative w-full min-h-[82vh] overflow-hidden">
-      {/* Фоновая картинка из hero.images */}
+    <section className="relative flex min-h-[82vh] w-full items-end justify-center overflow-hidden">
       {mainImage && (
         <Image
           src={resolveMediaUrl(mainImage.url)}
@@ -87,50 +86,12 @@ function HeroSection({ hero }: { hero: HomeHero }) {
         />
       )}
 
-      {/* Слой с градиентным затемнением фирменными цветами */}
-      <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-gradient-to-tr from-[#0D1321]/90 via-[#1D2D44]/85 to-[#1D2D44]/60" />
+      <div className="absolute inset-0 bg-black/35" />
 
-        {/* Декоративные пятна/ореолы поверх градиента */}
-        <div className="pointer-events-none absolute inset-0">
-          <div className="absolute -left-24 top-10 h-64 w-64 rounded-full bg-[#F3F7FA]/10 blur-3xl" />
-          <div className="absolute right-[-80px] bottom-[-40px] h-72 w-72 rounded-full bg-[#F3F7FA]/8 blur-3xl" />
-        </div>
-      </div>
-
-      {/* Контентная часть */}
-      <div className="relative mx-auto flex max-w-6xl flex-col gap-10 px-4 py-12 text-[#F3F7FA] md:flex-row md:items-center md:py-16 mt-8">
-        {/* Левая колонка: заголовок/подзаголовок/CTA — строго из hero */}
-        <div className="flex-1 mt-6 animate-[fade-up_0.7s_ease-out_both]">
-
-          <h1 className="text-balance text-3xl font-semibold tracking-tight sm:text-4xl md:text-5xl mt-16">
-            {hero.title}
-          </h1>
-
-          <p className="mt-4 max-w-xl text-sm leading-relaxed text-[#F3F7FA]/85 sm:text-base">
-            {hero.subtitle}
-          </p>
-
-          <div className="mt-7 flex flex-wrap items-center gap-4">
-            {hero.ctaText && hero.ctaUrl && (
-              <a
-                href={hero.ctaUrl}
-                className="relative inline-flex items-center justify-center rounded-full bg-[#F3F7FA] px-6 py-2.5 text-sm font-medium text-[#1D2D44] shadow-[0_18px_45px_rgba(0,0,0,0.35)] transition hover:-translate-y-0.5 hover:bg-white hover:shadow-[0_22px_55px_rgba(0,0,0,0.45)]"
-              >
-                {/* Светящийся контур вокруг кнопки */}
-                <span className="pointer-events-none absolute inset-[-2px] rounded-full border border-[#F3F7FA]/50 opacity-40 blur-[1px]" />
-                <span className="relative">{hero.ctaText}</span>
-              </a>
-            )}
-
-            <a
-              href="#services"
-              className="inline-flex items-center justify-center rounded-full border border-[#F3F7FA]/40 bg-white/0 px-5 py-2.5 text-sm font-medium text-[#F3F7FA] backdrop-blur-sm transition hover:-translate-y-0.5 hover:border-[#F3F7FA] hover:bg-white/5"
-            >
-              Смотреть направления
-            </a>
-          </div>
-        </div>
+      <div className="relative w-full pb-10 text-center">
+        <p className="text-4xl font-semibold tracking-[0.35em] text-white sm:text-5xl">
+          OCTAVA
+        </p>
       </div>
     </section>
   );
