@@ -2,6 +2,16 @@
 
 import { useMemo, useState } from "react";
 import { usePathname } from "next/navigation";
+import {
+  DEFAULT_PHONE_COUNTRY,
+  formatPhone,
+  getCountryDigitsLimit,
+  getPhoneCountry,
+  getPhonePlaceholder,
+  parsePhoneDigits,
+  PHONE_COUNTRIES,
+  type PhoneCountryCode,
+} from "@/lib/phone";
 
 type UtmParams = {
   utm_source?: string;
@@ -44,13 +54,24 @@ export function ServiceContactForm({ serviceId, serviceSlug, utm }: Props) {
   ]);
 
   const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
+  const [phoneCountryCode, setPhoneCountryCode] =
+    useState<PhoneCountryCode>(DEFAULT_PHONE_COUNTRY);
+  const [phoneDigits, setPhoneDigits] = useState("");
   const [message, setMessage] = useState("");
   const [pdnConsent, setPdnConsent] = useState(false);
   const [marketingConsent, setMarketingConsent] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [result, setResult] = useState<SubmitResult | null>(null);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+
+  const phoneCountry = useMemo(
+    () => getPhoneCountry(phoneCountryCode),
+    [phoneCountryCode],
+  );
+  const phone = useMemo(
+    () => formatPhone(phoneCountry, phoneDigits),
+    [phoneCountry, phoneDigits],
+  );
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -60,6 +81,14 @@ export function ServiceContactForm({ serviceId, serviceSlug, utm }: Props) {
       setResult({
         ok: false,
         error: "Необходимо дать согласие на обработку персональных данных.",
+      });
+      return;
+    }
+
+    if (phoneDigits.length !== getCountryDigitsLimit(phoneCountry)) {
+      setResult({
+        ok: false,
+        error: "Введите корректный номер телефона полностью.",
       });
       return;
     }
@@ -104,7 +133,8 @@ export function ServiceContactForm({ serviceId, serviceSlug, utm }: Props) {
           if (ok) {
             setResult({ ok: true });
             setName("");
-            setPhone("");
+            setPhoneCountryCode(DEFAULT_PHONE_COUNTRY);
+            setPhoneDigits("");
             setMessage("");
             setPdnConsent(false);
             setMarketingConsent(false);
@@ -160,16 +190,41 @@ export function ServiceContactForm({ serviceId, serviceSlug, utm }: Props) {
           >
             Телефон
           </label>
-          <input
-            id="service-phone"
-            name="phone"
-            type="tel"
-            required
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-            className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 outline-none transition focus:border-[#1D2D44] focus:ring-1 focus:ring-[#1D2D44]"
-            placeholder="+7 ___ ___-__-__"
-          />
+          <div className="flex gap-2">
+            <select
+              aria-label="Код страны"
+              value={phoneCountryCode}
+              onChange={(e) => {
+                const nextCountry = getPhoneCountry(
+                  e.target.value as PhoneCountryCode,
+                );
+                setPhoneCountryCode(nextCountry.code);
+                setPhoneDigits((currentDigits) =>
+                  currentDigits.slice(0, getCountryDigitsLimit(nextCountry)),
+                );
+              }}
+              className="w-[138px] rounded-xl border border-slate-200 bg-white px-2 py-2 text-sm text-slate-900 outline-none transition focus:border-[#1D2D44] focus:ring-1 focus:ring-[#1D2D44]"
+            >
+              {PHONE_COUNTRIES.map((country) => (
+                <option key={country.code} value={country.code}>
+                  {country.name} (+{country.dialCode})
+                </option>
+              ))}
+            </select>
+            <input
+              id="service-phone"
+              name="phone"
+              type="tel"
+              required
+              inputMode="numeric"
+              value={phone}
+              onChange={(e) =>
+                setPhoneDigits(parsePhoneDigits(e.target.value, phoneCountry))
+              }
+              className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 outline-none transition focus:border-[#1D2D44] focus:ring-1 focus:ring-[#1D2D44]"
+              placeholder={getPhonePlaceholder(phoneCountry)}
+            />
+          </div>
         </div>
 
         <div>
