@@ -238,7 +238,7 @@ export function ContactLeadForm({
             required
             checked={pdnConsent}
             onChange={(e) => setPdnConsent(e.target.checked)}
-            className={`mt-[3px] h-3.5 w-3.5 ${
+            className={`mt-0.5 h-5 w-5 shrink-0 sm:mt-[3px] sm:h-4 sm:w-4 ${
               isDark ? "accent-[#F3F7FA]" : "accent-[#1D2D44]"
             }`}
           />
@@ -276,7 +276,7 @@ export function ContactLeadForm({
             type="checkbox"
             checked={marketingConsent}
             onChange={(e) => setMarketingConsent(e.target.checked)}
-            className={`mt-[3px] h-3.5 w-3.5 ${
+            className={`mt-0.5 h-5 w-5 shrink-0 sm:mt-[3px] sm:h-4 sm:w-4 ${
               isDark ? "accent-[#F3F7FA]" : "accent-[#1D2D44]"
             }`}
           />
