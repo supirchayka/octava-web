@@ -198,7 +198,7 @@ export function ServiceContactForm({ serviceId, serviceSlug, utm }: Props) {
             required
             checked={pdnConsent}
             onChange={(e) => setPdnConsent(e.target.checked)}
-            className="mt-[3px] h-3.5 w-3.5 accent-[#1D2D44]"
+            className="mt-0.5 h-5 w-5 shrink-0 accent-[#1D2D44] sm:mt-[3px] sm:h-4 sm:w-4"
           />
           <label htmlFor="service-pdn" className="cursor-pointer">
             Я ознакомился(лась) с{" "}
@@ -231,7 +231,7 @@ export function ServiceContactForm({ serviceId, serviceSlug, utm }: Props) {
             type="checkbox"
             checked={marketingConsent}
             onChange={(e) => setMarketingConsent(e.target.checked)}
-            className="mt-[3px] h-3.5 w-3.5 accent-[#1D2D44]"
+            className="mt-0.5 h-5 w-5 shrink-0 accent-[#1D2D44] sm:mt-[3px] sm:h-4 sm:w-4"
           />
           <label htmlFor="service-marketing" className="cursor-pointer">
             Согласен(на) на получение информационных и рекламных сообщений о
