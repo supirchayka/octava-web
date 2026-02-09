@@ -86,7 +86,18 @@ function HeroSection({ hero }: { hero: HomeHero }) {
         />
       )}
 
-      <div className="absolute inset-0 bg-black/35" />
+      <video
+        className="absolute inset-0 h-full w-full object-cover"
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="metadata"
+      >
+        <source src="/hero-video.mp4" type="video/mp4" />
+      </video>
+
+      <div className="absolute inset-0 bg-gradient-to-tr from-[#0D1321]/90 via-[#1D2D44]/85 to-[#1D2D44]/60" />
 
       <div className="relative w-full pb-10 text-center">
         <p className="text-4xl font-semibold tracking-[0.35em] text-white sm:text-5xl">
