@@ -38,7 +38,7 @@ export function InteriorSection({ interior }: Props) {
         {/* Левая колонка — текст из API + короткий текст про комфорт */}
         <div className="space-y-4">
           <div>
-            <p className="inline-flex rounded-full bg-[#F3F7FA] px-3 py-1 text-2xl font-normal text-slate-700">
+            <p className="inline-flex rounded-full py-1 text-2xl font-normal text-slate-700">
               Атмосфера и пространство
             </p>
           </div>

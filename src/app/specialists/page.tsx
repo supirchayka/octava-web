@@ -74,7 +74,7 @@ function SpecialistCard({ specialist }: { specialist: Specialist }) {
   return (
     <Link href={`/specialists/${specialist.id}`} className="group block h-full">
       <article className="flex h-full flex-col overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-[0_12px_32px_rgba(13,19,33,0.08)] transition hover:-translate-y-1 hover:border-[#1D2D44]/25 hover:shadow-[0_18px_45px_rgba(13,19,33,0.18)]">
-        <div className="relative h-44 w-full overflow-hidden bg-[#0D1321]/10">
+        <div className="relative h-80 w-full overflow-hidden bg-[#0D1321]/10">
           {specialist.photo ? (
             <>
               <Image
@@ -114,36 +114,7 @@ function SpecialistCard({ specialist }: { specialist: Specialist }) {
             <span className="inline-flex items-center rounded-full bg-[#F3F7FA] px-2.5 py-1">
               Стаж: {experienceLabel}
             </span>
-            {services.length > 0 && (
-              <span className="inline-flex items-center rounded-full bg-[#F3F7FA] px-2.5 py-1">
-                {services.length} услуг(и)
-              </span>
-            )}
           </div>
-
-          {specialist.biography && (
-            <p className="line-clamp-3 text-sm leading-relaxed text-slate-600">
-              {specialist.biography}
-            </p>
-          )}
-
-          {services.length > 0 && (
-            <div className="mt-auto flex flex-wrap gap-2 text-[11px] font-medium text-[#1D2D44]">
-              {services.slice(0, 3).map((service) => (
-                <span
-                  key={service.id}
-                  className="rounded-full border border-[#1D2D44]/15 bg-white px-2.5 py-1"
-                >
-                  {service.name}
-                </span>
-              ))}
-              {services.length > 3 && (
-                <span className="rounded-full border border-[#1D2D44]/15 bg-white px-2.5 py-1">
-                  +{services.length - 3}
-                </span>
-              )}
-            </div>
-          )}
         </div>
       </article>
     </Link>

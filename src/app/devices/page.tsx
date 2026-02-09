@@ -73,7 +73,7 @@ function DeviceCard({ device }: { device: DeviceListItem }) {
     >
       <article className="flex h-full flex-col overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-[0_12px_32px_rgba(13,19,33,0.08)] transition hover:-translate-y-1 hover:border-[#1D2D44]/25 hover:shadow-[0_18px_45px_rgba(13,19,33,0.18)]">
         {/* Картинка HERO */}
-        <div className="relative h-40 w-full overflow-hidden">
+        <div className="relative h-75 w-full overflow-hidden">
           {heroImage && (
             <>
               <Image
@@ -116,8 +116,6 @@ function DeviceCard({ device }: { device: DeviceListItem }) {
 
           <div className="mt-auto flex items-center justify-between pt-2 text-[11px] font-medium text-[#1D2D44]">
             <span className="inline-flex items-center gap-1">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#1D2D44]" />
-              Подробнее об аппарате
             </span>
             <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-[#F3F7FA] text-xs text-[#1D2D44]">
               &rarr;

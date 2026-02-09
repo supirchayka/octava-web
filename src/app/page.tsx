@@ -60,7 +60,6 @@ export default async function HomePage() {
       <div className="mx-auto max-w-6xl px-4 pb-16 pt-10">
         <DirectionsSection directions={directions} />
       </div>
-      <SubHeroSection subHero={subHero} />
       <div className="mx-auto max-w-6xl px-4 pb-16 pt-10">
         <InteriorSection interior={interior} />
         <BottomCtaSection />
@@ -75,7 +74,7 @@ function HeroSection({ hero }: { hero: HomeHero }) {
   const mainImage = hero.images[0];
 
   return (
-    <section className="relative w-full min-h-[72vh] overflow-hidden">
+    <section className="relative w-full min-h-[82vh] overflow-hidden">
       {/* Фоновая картинка из hero.images */}
       {mainImage && (
         <Image
@@ -144,11 +143,9 @@ function DirectionsSection({ directions }: { directions: HomeDirection[] }) {
 
   return (
     <section id="services" className="mb-12">
-      <div className="mb-6 flex items-end justify-between gap-3">
+      <div className="mb-18 flex items-end justify-between gap-3">
         <div>
-          <p className="inline-flex rounded-full bg-[#F3F7FA] px-3 py-1 text-2xl font-normal text-slate-700">
-            Направления OCTAVA
-          </p>
+
         </div>
       </div>
 
@@ -180,7 +177,7 @@ function GenderLink({
   return (
     <Link
       href={href}
-      className="group relative flex min-h-[220px] overflow-hidden rounded-3xl bg-[#ffffff] text-[#F3F7FA] shadow-[0_18px_45px_rgba(0,0,0,0.15)] transition hover:-translate-y-1 hover:shadow-[0_24px_60px_rgba(0,0,0,0.25)]"
+      className="group relative flex min-h-[360px] overflow-hidden rounded-3xl bg-[#ffffff] text-[#F3F7FA] shadow-[0_18px_45px_rgba(0,0,0,0.15)] transition hover:-translate-y-1 hover:shadow-[0_24px_60px_rgba(0,0,0,0.25)]"
     >
       <div className="absolute inset-0 bg-gradient-to-br from-[#1D2D44] via-[#0D1321] to-[#1D2D44]" />
 
@@ -195,11 +192,7 @@ function GenderLink({
 
       {/* контент карточки */}
       <div className="relative z-10 flex flex-1 flex-col justify-end gap-3 p-5">
-        <h3 className="text-lg font-semibold">{label}</h3>
-
-        {description && (
-          <p className="text-sm text-[#F3F7FA]/85">{description}</p>
-        )}
+        <h3 className="text-2xl font-semibold">{label}</h3>
 
         <div className="mt-1 flex items-center gap-2 text-xs font-medium text-[#F3F7FA]/85">
           <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-white/10 transition group-hover:bg-white/15">
@@ -226,7 +219,6 @@ function GenderLink({
               />
             </svg>
           </span>
-          <span>Подробнее о направлении</span>
         </div>
       </div>
     </Link>

@@ -1,6 +1,6 @@
 // src/components/layout/SiteFooter.tsx
 import Image from "next/image";
-import { Tenor_Sans } from 'next/font/google'
+import { Tenor_Sans } from "next/font/google";
 
 import Link from "next/link";
 
@@ -8,10 +8,9 @@ import { getOrg } from "@/lib/api/org";
 import type { Organization } from "@/types/api";
 
 const tenorSans = Tenor_Sans({
-  weight: '400',
-  subsets: ['latin'],
-})
-
+  weight: "400",
+  subsets: ["latin"],
+});
 
 function getPrimaryPhone(org: Organization): string | null {
   const phone = org.phones?.find((p) => p.isPrimary) ?? org.phones?.[0];
@@ -35,31 +34,28 @@ export async function SiteFooter() {
       <div className="mx-auto flex max-w-6xl flex-col gap-8 px-4 md:flex-row md:justify-between">
         <div className="max-w-sm">
           <div className="flex items-center gap-2">
-                    <Link href="/">
-                      
-                        <Image src="/octava-logo.png" alt={"Octava Logo"}
-                        className=""
-                        width={160}
-                        height={40}
-                        sizes="(max-width: 40px)"
-                        priority />
-                      
-                    </Link>
-                    {/*
+            <Link href="/">
+              <Image
+                src="/octava-logo.png"
+                alt={"Octava Logo"}
+                className=""
+                width={160}
+                height={40}
+                sizes="(max-width: 40px)"
+                priority
+              />
+            </Link>
+            {/*
                     <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#1D2D44] text-[#F3F7FA] shadow-lg">
                       <span className="text-sm font-semibold">OC</span>
                     </div>
                     */}
-                    <div className="flex flex-col">
-                      <span className="hidden text-2xl font-semibold tracking-wide text-[#0D1321]">
-                        <span className={tenorSans.className}>OCTAVA</span>
-                      </span>
-                    </div>
-                  </div>
-          
-          <p className="mt-2 text-sm text-[#0D1321]">
-            Антивозрастная и эстетическая медицина.
-          </p>
+            <div className="flex flex-col">
+              <span className="hidden text-2xl font-semibold tracking-wide text-[#0D1321]">
+                <span className={tenorSans.className}>OCTAVA</span>
+              </span>
+            </div>
+          </div>
         </div>
 
         <div className="grid flex-1 gap-8 sm:grid-cols-3">
@@ -123,13 +119,15 @@ export async function SiteFooter() {
               </li>
               <li>
                 Email:{" "}
-                <a href={`mailto:${org.email}`} className="hover:text-[#1D2D44]">
+                <a
+                  href={`mailto:${org.email}`}
+                  className="hover:text-[#1D2D44]"
+                >
                   {org.email}
                 </a>
               </li>
               <li>
-                Адрес:{" "}
-                <span>{org.address}</span>
+                Адрес: <span>{org.address}</span>
               </li>
             </ul>
           </div>
@@ -140,12 +138,18 @@ export async function SiteFooter() {
             </p>
             <ul className="space-y-1">
               <li>
-                <a href="/personal-data-consent" className="hover:text-[#1D2D44]">
+                <a
+                  href="/personal-data-consent"
+                  className="hover:text-[#1D2D44]"
+                >
                   Согласие на обработку персональных данных
                 </a>
               </li>
               <li>
-                <a href="/personal-data-policy" className="hover:text-[#1D2D44]">
+                <a
+                  href="/personal-data-policy"
+                  className="hover:text-[#1D2D44]"
+                >
                   Политика обработки персональных данных
                 </a>
               </li>

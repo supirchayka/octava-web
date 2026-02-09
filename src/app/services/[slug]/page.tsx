@@ -174,18 +174,13 @@ function ServiceCard({ service }: { service: CategoryService }) {
       className="group block h-full"
     >
       <article className="flex h-full flex-col rounded-2xl border border-slate-100 bg-white p-5 shadow-[0_12px_32px_rgba(13,19,33,0.08)] transition group-hover:-translate-y-1 group-hover:border-[#1D2D44]/25 group-hover:shadow-[0_18px_45px_rgba(13,19,33,0.18)]">
-        <div className="mb-3 flex flex-col gap-1">
-          <h3 className="text-sm font-semibold text-[#0D1321] sm:text-base">
+        <div className="mt-7 mb-3 flex flex-col gap-1">
+          <h3 className="text-sm font-semibold text-[#0D1321] sm:text-base text-center">
             {service.name}
           </h3>
-          {service.shortOffer && (
-            <p className="text-sm text-slate-600">
-              {service.shortOffer}
-            </p>
-          )}
         </div>
 
-        <div className="mb-3 flex flex-wrap items-center gap-2 text-xs text-slate-600">
+        <div className="text-center mb-3 flex flex-wrap items-center gap-2 text-xs text-slate-600 m-auto">
           {service.priceFrom && (
             <span className="rounded-full bg-[#F3F7FA] px-2.5 py-1">
               от {service.priceFrom} ₽
@@ -198,21 +193,7 @@ function ServiceCard({ service }: { service: CategoryService }) {
           )}
         </div>
 
-        {service.benefits?.length > 0 && (
-          <ul className="mb-4 space-y-1.5 text-xs text-slate-600">
-            {service.benefits.map((benefit, i) => (
-              <li
-                key={`${service.id}-benefit-${i}`}
-                className="flex gap-2"
-              >
-                <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-[#1D2D44]" />
-                <span>{benefit}</span>
-              </li>
-            ))}
-          </ul>
-        )}
-
-        <div className="mt-auto pt-2">
+        <div className="mt-7 pt-2">
           <div className="inline-flex items-center gap-2 text-xs font-medium text-[#1D2D44]">
             <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-[#1D2D44]/6 transition group-hover:bg-[#1D2D44]/12">
               <svg
