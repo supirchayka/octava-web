@@ -14,6 +14,14 @@ import type {
 import { InteriorSection } from "@/components/home/InteriorSection";
 import { ContactLeadForm } from "@/components/ContactLeadForm";
 
+import { Tenor_Sans } from "next/font/google";
+
+const tenorSans = Tenor_Sans({
+  weight: '400',
+  subsets: ['latin'],
+})
+
+
 // SEO из блока seo
 export async function generateMetadata(): Promise<Metadata> {
   const data: HomePageResponse = await getHomePage();
@@ -100,8 +108,8 @@ function HeroSection({ hero }: { hero: HomeHero }) {
       <div className="absolute inset-0 bg-gradient-to-tr from-[#0D1321]/90 via-[#1D2D44]/85 to-[#1D2D44]/60" />
 
       <div className="relative w-full pb-10 text-center">
-        <p className="text-4xl font-semibold tracking-[0.35em] text-white sm:text-5xl">
-          OCTAVA
+        <p className="text-4xl font-semibold text-white sm:text-5xl tenorSans">
+          <span className={tenorSans.className}>OCTAVA</span>
         </p>
       </div>
     </section>
