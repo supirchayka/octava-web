@@ -101,6 +101,7 @@ export default async function ServicePage(props: PageProps) {
     service.slug
   )}`;
   const utm = extractUtm(searchParams);
+  const aboutText = service.about || hero.shortOffer;
   const sortedSpecialists = [...(specialists ?? [])].sort((a, b) =>
     `${a.lastName} ${a.firstName}`.localeCompare(
       `${b.lastName} ${b.firstName}`,
@@ -125,9 +126,11 @@ export default async function ServicePage(props: PageProps) {
                   <h2 className="text-xl font-semibold text-[#0D1321] sm:text-2xl">
                     Об услуге
                   </h2>
-                  <p className="text-base leading-relaxed text-slate-700 sm:text-[17px]">
-                    {service.about}
-                  </p>
+                  {aboutText && (
+                    <p className="text-base leading-relaxed text-slate-700 sm:text-[17px]">
+                      {aboutText}
+                    </p>
+                  )}
                 </div>
                 {hero.benefits?.length > 0 && (
                   <div className="space-y-3">
@@ -325,11 +328,11 @@ function ServiceHero({
             {hero.title}
           </h1>
 
-          {/*hero.shortOffer && (
+          {hero.shortOffer && (
             <p className="text-base leading-relaxed text-[#F3F7FA]/85 sm:text-lg">
               {hero.shortOffer}
             </p>
-          )*/}
+          )}
 
           {/* чипы: цена и длительность 
           <div className="flex flex-wrap items-center gap-2 text-s text-[#F3F7FA]/85">

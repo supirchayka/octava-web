@@ -192,7 +192,7 @@ export type ChecklistItem = {
 
 export type ServiceDetailResponse = {
   service: {
-    about: string;
+    about: string | null;
     id: number;
     slug: string;
     name: string;
