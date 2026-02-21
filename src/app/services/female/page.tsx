@@ -5,7 +5,7 @@ import { getServiceCategoriesByGender } from "@/lib/api/serviceCategories";
 import type { ServiceCategory } from "@/types/api";
 import { resolveMediaUrl } from "@/lib/media";
 
-export const dynamic = "force-static";
+export const dynamic = "force-dynamic";
 
 export default async function FemaleServicesPage() {
   const categories = await getServiceCategoriesByGender("female");

@@ -127,7 +127,7 @@ export default async function ServicePage(props: PageProps) {
                     Об услуге
                   </h2>
                   {aboutText && (
-                    <p className="text-base leading-relaxed text-slate-700 sm:text-[17px]">
+                    <p className="whitespace-pre-line text-base leading-relaxed text-slate-700 sm:text-[17px]">
                       {aboutText}
                     </p>
                   )}
@@ -261,7 +261,7 @@ export default async function ServicePage(props: PageProps) {
         {/* Дисклеймер */}
         {legalDisclaimer && (
           <section className="border-t border-slate-200 pt-4">
-            <p className="text-[13px] text-slate-500 sm:text-sm">
+            <p className="whitespace-pre-line text-[13px] text-slate-500 sm:text-sm">
               {legalDisclaimer}
             </p>
           </section>
@@ -329,7 +329,7 @@ function ServiceHero({
           </h1>
 
           {hero.shortOffer && (
-            <p className="text-base leading-relaxed text-[#F3F7FA]/85 sm:text-lg">
+            <p className="whitespace-pre-line text-base leading-relaxed text-[#F3F7FA]/85 sm:text-lg">
               {hero.shortOffer}
             </p>
           )}
@@ -375,7 +375,7 @@ function PriceRow({
   return (
     <div className="flex flex-col gap-3 px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:px-5 sm:py-4">
       <div className="space-y-1">
-        <p className="text-base font-medium text-[#0D1321] sm:text-lg">
+        <p className="whitespace-pre-line text-base font-medium text-[#0D1321] sm:text-lg">
           {item.title}
         </p>
         <div className="flex flex-wrap items-center gap-2 text-xs text-slate-600">
@@ -447,7 +447,7 @@ function BulletList({
           <span
             className={`mt-1 h-1.5 w-1.5 shrink-0 rounded-full ${dotClass}`}
           />
-          <span>{text}</span>
+          <span className="whitespace-pre-line">{text}</span>
         </li>
       ))}
     </ul>
@@ -469,7 +469,7 @@ function BenefitsList({
           className="flex gap-2"
         >
           <span className="mt-1 h-4 w-1.5 shrink-0 rounded-full bg-[#1D2D44]" />
-          <span>{benefit}</span>
+          <span className="whitespace-pre-line">{benefit}</span>
         </li>
       ))}
     </ul>
@@ -487,7 +487,7 @@ function Checklist({ items }: { items: ChecklistItem[] }) {
             <span className="mt-[2px] inline-flex h-3 w-3 shrink-0 items-center justify-center rounded-full border border-[#1D2D44]/40 bg-white">
               <span className="h-1.5 w-1.5 rounded-full bg-[#1D2D44]" />
             </span>
-            <span>{item.text}</span>
+            <span className="whitespace-pre-line">{item.text}</span>
           </li>
         ))}
     </ul>
@@ -506,12 +506,12 @@ function FaqItem({ item }: { item: FaqItem }) {
   return (
     <details className="group">
       <summary className="flex cursor-pointer list-none items-center justify-between gap-3 px-4 py-3 text-base text-[#0D1321] sm:px-5">
-        <span>{item.question}</span>
+        <span className="whitespace-pre-line">{item.question}</span>
         <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-[#F3F7FA] text-xs text-[#1D2D44] transition group-open:rotate-45">
           +
         </span>
       </summary>
-      <div className="border-t border-slate-100 px-4 py-3 text-sm text-slate-700 sm:px-5">
+      <div className="whitespace-pre-line border-t border-slate-100 px-4 py-3 text-sm text-slate-700 sm:px-5">
         {item.answer}
       </div>
     </details>

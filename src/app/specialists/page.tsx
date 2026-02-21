@@ -5,7 +5,7 @@ import { getSpecialists } from "@/lib/api/specialists";
 import { resolveMediaUrl } from "@/lib/media";
 import type { Specialist } from "@/types/api";
 
-export const dynamic = "force-static";
+export const dynamic = "force-dynamic";
 
 export default async function SpecialistsPage() {
   const specialists = await getSpecialists();

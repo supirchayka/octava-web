@@ -5,7 +5,7 @@ const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:3005"
 
 export async function getDevices(): Promise<DeviceListItem[]> {
   const res = await fetch(`${API_BASE}/devices`, {
-    next: { revalidate: 300 },
+    cache: "no-store",
   });
 
   if (!res.ok) {
@@ -23,7 +23,7 @@ export async function getDeviceBySlug(
   slug: string
 ): Promise<DeviceDetailResponse | null> {
   const res = await fetch(`${API_BASE}/devices/${slug}`, {
-    next: { revalidate: 300 },
+    cache: "no-store",
   });
 
   if (res.status === 404) {
