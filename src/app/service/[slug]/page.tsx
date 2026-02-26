@@ -160,7 +160,7 @@ export default async function ServicePage(props: PageProps) {
                           <CardBlock title="Противопоказания">
                             <BulletList
                               items={contraindications}
-                              variant="danger"
+                              variant="default"
                             />
                           </CardBlock>
                         )}
