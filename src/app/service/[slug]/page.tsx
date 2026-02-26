@@ -535,15 +535,15 @@ function SpecialistCard({ specialist }: { specialist: Specialist }) {
   return (
     <article className="overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-[0_12px_32px_rgba(13,19,33,0.08)]">
       <div className="flex flex-col sm:flex-row">
-        <div className="relative h-48 w-full shrink-0 overflow-hidden bg-[#0D1321]/10 sm:h-auto sm:w-44">
+        <div className="relative h-56 w-full shrink-0 overflow-hidden bg-[#0D1321]/10 sm:h-auto sm:min-h-56 sm:w-48">
           {specialist.photo ? (
             <>
               <Image
                 src={resolveMediaUrl(specialist.photo.url)}
                 alt={fullName}
                 fill
-                className="h-full w-full object-cover"
-                sizes="(max-width: 640px) 100vw, 176px"
+                className="h-full w-full object-cover object-top"
+                sizes="(max-width: 640px) 100vw, 192px"
               />
               <div
                 className="absolute inset-0"

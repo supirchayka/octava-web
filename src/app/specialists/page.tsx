@@ -73,7 +73,7 @@ function SpecialistCard({ specialist }: { specialist: Specialist }) {
   return (
     <Link href={`/specialists/${specialist.id}`} className="group block h-full">
       <article className="flex h-full flex-col overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-[0_12px_32px_rgba(13,19,33,0.08)] transition hover:-translate-y-1 hover:border-[#1D2D44]/25 hover:shadow-[0_18px_45px_rgba(13,19,33,0.18)]">
-        <div className="relative h-80 w-full overflow-hidden bg-[#0D1321]/10">
+        <div className="relative h-[22rem] w-full overflow-hidden bg-[#0D1321]/10">
           {specialist.photo ? (
             <>
               <Image

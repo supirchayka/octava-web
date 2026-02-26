@@ -49,7 +49,7 @@ export default async function SpecialistPage(props: PageProps) {
             src={resolveMediaUrl(specialist.photo.url)}
             alt={fullName}
             fill
-            className="pointer-events-none absolute inset-0 h-full w-full object-cover"
+            className="pointer-events-none absolute inset-0 h-full w-full object-cover object-top"
             sizes="100vw"
             priority
           />
