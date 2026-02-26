@@ -2,6 +2,7 @@
 
 import type { Metadata } from "next";
 import { getOrg } from "@/lib/api/org";
+import { getContactsPage } from "@/lib/api/pages";
 import { Suspense } from "react";
 
 type PageProps = {
@@ -15,13 +16,28 @@ export const metadata: Metadata = {
     "Контакты клиники OCTAVA. Запись на консультацию, телефон, форма обратной связи.",
 };
 
+function normalizeMapUrl(rawValue: string | null | undefined): string | null {
+  const raw = rawValue?.trim();
+  if (!raw) return null;
+
+  // Allow admins to paste either a direct URL or a full iframe snippet.
+  const iframeSrcMatch = raw.match(/src=["']([^"']+)["']/i);
+  const candidate = iframeSrcMatch?.[1] ?? raw;
+
+  return candidate.replace(/&amp;/g, "&");
+}
+
 export default async function ContactsPage(props: PageProps) {
   const { service } = await props.searchParams;
   const serviceSlug = service ?? "";
 
   const org = await getOrg();
-  const primaryPhone =
-    org.phones?.find((p) => p.isPrimary) ?? org.phones?.[0];
+  const contacts = await getContactsPage()
+    .then((res) => res.contacts)
+    .catch(() => null);
+  const primaryPhone = org.phones?.find((p) => p.isPrimary) ?? org.phones?.[0];
+  const phoneNumber = contacts?.phone ?? primaryPhone?.number ?? null;
+  const mapUrl = normalizeMapUrl(contacts?.yandexMapUrl);
 
   return (
     <main className="bg-white">
@@ -66,13 +82,13 @@ export default async function ContactsPage(props: PageProps) {
                   </dd>
                 </div>
 
-                {primaryPhone && (
+                {phoneNumber && (
                   <div>
                     <dt className="text-xs uppercase tracking-[0.16em] text-[#F3F7FA]/60">
                       Телефон
                     </dt>
                     <dd className="mt-1 text-base font-medium">
-                      {primaryPhone.number}
+                      {phoneNumber}
                     </dd>
                   </div>
                 )}
@@ -107,7 +123,11 @@ export default async function ContactsPage(props: PageProps) {
       <section className="mx-auto max-w-6xl px-4 py-10 md:py-12">
         <div className="grid gap-8 md:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] md:items-start">
           <ContactForm serviceSlug={serviceSlug} org={org} />
-          <ContactSidePanel org={org} />
+          <ContactSidePanel
+            org={org}
+            phoneNumber={phoneNumber}
+            mapUrl={mapUrl}
+          />
         </div>
       </section>
     </main>
@@ -166,10 +186,15 @@ function ContactForm({
 
 // ---------------- ПРАВАЯ ПАНЕЛЬ (карта/доп.инфо) ----------------
 
-function ContactSidePanel({ org }: { org: Organization }) {
-  const primaryPhone =
-    org.phones?.find((p) => p.isPrimary) ?? org.phones?.[0];
-
+function ContactSidePanel({
+  org,
+  phoneNumber,
+  mapUrl,
+}: {
+  org: Organization;
+  phoneNumber: string | null;
+  mapUrl: string | null;
+}) {
   return (
     <section className="space-y-4">
       <div className="rounded-3xl border border-slate-100 bg-white px-5 py-5 shadow-[0_10px_28px_rgba(13,19,33,0.06)] md:px-6 md:py-6">
@@ -179,22 +204,26 @@ function ContactSidePanel({ org }: { org: Organization }) {
         <p className="mt-2 text-sm leading-relaxed text-slate-700 sm:text-[15px]">
           {org.address}
         </p>
-        {primaryPhone && (
+        {phoneNumber && (
           <p className="mt-1 text-sm text-slate-700">
             Телефон для связи:{" "}
-            <span className="font-medium">{primaryPhone.number}</span>
+            <span className="font-medium">{phoneNumber}</span>
           </p>
         )}
       </div>
 
       <div className="relative h-[360px] w-full overflow-hidden rounded-3xl text-[#F3F7FA] shadow-[0_4px_25px_rgba(13,19,33,0.15)] sm:h-[320px]">
-        <iframe
-          src="https://yandex.ru/map-widget/v1/?ll=37.6208%2C55.7536&z=14"
-          width="100%"
-          height="100%"
-          style={{ border: 0 }}
-          allowFullScreen
-        />
+        {mapUrl ? (
+          <iframe
+            src={mapUrl}
+            width="100%"
+            height="100%"
+            style={{ border: 0 }}
+            allowFullScreen
+          />
+        ) : (
+          <div className="h-full w-full bg-slate-100" />
+        )}
       </div>
     </section>
   );
