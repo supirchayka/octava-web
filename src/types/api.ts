@@ -83,6 +83,54 @@ export type HomePageResponse = {
   interior: HomeInterior;
 };
 
+export type ContactsWorkingHour = {
+  id: number;
+  group: string;
+  label: string;
+  isClosed: boolean;
+  open: string | null;
+  close: string | null;
+};
+
+export type ContactsMetroStation = {
+  id: number;
+  name: string;
+  distanceMeters: number | null;
+  line: string | null;
+};
+
+export type ContactsBlock = {
+  phone: string | null;
+  email: string | null;
+  telegramUrl: string | null;
+  whatsappUrl: string | null;
+  maxMessengerUrl: string | null;
+  address: string | null;
+  yandexMapUrl: string | null;
+  workingHours: ContactsWorkingHour[];
+  metroStations: ContactsMetroStation[];
+};
+
+export type ContactsPageResponse = {
+  page: PageInfo;
+  seo: SeoBlock | null;
+  contacts: ContactsBlock;
+};
+
+export type PricesPageResponse = {
+  page: PageInfo;
+  seo: SeoBlock | null;
+  prices: {
+    priceListFile: {
+      id: number;
+      url: string;
+      mime: string;
+      name: string;
+      sizeBytes: number;
+    } | null;
+  };
+};
+
 // src/types/api.ts
 
 export type MediaFile = {
@@ -359,9 +407,11 @@ export type SpecialistPhoto = {
 export type Specialist = {
   id: number;
   firstName: string;
+  middleName: string | null;
   lastName: string;
   specialization: string;
   biography: string | null;
+  serviceComment?: string | null;
   experienceYears: number;
   photo: SpecialistPhoto | null;
   services: SpecialistService[];

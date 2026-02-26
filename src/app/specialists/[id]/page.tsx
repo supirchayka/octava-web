@@ -19,7 +19,7 @@ export async function generateMetadata(
 
   if (!specialist) return {};
 
-  const fullName = `${specialist.firstName} ${specialist.lastName}`;
+  const fullName = formatSpecialistFullName(specialist);
 
   return {
     title: `${fullName} — специалист OCTAVA`,
@@ -37,7 +37,7 @@ export default async function SpecialistPage(props: PageProps) {
     notFound();
   }
 
-  const fullName = `${specialist.firstName} ${specialist.lastName}`;
+  const fullName = formatSpecialistFullName(specialist);
   const experienceLabel = formatExperience(specialist.experienceYears);
   const services = specialist.services ?? [];
 
@@ -233,4 +233,8 @@ function getInitials(firstName: string, lastName: string) {
   const first = firstName.trim()[0] ?? "";
   const last = lastName.trim()[0] ?? "";
   return `${first}${last}`.toUpperCase();
+}
+
+function formatSpecialistFullName(specialist: Specialist) {
+  return `${specialist.lastName} ${specialist.firstName} ${specialist.middleName ?? ""}`.trim();
 }

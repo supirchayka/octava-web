@@ -12,7 +12,7 @@ type ServiceTabsClientProps = {
 };
 
 const TAB_LABELS: Record<TabKey, string> = {
-  about: "Об услуге",
+  about: "О процедуре",
   prices: "Цены",
   specialists: "Специалисты",
 };

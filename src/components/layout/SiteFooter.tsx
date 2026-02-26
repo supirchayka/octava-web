@@ -5,6 +5,7 @@ import { Tenor_Sans } from "next/font/google";
 import Link from "next/link";
 
 import { getOrg } from "@/lib/api/org";
+import { getContactsPage } from "@/lib/api/pages";
 import type { Organization } from "@/types/api";
 
 const tenorSans = Tenor_Sans({
@@ -16,7 +17,6 @@ function getPrimaryPhone(org: Organization): string | null {
   const phone = org.phones?.find((p) => p.isPrimary) ?? org.phones?.[0];
   return phone?.number ?? null;
 }
-
 function buildTelHref(phone: string | null): string | null {
   if (!phone) return null;
   const normalized = phone.replace(/[^+\d]/g, "");
@@ -25,9 +25,19 @@ function buildTelHref(phone: string | null): string | null {
 }
 
 export async function SiteFooter() {
-  const org = await getOrg();
-  const phoneNumber = getPrimaryPhone(org);
+  const [contactsResult, orgResult] = await Promise.allSettled([
+    getContactsPage(),
+    getOrg(),
+  ]);
+
+  const contacts =
+    contactsResult.status === "fulfilled" ? contactsResult.value.contacts : null;
+  const org = orgResult.status === "fulfilled" ? orgResult.value : null;
+
+  const phoneNumber = contacts?.phone ?? (org ? getPrimaryPhone(org) : null);
   const phoneHref = buildTelHref(phoneNumber);
+  const email = contacts?.email ?? org?.email ?? null;
+  const address = contacts?.address ?? org?.address ?? null;
 
   return (
     <footer className="mt-16 border-t border-slate-100 bg-white pb-6 pt-8 text-sm text-slate-600">
@@ -119,15 +129,19 @@ export async function SiteFooter() {
               </li>
               <li>
                 Email:{" "}
-                <a
-                  href={`mailto:${org.email}`}
-                  className="hover:text-[#1D2D44]"
-                >
-                  {org.email}
-                </a>
+                {email ? (
+                  <a
+                    href={`mailto:${email}`}
+                    className="hover:text-[#1D2D44]"
+                  >
+                    {email}
+                  </a>
+                ) : (
+                  <span>—</span>
+                )}
               </li>
               <li>
-                Адрес: <span>{org.address}</span>
+                Адрес: <span>{address ?? "—"}</span>
               </li>
             </ul>
           </div>
@@ -168,3 +182,4 @@ export async function SiteFooter() {
     </footer>
   );
 }
+

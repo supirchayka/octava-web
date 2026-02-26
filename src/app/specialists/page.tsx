@@ -11,8 +11,8 @@ export default async function SpecialistsPage() {
   const specialists = await getSpecialists();
 
   const sortedSpecialists = [...specialists].sort((a, b) =>
-    `${a.lastName} ${a.firstName}`.localeCompare(
-      `${b.lastName} ${b.firstName}`,
+    `${a.lastName} ${a.firstName} ${a.middleName ?? ""}`.localeCompare(
+      `${b.lastName} ${b.firstName} ${b.middleName ?? ""}`,
       "ru"
     )
   );
@@ -66,8 +66,7 @@ export default async function SpecialistsPage() {
 }
 
 function SpecialistCard({ specialist }: { specialist: Specialist }) {
-  const fullName = `${specialist.firstName} ${specialist.lastName}`;
-  const services = specialist.services ?? [];
+  const fullName = formatSpecialistFullName(specialist);
   const experienceLabel = formatExperience(specialist.experienceYears);
   const initials = getInitials(specialist.firstName, specialist.lastName);
 
@@ -81,7 +80,7 @@ function SpecialistCard({ specialist }: { specialist: Specialist }) {
                 src={resolveMediaUrl(specialist.photo.url)}
                 alt={fullName}
                 fill
-                className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                className="h-full w-full object-cover object-top transition duration-500 group-hover:scale-105"
                 sizes="(max-width: 768px) 100vw, 33vw"
                 priority
               />
@@ -143,4 +142,8 @@ function getInitials(firstName: string, lastName: string) {
   const first = firstName.trim()[0] ?? "";
   const last = lastName.trim()[0] ?? "";
   return `${first}${last}`.toUpperCase();
+}
+
+function formatSpecialistFullName(specialist: Specialist) {
+  return `${specialist.lastName} ${specialist.firstName} ${specialist.middleName ?? ""}`.trim();
 }

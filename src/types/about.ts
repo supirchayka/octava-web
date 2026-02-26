@@ -36,7 +36,12 @@ export type AboutTrustItem = {
   issuedAt: string | null;
   issuedBy: string | null;
   image: AboutMedia | null;
-  file: unknown | null;
+  file: {
+    id: number;
+    url: string;
+    mime: string;
+    name: string;
+  } | null;
 };
 
 export type AboutFact = {
@@ -52,6 +57,13 @@ export type AboutPageResponse = {
   hero: AboutHero;
   trustItems: AboutTrustItem[];
   howWeAchieve: string | null;
+  heroBadgeText: string | null;
+  heroCardText: string | null;
+  howWeAchieveTitle: string | null;
+  howWeAchieveCardText: string | null;
+  factsSectionTitle: string | null;
+  trustSectionTitle: string | null;
+  trustSectionSubtitle: string | null;
   facts: AboutFact[];
   heroCta: AboutHeroCta | null;
 };

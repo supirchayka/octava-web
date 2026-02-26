@@ -1,4 +1,4 @@
-// src/app/about/page.tsx
+﻿// src/app/about/page.tsx
 
 import { getAboutPage } from "@/lib/api/pages";
 import { resolveMediaUrl } from "@/lib/media";
@@ -54,46 +54,76 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function AboutPage() {
   const data = await getAboutPage();
-  const { hero, trustItems, howWeAchieve, facts, heroCta } = data;
+  const {
+    hero,
+    trustItems,
+    howWeAchieve,
+    facts,
+    heroCta,
+    heroBadgeText,
+    heroCardText,
+    howWeAchieveTitle,
+    howWeAchieveCardText,
+    factsSectionTitle,
+    trustSectionTitle,
+    trustSectionSubtitle,
+  } = data;
 
   const sortedFacts = [...facts].sort((a, b) => a.order - b.order);
+  const howWeAchieveHeading = howWeAchieveTitle ?? "Как мы работаем";
+  const heroHighlightBadge =
+    heroBadgeText ?? "Антивозрастная и эстетическая медицина";
+  const heroHighlightText =
+    heroCardText ??
+    "Мы работаем не только с внешним проявлением возраста, но и с его причинами. Каждый план лечения — это комбинация диагностики, аппаратных методик и поддержки образа жизни.";
+  const howWeAchieveAside =
+    howWeAchieveCardText ??
+    "OCTAVA — это место, где диагностика, anti-age и эстетика собраны в единую систему. Мы смотрим на здоровье кожи шире, чем просто косметология: учитываем гормональный фон, образ жизни и долгосрочные цели.";
+  const factsTitle = factsSectionTitle ?? "Наш подход к работе с пациентами";
+  const trustTitle = trustSectionTitle ?? "Лицензии, сертификаты и награды";
+  const trustSubtitle =
+    trustSectionSubtitle ??
+    "Юридическая чистота, контроль качества и признание профессионального сообщества.";
+  const showHowWeAchieve = Boolean(howWeAchieve || howWeAchieveAside);
 
   return (
     <main className="bg-white">
-      <AboutHeroSection hero={hero} heroCta={heroCta} />
+      <AboutHeroSection
+        hero={hero}
+        heroCta={heroCta}
+        heroBadgeText={heroHighlightBadge}
+        heroCardText={heroHighlightText}
+      />
 
       <section className="mx-auto max-w-6xl space-y-12 px-4 pb-16 pt-10">
-        {/* Как мы достигаем результатов */}
-        {howWeAchieve && (
+        {showHowWeAchieve && (
           <section className="grid gap-6 md:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)] md:items-center">
             <div className="space-y-3">
               <h2 className="text-xl font-semibold text-[#0D1321] sm:text-2xl">
-                Как мы работаем
+                {howWeAchieveHeading}
               </h2>
-              <p className="text-base leading-relaxed text-slate-700 sm:text-[17px]">
-                {howWeAchieve}
-              </p>
+              {howWeAchieve && (
+                <p className="text-base leading-relaxed text-slate-700 sm:text-[17px]">
+                  {howWeAchieve}
+                </p>
+              )}
             </div>
             <div className="relative">
               <div className="absolute -bottom-10 -left-6 h-20 w-20 rounded-full bg-[#1D2D44]/5 blur-2xl" />
               <div className="absolute -right-10 -top-10 h-24 w-24 rounded-full bg-[#0D1321]/5 blur-3xl" />
               <div className="relative rounded-3xl border border-[#1D2D44]/10 bg-[#F3F7FA] px-5 py-5 shadow-[0_12px_32px_rgba(13,19,33,0.08)]">
                 <p className="text-sm leading-relaxed text-slate-700 sm:text-[15px]">
-                  OCTAVA — это место, где диагностика, anti-age и эстетика
-                  собраны в единую систему. Мы смотрим на здоровье кожи шире,
-                  чем просто косметология: учитываем гормональный фон, образ
-                  жизни и долгосрочные цели.
+                  {howWeAchieveAside}
                 </p>
               </div>
             </div>
           </section>
         )}
 
-        {/* Факты о подходе */}
         {sortedFacts.length > 0 && (
           <section className="space-y-5">
             <h2 className="text-xl font-semibold text-[#0D1321] sm:text-2xl">
-              Наш подход к работе с пациентами
+              {factsTitle}
             </h2>
             <div className="grid gap-4 md:grid-cols-2">
               {sortedFacts.map((fact, index) => (
@@ -121,18 +151,18 @@ export default async function AboutPage() {
           </section>
         )}
 
-        {/* Доверие: лицензии, сертификаты, награды */}
         {trustItems.length > 0 && (
           <section className="space-y-5">
             <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
               <div>
                 <h2 className="text-xl font-semibold text-[#0D1321] sm:text-2xl">
-                  Лицензии, сертификаты и награды
+                  {trustTitle}
                 </h2>
-                <p className="mt-1 text-sm text-slate-600 sm:text-[15px]">
-                  Юридическая чистота, контроль качества и признание
-                  профессионального сообщества.
-                </p>
+                {trustSubtitle && (
+                  <p className="mt-1 text-sm text-slate-600 sm:text-[15px]">
+                    {trustSubtitle}
+                  </p>
+                )}
               </div>
             </div>
 
@@ -153,9 +183,13 @@ export default async function AboutPage() {
 function AboutHeroSection({
   hero,
   heroCta,
+  heroBadgeText,
+  heroCardText,
 }: {
   hero: AboutHero;
   heroCta: AboutHeroCta | null;
+  heroBadgeText: string;
+  heroCardText: string;
 }) {
   const hasImage = !!hero.image;
 
@@ -172,7 +206,6 @@ function AboutHeroSection({
         />
       )}
 
-      {/* затемнение + градиент фирменных цветов */}
       <div
         className="absolute inset-0"
         style={{
@@ -187,7 +220,6 @@ function AboutHeroSection({
       </div>
 
       <div className="relative mx-auto flex max-w-6xl flex-col gap-8 px-4 py-12 text-[#F3F7FA] md:flex-row md:items-center md:py-16">
-        {/* Текст слева */}
         <div className="flex-1 space-y-4">
           <h1 className="text-balance text-3xl font-semibold tracking-tight sm:text-4xl md:text-5xl">
             {hero.title}
@@ -200,7 +232,7 @@ function AboutHeroSection({
             <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
               <a
                 href="/contacts"
-                className="inline-flex items-center text-center justify-center rounded-full bg-[#F3F7FA] px-6 py-2.5 text-sm font-medium text-[#1D2D44] shadow-[0_18px_45px_rgba(0,0,0,0.35)] transition hover:-translate-y-0.5 hover:bg-white hover:shadow-[0_22px_55px_rgba(0,0,0,0.45)]"
+                className="inline-flex items-center justify-center rounded-full bg-[#F3F7FA] px-6 py-2.5 text-center text-sm font-medium text-[#1D2D44] shadow-[0_18px_45px_rgba(0,0,0,0.35)] transition hover:-translate-y-0.5 hover:bg-white hover:shadow-[0_22px_55px_rgba(0,0,0,0.45)]"
               >
                 {heroCta.title}
               </a>
@@ -213,22 +245,23 @@ function AboutHeroSection({
           )}
         </div>
 
-        {/* Акцентная карточка справа */}
         <div className="flex-1">
           <div className="relative mx-auto max-w-md">
             <div className="pointer-events-none absolute -bottom-10 -left-10 h-32 w-32 rounded-full bg-[#0D1321]/35 blur-3xl" />
             <div className="pointer-events-none absolute -right-10 -top-10 h-24 w-24 rounded-full bg-[#1D2D44]/35 blur-3xl" />
 
             <div className="relative overflow-hidden rounded-3xl border border-[#F3F7FA]/10 bg-[#F3F7FA]/95 px-5 py-5 text-sm text-slate-800 shadow-[0_18px_45px_rgba(0,0,0,0.35)] backdrop-blur-xl md:px-6 md:py-6">
-              <div className="mb-3 inline-flex items-center gap-2 rounded-full bg-[#1D2D44]/5 px-3 py-1 text-[11px] font-medium text-[#1D2D44]">
-                <span className="h-1.5 w-1.5 rounded-full bg-[#1D2D44]" />
-                Антивозрастная и эстетическая медицина
-              </div>
-              <p className="text-sm leading-relaxed text-slate-800 sm:text-[15px]">
-                Мы работаем не только с внешним проявлением возраста, но и
-                с его причинами. Каждый план лечения — это комбинация
-                диагностики, аппаратных методик и поддержки образа жизни.
-              </p>
+              {heroBadgeText && (
+                <div className="mb-3 inline-flex items-center gap-2 rounded-full bg-[#1D2D44]/5 px-3 py-1 text-[11px] font-medium text-[#1D2D44]">
+                  <span className="h-1.5 w-1.5 rounded-full bg-[#1D2D44]" />
+                  {heroBadgeText}
+                </div>
+              )}
+              {heroCardText && (
+                <p className="text-sm leading-relaxed text-slate-800 sm:text-[15px]">
+                  {heroCardText}
+                </p>
+              )}
             </div>
           </div>
         </div>
@@ -244,6 +277,7 @@ function TrustCard({ item }: { item: AboutTrustItem }) {
   const issuedDate = item.issuedAt
     ? formatRusDate(item.issuedAt)
     : null;
+  const fileUrl = item.file ? resolveMediaUrl(item.file.url) : null;
 
   return (
     <article className="relative flex h-full flex-col gap-3 overflow-hidden rounded-2xl border border-slate-100 bg-white p-4 shadow-[0_10px_28px_rgba(13,19,33,0.06)]">
@@ -258,6 +292,9 @@ function TrustCard({ item }: { item: AboutTrustItem }) {
           <h3 className="text-sm font-semibold text-[#0D1321] sm:text-[15px]">
             {item.title}
           </h3>
+          <p className="mt-1 text-[11px] uppercase tracking-[0.12em] text-slate-500">
+            {kindMeta.label}
+          </p>
           {item.issuedBy && (
             <p className="mt-1 text-[11px] uppercase tracking-[0.12em] text-slate-500">
               {item.issuedBy}
@@ -280,6 +317,26 @@ function TrustCard({ item }: { item: AboutTrustItem }) {
           </p>
         )}
       </div>
+
+      {fileUrl && (
+        <div className="relative mt-auto flex flex-wrap gap-2 pt-1">
+          <a
+            href={fileUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center rounded-full border border-slate-300 px-3 py-1.5 text-xs font-medium text-slate-700 transition hover:bg-slate-50"
+          >
+            Смотреть PDF
+          </a>
+          <a
+            href={fileUrl}
+            download={item.file?.name ?? "document.pdf"}
+            className="inline-flex items-center rounded-full border border-[#1D2D44] px-3 py-1.5 text-xs font-medium text-[#1D2D44] transition hover:bg-[#1D2D44] hover:text-white"
+          >
+            Скачать PDF
+          </a>
+        </div>
+      )}
     </article>
   );
 }
