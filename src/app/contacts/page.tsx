@@ -57,30 +57,14 @@ export default async function ContactsPage(props: PageProps) {
 
         <div className="relative mx-auto flex max-w-6xl flex-col gap-8 px-4 py-10 text-[#F3F7FA] md:flex-row md:items-center md:py-12">
           <div className="flex-1 space-y-4">
-            <p className="inline-flex rounded-full bg-white/10 px-3 py-1 text-xs font-medium text-[#F3F7FA]/85 backdrop-blur-md">
-              Контакты клиники OCTAVA
-            </p>
             <h1 className="text-balance text-3xl font-semibold tracking-tight sm:text-4xl">
               Связь с клиникой и запись на консультацию
             </h1>
-            <p className="max-w-xl text-sm leading-relaxed text-[#F3F7FA]/85 sm:text-base">
-              Оставьте заявку или свяжитесь удобным для вас способом. Мы
-              уточним детали, подберём время приёма и ответим на вопросы
-              по процедурам.
-            </p>
           </div>
 
           <div className="flex-1">
             <div className="rounded-3xl border border-[#F3F7FA]/20 bg-[#0D1321]/40 p-5 backdrop-blur-xl shadow-[0_18px_45px_rgba(0,0,0,0.5)]">
               <dl className="space-y-3 text-sm text-[#F3F7FA]/90">
-                <div>
-                  <dt className="text-xs uppercase tracking-[0.16em] text-[#F3F7FA]/60">
-                    Юр. Наименование
-                  </dt>
-                  <dd className="mt-1 text-base font-medium">
-                    {org.fullName}
-                  </dd>
-                </div>
 
                 {phoneNumber && (
                   <div>
@@ -98,20 +82,6 @@ export default async function ContactsPage(props: PageProps) {
                     Адрес
                   </dt>
                   <dd className="mt-1">{org.address}</dd>
-                </div>
-
-                <div>
-                  <dt className="text-xs uppercase tracking-[0.16em] text-[#F3F7FA]/60">
-                    E-mail
-                  </dt>
-                  <dd className="mt-1">
-                    <a
-                      href={`mailto:${org.email}`}
-                      className="underline underline-offset-2"
-                    >
-                      {org.email}
-                    </a>
-                  </dd>
                 </div>
               </dl>
             </div>
