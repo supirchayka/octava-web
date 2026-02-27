@@ -44,16 +44,6 @@ export default async function SpecialistPage(props: PageProps) {
   return (
     <main className="bg-white">
       <section className="relative w-full overflow-hidden border-b border-slate-100">
-        {specialist.photo && (
-          <Image
-            src={resolveMediaUrl(specialist.photo.url)}
-            alt={fullName}
-            fill
-            className="pointer-events-none absolute inset-0 h-full w-full object-cover object-top"
-            sizes="100vw"
-            priority
-          />
-        )}
         <div
           className="absolute inset-0"
           style={{
@@ -66,7 +56,7 @@ export default async function SpecialistPage(props: PageProps) {
           <div className="absolute -right-24 -top-10 h-32 w-32 rounded-full bg-[#F3F7FA]/12 blur-3xl" />
         </div>
 
-        <div className="relative mx-auto flex max-w-6xl flex-col gap-6 px-4 py-10 text-[#F3F7FA] md:flex-row md:items-center md:justify-between md:py-14">
+        <div className="relative mx-auto flex max-w-6xl flex-col gap-6 px-4 py-10 text-[#F3F7FA] md:flex-row md:items-center md:justify-between md:gap-8 md:py-14">
           <div className="max-w-2xl space-y-4">
             <Link
               href="/specialists"
@@ -113,11 +103,22 @@ export default async function SpecialistPage(props: PageProps) {
             </div>
           </div>
 
-          {!specialist.photo && (
-            <div className="flex h-40 w-40 items-center justify-center rounded-full bg-white/10 text-3xl font-semibold">
-              {getInitials(specialist.firstName, specialist.lastName)}
-            </div>
-          )}
+          <div className="relative h-64 w-full max-w-sm self-center overflow-hidden rounded-3xl border border-white/15 bg-[#0D1321]/35 shadow-[0_18px_45px_rgba(0,0,0,0.35)] sm:h-72 md:h-80 md:w-[320px] md:shrink-0 md:self-auto">
+            {specialist.photo ? (
+              <Image
+                src={resolveMediaUrl(specialist.photo.url)}
+                alt={fullName}
+                fill
+                className="h-full w-full object-cover object-top"
+                sizes="(max-width: 768px) min(100vw, 24rem), 320px"
+                priority
+              />
+            ) : (
+              <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-[#1D2D44] to-[#0D1321] text-4xl font-semibold">
+                {getInitials(specialist.firstName, specialist.lastName)}
+              </div>
+            )}
+          </div>
         </div>
       </section>
 
@@ -127,7 +128,7 @@ export default async function SpecialistPage(props: PageProps) {
             <h2 className="text-xl font-semibold text-[#0D1321] sm:text-2xl">
               Биография и подход
             </h2>
-            <p className="text-base leading-relaxed text-slate-700 sm:text-[17px]">
+            <p className="whitespace-pre-line text-base leading-relaxed text-slate-700 sm:text-[17px]">
               {specialist.biography}
             </p>
           </section>
