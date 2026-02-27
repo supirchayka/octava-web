@@ -14,9 +14,6 @@ export default async function FemaleServicesPage() {
     <main className="bg-white">
       <section className="mx-auto max-w-6xl px-4 pb-16 pt-10 md:pt-12">
         <header className="mb-10 max-w-3xl animate-[fade-up_0.6s_ease-out_both]">
-          <p className="mb-3 inline-flex rounded-full bg-[#F3F7FA] px-3 py-1 text-xs font-medium text-slate-700">
-            Услуги для женщин
-          </p>
           <h1 className="text-2xl font-semibold tracking-tight text-[#0D1321] sm:text-3xl">
             Почему женщины выбирают нас?
           </h1>
@@ -74,12 +71,6 @@ function CategoryCard({ category }: { category: ServiceCategory }) {
           </div>
         </div>
 
-        {category.description && (
-          <p className="mt-3 line-clamp-3 max-w-lg text-sm text-[#F3F7FA]/85">
-            {category.description}
-          </p>
-        )}
-
         <div className="mt-4 flex items-center gap-2 text-xs font-medium text-[#F3F7FA]/90">
           <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/10 transition group-hover:bg-white/16">
             <svg viewBox="0 0 20 20" className="h-4 w-4" aria-hidden="true">
@@ -101,7 +92,6 @@ function CategoryCard({ category }: { category: ServiceCategory }) {
               />
             </svg>
           </span>
-          <span>Перейти к процедурам категории</span>
         </div>
       </div>
     </Link>

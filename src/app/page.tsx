@@ -102,13 +102,13 @@ function DirectionsSection() {
       <div className="grid gap-5 sm:grid-cols-2">
         <GenderLink
           label="Женщины"
-          description="Категории эстетического и оздоровительного ухода, собранные для женских запросов."
+          description="Вдохновение на совершенство"
           href="/services/female"
           imageSrc="/woman.png"
         />
         <GenderLink
           label="Мужчины"
-          description="Процедуры и консультации, разработанные для мужских направлений и задач."
+          description="Мужской взгляд на эстетику"
           href="/services/male"
           imageSrc="/man.png"
         />
