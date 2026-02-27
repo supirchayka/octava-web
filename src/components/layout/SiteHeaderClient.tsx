@@ -160,17 +160,14 @@ export function SiteHeaderClient({
             target="_blank"
             rel="noreferrer"
           >
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.6"
+            <Image
+              src="/mesmax.png"
+              alt=""
+              width={20}
+              height={20}
               aria-hidden="true"
-              className="h-5 w-5"
-            >
-              <path d="M6 8h12a2 2 0 0 1 2 2v5a3 3 0 0 1-3 3H9l-4 3v-3H6a2 2 0 0 1-2-2v-6a2 2 0 0 1 2-2z" />
-              <path d="M8 11l2 3 2-3 2 3 2-3" />
-            </svg>
+              className="h-5 w-5 rounded-sm object-cover"
+            />
           </a>
           )}
         </div>
@@ -299,17 +296,14 @@ export function SiteHeaderClient({
                   target="_blank"
                   rel="noreferrer"
                 >
-                  <svg
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.6"
+                  <Image
+                    src="/mesmax.png"
+                    alt=""
+                    width={20}
+                    height={20}
                     aria-hidden="true"
-                    className="h-5 w-5"
-                  >
-                    <path d="M6 8h12a2 2 0 0 1 2 2v5a3 3 0 0 1-3 3H9l-4 3v-3H6a2 2 0 0 1-2-2v-6a2 2 0 0 1 2-2z" />
-                    <path d="M8 11l2 3 2-3 2 3 2-3" />
-                  </svg>
+                    className="h-5 w-5 rounded-sm object-cover"
+                  />
                 </a>
                 )}
               </div>
