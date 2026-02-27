@@ -80,10 +80,10 @@ export default async function AboutPage() {
     howWeAchieveCardText ??
     "OCTAVA — это место, где диагностика, anti-age и эстетика собраны в единую систему. Мы смотрим на здоровье кожи шире, чем просто косметология: учитываем гормональный фон, образ жизни и долгосрочные цели.";
   const factsTitle = factsSectionTitle ?? "Наш подход к работе с пациентами";
-  const trustTitle = trustSectionTitle ?? "Лицензии, сертификаты и награды";
+  const trustTitle = trustSectionTitle ?? "Лицензии";
   const trustSubtitle =
     trustSectionSubtitle ??
-    "Юридическая чистота, контроль качества и признание профессионального сообщества.";
+    "Юридическая чистота, контроль качества";
   const showHowWeAchieve = Boolean(howWeAchieve || howWeAchieveAside);
 
   return (
