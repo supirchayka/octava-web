@@ -67,12 +67,14 @@ export async function SiteFooter() {
               </span>
             </div>
           </div>
-          <p>
+          <div className="mt-6">
+              <p>
                 Режим работы: 10:00-22:00
               </p>
               <p>
                 Ежедневно
               </p>
+          </div>
         </div>
 
         <div className="grid flex-1 gap-8 sm:grid-cols-3">
