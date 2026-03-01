@@ -95,12 +95,6 @@ export default async function SpecialistPage(props: PageProps) {
               >
                 Записаться на приём
               </Link>
-              <Link
-                href="/services"
-                className="inline-flex items-center justify-center rounded-full border border-white/40 px-5 py-2 text-sm font-semibold text-[#F3F7FA] transition hover:border-white"
-              >
-                Посмотреть услуги
-              </Link>
             </div>
           </div>
 
