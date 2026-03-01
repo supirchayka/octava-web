@@ -40,6 +40,7 @@ export default async function SpecialistPage(props: PageProps) {
   const fullName = formatSpecialistFullName(specialist);
   const experienceLabel = formatExperience(specialist.experienceYears);
   const services = specialist.services ?? [];
+  const biographyHtml = buildBiographyHtml(specialist.biography);
 
   return (
     <main className="bg-white">
@@ -123,14 +124,15 @@ export default async function SpecialistPage(props: PageProps) {
       </section>
 
       <section className="mx-auto max-w-6xl space-y-10 px-4 pb-16 pt-10">
-        {specialist.biography && (
+        {biographyHtml && (
           <section className="space-y-3">
             <h2 className="text-xl font-semibold text-[#0D1321] sm:text-2xl">
               Биография и подход
             </h2>
-            <p className="whitespace-pre-line text-base leading-relaxed text-slate-700 sm:text-[17px]">
-              {specialist.biography}
-            </p>
+            <div
+              className="text-base leading-relaxed text-slate-700 sm:text-[17px] [&_ol]:my-3 [&_ol]:list-decimal [&_ol]:pl-6 [&_p]:my-3 [&_ul]:my-3 [&_ul]:list-disc [&_ul]:pl-6"
+              dangerouslySetInnerHTML={{ __html: biographyHtml }}
+            />
           </section>
         )}
 
@@ -210,6 +212,36 @@ async function findSpecialist(id: string): Promise<Specialist | null> {
   }
 
   return specialists.find((item) => item.id === specialistId) ?? null;
+}
+
+function buildBiographyHtml(value: string | null): string {
+  const trimmed = (value ?? "").trim();
+  if (!trimmed) return "";
+  if (looksLikeHtml(trimmed)) return trimmed;
+  return plainTextToHtml(trimmed);
+}
+
+function looksLikeHtml(value: string): boolean {
+  return /<\/?[a-z][\s\S]*>/i.test(value);
+}
+
+function plainTextToHtml(value: string): string {
+  const normalized = value.replace(/\r\n/g, "\n");
+  return normalized
+    .split(/\n{2,}/)
+    .map((paragraph) => paragraph.trim())
+    .filter(Boolean)
+    .map((paragraph) => `<p>${escapeHtml(paragraph).replace(/\n/g, "<br>")}</p>`)
+    .join("");
+}
+
+function escapeHtml(value: string): string {
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
 }
 
 function formatExperience(years: number) {
