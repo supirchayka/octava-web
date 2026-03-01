@@ -14,10 +14,14 @@ type PricesPageClientProps = {
 
 export function PricesPageClient({ data, pricePdf }: PricesPageClientProps) {
   const categories = [...(data.female ?? []), ...(data.male ?? [])];
-  const [openCategoryKey, setOpenCategoryKey] = useState<string | null>(null);
+  const [openCategoryKeys, setOpenCategoryKeys] = useState<string[]>([]);
 
   const toggleCategory = (categoryKey: string) => {
-    setOpenCategoryKey((currentKey) => (currentKey === categoryKey ? null : categoryKey));
+    setOpenCategoryKeys((currentKeys) =>
+      currentKeys.includes(categoryKey)
+        ? currentKeys.filter((currentKey) => currentKey !== categoryKey)
+        : [...currentKeys, categoryKey],
+    );
   };
 
   return (
@@ -46,7 +50,7 @@ export function PricesPageClient({ data, pricePdf }: PricesPageClientProps) {
         <div className="mt-10 space-y-6">
           {categories.map((category) => {
             const categoryKey = `${category.id}-${category.gender}`;
-            const isOpen = openCategoryKey === categoryKey;
+            const isOpen = openCategoryKeys.includes(categoryKey);
 
             return (
               <section
@@ -58,7 +62,7 @@ export function PricesPageClient({ data, pricePdf }: PricesPageClientProps) {
                   onClick={() => toggleCategory(categoryKey)}
                   aria-expanded={isOpen}
                   aria-controls={`category-panel-${categoryKey}`}
-                  className="flex w-full items-center justify-between gap-4 border-b border-slate-100 px-6 py-5 text-left transition hover:bg-slate-50"
+                  className="flex w-full cursor-pointer items-center justify-between gap-4 border-b border-slate-100 px-6 py-5 text-left transition hover:bg-slate-50"
                 >
                   <div>
                     <h2 className="text-xl font-semibold text-[#0D1321]">{category.name}</h2>

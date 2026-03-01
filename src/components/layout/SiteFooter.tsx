@@ -93,11 +93,13 @@ export async function SiteFooter() {
                   Услуги
                 </Link>
               </li>
+              {/*
               <li>
                 <Link href="/devices" className="hover:text-[#1D2D44]">
                   Аппараты
                 </Link>
               </li>
+              */}
               <li>
                 <Link href="/prices" className="hover:text-[#1D2D44]">
                   Цены

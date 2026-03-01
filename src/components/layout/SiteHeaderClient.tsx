@@ -81,12 +81,14 @@ export function SiteHeaderClient({
           >
             Услуги
           </Link>
+          {/*
           <Link
             href="/devices"
             className="transition-colors hover:text-[#1D2D44]"
           >
             Аппараты
           </Link>
+          */}
           <Link
             href="/prices"
             className="transition-colors hover:text-[#1D2D44]"
