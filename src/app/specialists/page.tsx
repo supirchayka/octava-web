@@ -10,12 +10,7 @@ export const dynamic = "force-dynamic";
 export default async function SpecialistsPage() {
   const specialists = await getSpecialists();
 
-  const sortedSpecialists = [...specialists].sort((a, b) =>
-    `${a.lastName} ${a.firstName} ${a.middleName ?? ""}`.localeCompare(
-      `${b.lastName} ${b.firstName} ${b.middleName ?? ""}`,
-      "ru"
-    )
-  );
+  const sortedSpecialists = [...specialists].sort(compareSpecialists);
 
   return (
     <main className="bg-white">
@@ -146,4 +141,18 @@ function getInitials(firstName: string, lastName: string) {
 
 function formatSpecialistFullName(specialist: Specialist) {
   return `${specialist.lastName} ${specialist.firstName} ${specialist.middleName ?? ""}`.trim();
+}
+
+function compareSpecialists(a: Specialist, b: Specialist) {
+  const aSortOrder = typeof a.sortOrder === "number" ? a.sortOrder : Number.POSITIVE_INFINITY;
+  const bSortOrder = typeof b.sortOrder === "number" ? b.sortOrder : Number.POSITIVE_INFINITY;
+
+  if (aSortOrder !== bSortOrder) {
+    return aSortOrder - bSortOrder;
+  }
+
+  return `${a.lastName} ${a.firstName} ${a.middleName ?? ""}`.localeCompare(
+    `${b.lastName} ${b.firstName} ${b.middleName ?? ""}`,
+    "ru"
+  );
 }

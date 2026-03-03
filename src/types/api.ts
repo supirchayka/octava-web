@@ -409,6 +409,7 @@ export type Specialist = {
   firstName: string;
   middleName: string | null;
   lastName: string;
+  sortOrder?: number | null;
   specialization: string;
   biography: string | null;
   serviceComment?: string | null;

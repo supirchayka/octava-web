@@ -102,12 +102,7 @@ export default async function ServicePage(props: PageProps) {
   )}`;
   const utm = extractUtm(searchParams);
   const aboutText = service.about || hero.shortOffer;
-  const sortedSpecialists = [...(specialists ?? [])].sort((a, b) =>
-    `${a.lastName} ${a.firstName} ${a.middleName ?? ""}`.localeCompare(
-      `${b.lastName} ${b.firstName} ${b.middleName ?? ""}`,
-      "ru"
-    )
-  );
+  const sortedSpecialists = [...(specialists ?? [])].sort(compareSpecialists);
 
   return (
     <main className="bg-white">
@@ -590,6 +585,20 @@ function SpecialistCard({ specialist }: { specialist: Specialist }) {
 
 function formatSpecialistFullName(specialist: Specialist) {
   return `${specialist.lastName} ${specialist.firstName} ${specialist.middleName ?? ""}`.trim();
+}
+
+function compareSpecialists(a: Specialist, b: Specialist) {
+  const aSortOrder = typeof a.sortOrder === "number" ? a.sortOrder : Number.POSITIVE_INFINITY;
+  const bSortOrder = typeof b.sortOrder === "number" ? b.sortOrder : Number.POSITIVE_INFINITY;
+
+  if (aSortOrder !== bSortOrder) {
+    return aSortOrder - bSortOrder;
+  }
+
+  return `${a.lastName} ${a.firstName} ${a.middleName ?? ""}`.localeCompare(
+    `${b.lastName} ${b.firstName} ${b.middleName ?? ""}`,
+    "ru"
+  );
 }
 
 // ---------- UTM ----------
