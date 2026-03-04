@@ -99,15 +99,9 @@ function SpecialistCard({ specialist }: { specialist: Specialist }) {
             <h2 className="text-base font-semibold text-[#0D1321] sm:text-lg">
               {fullName}
             </h2>
-            <p className="text-xs uppercase tracking-[0.2em] text-slate-500">
+            <p className="text-xs uppercase text-slate-500">
               {specialist.specialization}
             </p>
-          </div>
-
-          <div className="flex flex-wrap gap-2 text-[11px] text-slate-600">
-            <span className="inline-flex items-center rounded-full bg-[#F3F7FA] px-2.5 py-1">
-              Стаж: {experienceLabel}
-            </span>
           </div>
         </div>
       </article>
