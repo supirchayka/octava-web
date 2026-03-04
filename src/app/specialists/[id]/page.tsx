@@ -124,7 +124,7 @@ export default async function SpecialistPage(props: PageProps) {
               Биография и подход
             </h2>
             <div
-              className="text-base leading-relaxed text-slate-700 sm:text-[17px] [&_ol]:my-3 [&_ol]:list-decimal [&_ol]:pl-6 [&_p]:my-3 [&_ul]:my-3 [&_ul]:list-disc [&_ul]:pl-6"
+              className="text-base leading-relaxed text-slate-700 sm:text-[17px] [&_div]:my-3 [&_ol]:my-3 [&_ol]:list-decimal [&_ol]:pl-6 [&_p]:my-3 [&_ul]:my-3 [&_ul]:list-disc [&_ul]:pl-6"
               dangerouslySetInnerHTML={{ __html: biographyHtml }}
             />
           </section>
