@@ -9,6 +9,7 @@ type ServiceTabsClientProps = {
   about: ReactNode;
   prices: ReactNode;
   specialists: ReactNode;
+  afterAbout?: ReactNode;
 };
 
 const TAB_LABELS: Record<TabKey, string> = {
@@ -21,6 +22,7 @@ export function ServiceTabsClient({
   about,
   prices,
   specialists,
+  afterAbout,
 }: ServiceTabsClientProps) {
   const [activeTab, setActiveTab] = useState<TabKey>("about");
 
@@ -65,6 +67,8 @@ export function ServiceTabsClient({
       <div className="rounded-2xl border border-slate-100 bg-white p-6 shadow-[0_12px_32px_rgba(13,19,33,0.08)]">
         <div className="space-y-4">{content}</div>
       </div>
+
+      {activeTab === "about" && afterAbout}
     </div>
   );
 }

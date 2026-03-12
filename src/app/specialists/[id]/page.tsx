@@ -148,9 +148,6 @@ export default async function SpecialistPage(props: PageProps) {
                       <h3 className="text-base font-semibold text-[#0D1321]">
                         {service.name}
                       </h3>
-                      <p className="text-[11px] uppercase tracking-[0.08em] text-slate-500">
-                        Код услуги: {service.serviceCode}
-                      </p>
                       {service.shortOffer && (
                         <p className="text-sm text-slate-600">
                           {service.shortOffer}

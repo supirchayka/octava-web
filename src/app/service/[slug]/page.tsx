@@ -102,6 +102,7 @@ export default async function ServicePage(props: PageProps) {
   )}`;
   const utm = extractUtm(searchParams);
   const aboutText = service.about || hero.shortOffer;
+  const benefitItems = mapBenefitItems(hero.benefits ?? []);
   const sortedSpecialists = [...(specialists ?? [])].sort(compareSpecialists);
 
   return (
@@ -127,12 +128,12 @@ export default async function ServicePage(props: PageProps) {
                     </p>
                   )}
                 </div>
-                {hero.benefits?.length > 0 && (
+                {benefitItems.length > 0 && (
                   <div className="space-y-3">
                     <h3 className="text-lg font-semibold text-[#0D1321]">
                       Преимущества
                     </h3>
-                    <BulletList items={hero.benefits} />
+                    <BulletList items={benefitItems} />
                   </div>
                 )}
                 {(indications.length > 0 ||
@@ -177,21 +178,6 @@ export default async function ServicePage(props: PageProps) {
                       </section>
                     )}
                   </div>
-                )}
-                {faq.length > 0 && (
-                  <section className="space-y-4">
-                    <h2 className="text-xl font-semibold text-[#0D1321] sm:text-2xl">
-                      Частые вопросы
-                    </h2>
-                    <div className="divide-y divide-slate-100 rounded-2xl border border-slate-100 bg-white shadow-[0_10px_28px_rgba(13,19,33,0.06)]">
-                      {faq
-                        .slice()
-                        .sort((a, b) => a.order - b.order)
-                        .map((item) => (
-                          <FaqItem key={item.id} item={item} />
-                        ))}
-                    </div>
-                  </section>
                 )}
               </>
             }
@@ -239,6 +225,7 @@ export default async function ServicePage(props: PageProps) {
                 )}
               </>
             }
+            afterAbout={faq.length > 0 ? <FaqSection items={faq} /> : null}
           />
         </section>
 
@@ -333,10 +320,6 @@ function ServiceHero({
               {hero.shortOffer}
             </p>
           )}
-          <p className="text-xs uppercase tracking-[0.14em] text-[#F3F7FA]/70">
-            Код услуги: {service.serviceCode}
-          </p>
-
           {/* чипы: цена и длительность 
           <div className="flex flex-wrap items-center gap-2 text-s text-[#F3F7FA]/85">
             {hero.priceFrom && (
@@ -390,11 +373,9 @@ function PriceRow({
               ~ {item.durationMinutes} минут
             </span>
           )}
-          {item.type && (
+          {item.type && item.type !== "BASE" && (
             <span className="rounded-full bg-slate-50 px-2.5 py-1">
-              {item.type === "BASE"
-                ? "Основной вариант"
-                : item.type === "EXTRA"
+              {item.type === "EXTRA"
                 ? "Дополнительный"
                 : item.type}
             </span>
@@ -460,6 +441,15 @@ function BulletList({
   );
 }
 
+function mapBenefitItems(items: string[]) {
+  return items.flatMap((item) =>
+    item
+      .split(/\r?\n/)
+      .map((line) => line.trim())
+      .filter((line) => line.length > 0)
+  );
+}
+
 function mapChecklistItems(items: ChecklistItem[]) {
   return items
     .slice()
@@ -472,6 +462,24 @@ function EmptyState({ text }: { text: string }) {
     <div className="rounded-2xl border border-dashed border-slate-200 bg-slate-50 px-5 py-6 text-sm text-slate-600">
       {text}
     </div>
+  );
+}
+
+function FaqSection({ items }: { items: FaqItem[] }) {
+  return (
+    <section className="space-y-4">
+      <h2 className="text-xl font-semibold text-[#0D1321] sm:text-2xl">
+        Частые вопросы
+      </h2>
+      <div className="divide-y divide-slate-100 rounded-2xl border border-slate-100 bg-white shadow-[0_10px_28px_rgba(13,19,33,0.06)]">
+        {items
+          .slice()
+          .sort((a, b) => a.order - b.order)
+          .map((item) => (
+            <FaqItem key={item.id} item={item} />
+          ))}
+      </div>
+    </section>
   );
 }
 

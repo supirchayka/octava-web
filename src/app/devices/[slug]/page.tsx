@@ -518,9 +518,6 @@ function DeviceServiceCard({
           <h3 className="text-sm font-semibold text-[#0D1321] sm:text-base">
             {service.name}
           </h3>
-          <p className="text-[11px] uppercase tracking-[0.08em] text-slate-500">
-            Код услуги: {service.serviceCode}
-          </p>
           {service.shortOffer && (
             <p className="text-xs text-slate-600 sm:text-[13px]">
               {service.shortOffer}
