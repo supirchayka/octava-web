@@ -95,9 +95,11 @@ export function PricesPageClient({ data, pricePdf }: PricesPageClientProps) {
                           <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
                             <div>
                               <h3 className="text-lg font-semibold text-[#0D1321]">{service.name}</h3>
+                              {/*
                               <p className="mt-1 text-[11px] uppercase tracking-[0.08em] text-slate-500">
                                 Код услуги: {service.serviceCode}
                               </p>
+                              */}
                               {service.shortOffer && <p className="mt-1 text-sm text-slate-600">{service.shortOffer}</p>}
                             </div>
                             <div className="text-sm text-slate-500 md:text-right">
@@ -153,7 +155,7 @@ function PriceRow({
     <div className="flex flex-col gap-2 px-4 py-4 sm:flex-row sm:items-center sm:justify-between">
       <div>
         <p className="text-sm font-semibold text-[#0D1321]">{item.title}</p>
-        <p className="mt-1 text-[11px] uppercase tracking-[0.08em] text-slate-500">
+        <p className="mt-1 text-[11px] uppercase text-slate-500">
           Код услуги: {item.serviceCode}
         </p>
         <div className="mt-1 flex flex-wrap gap-x-3 text-xs text-slate-500">
