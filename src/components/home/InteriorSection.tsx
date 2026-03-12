@@ -15,9 +15,6 @@ export function InteriorSection({ interior }: Props) {
 
   if (!images.length && !interior.text) return null;
 
-  const generatedText =
-    "Интерьер OCTAVA создан для мягкого погружения в состояние спокойствия: тёплый свет, тактильные материалы и отсутствие визуального шума помогают расслабиться и переключиться на себя.";
-
   const currentImage = images[currentIndex];
 
   const prev = () => {
@@ -37,19 +34,11 @@ export function InteriorSection({ interior }: Props) {
       <div className="grid gap-8 md:grid-cols-2 md:items-center">
         {/* Левая колонка — текст из API + короткий текст про комфорт */}
         <div className="space-y-4">
-          <div>
-            <p className="inline-flex rounded-full py-1 text-2xl font-normal text-slate-700">
-              Атмосфера и пространство
-            </p>
-          </div>
           {interior.text && (
             <p className="text-sm leading-relaxed text-slate-700">
               {interior.text}
             </p>
           )}
-          <p className="text-sm leading-relaxed text-slate-700">
-            {generatedText}
-          </p>
         </div>
 
         {/* Правая колонка — слайдер */}

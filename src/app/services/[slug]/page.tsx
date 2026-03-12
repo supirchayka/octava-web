@@ -178,6 +178,9 @@ function ServiceCard({ service }: { service: CategoryService }) {
           <h3 className="text-sm font-semibold text-[#0D1321] sm:text-base text-center">
             {service.name}
           </h3>
+          <p className="text-center text-[11px] uppercase tracking-[0.08em] text-slate-500">
+            Код услуги: {service.serviceCode}
+          </p>
         </div>
 
         <div className="text-center mb-3 flex flex-wrap items-center gap-2 text-xs text-slate-600 m-auto">

@@ -132,10 +132,7 @@ export default async function ServicePage(props: PageProps) {
                     <h3 className="text-lg font-semibold text-[#0D1321]">
                       Преимущества
                     </h3>
-                    <BenefitsList
-                      items={hero.benefits}
-                      serviceId={service.id}
-                    />
+                    <BulletList items={hero.benefits} />
                   </div>
                 )}
                 {(indications.length > 0 ||
@@ -167,17 +164,34 @@ export default async function ServicePage(props: PageProps) {
                       <section className="grid gap-6 md:grid-cols-2">
                         {preparationChecklist.length > 0 && (
                           <CardBlock title="Как подготовиться">
-                            <Checklist items={preparationChecklist} />
+                            <BulletList
+                              items={mapChecklistItems(preparationChecklist)}
+                            />
                           </CardBlock>
                         )}
                         {rehabChecklist.length > 0 && (
                           <CardBlock title="После процедуры">
-                            <Checklist items={rehabChecklist} />
+                            <BulletList items={mapChecklistItems(rehabChecklist)} />
                           </CardBlock>
                         )}
                       </section>
                     )}
                   </div>
+                )}
+                {faq.length > 0 && (
+                  <section className="space-y-4">
+                    <h2 className="text-xl font-semibold text-[#0D1321] sm:text-2xl">
+                      Частые вопросы
+                    </h2>
+                    <div className="divide-y divide-slate-100 rounded-2xl border border-slate-100 bg-white shadow-[0_10px_28px_rgba(13,19,33,0.06)]">
+                      {faq
+                        .slice()
+                        .sort((a, b) => a.order - b.order)
+                        .map((item) => (
+                          <FaqItem key={item.id} item={item} />
+                        ))}
+                    </div>
+                  </section>
                 )}
               </>
             }
@@ -227,23 +241,6 @@ export default async function ServicePage(props: PageProps) {
             }
           />
         </section>
-
-        {/* FAQ */}
-        {faq.length > 0 && (
-          <section className="space-y-4">
-            <h2 className="text-xl font-semibold text-[#0D1321] sm:text-2xl">
-              Частые вопросы
-            </h2>
-            <div className="divide-y divide-slate-100 rounded-2xl border border-slate-100 bg-white shadow-[0_10px_28px_rgba(13,19,33,0.06)]">
-              {faq
-                .slice()
-                .sort((a, b) => a.order - b.order)
-                .map((item) => (
-                  <FaqItem key={item.id} item={item} />
-                ))}
-            </div>
-          </section>
-        )}
 
         {/* Форма контактов по услуге */}
         <section className="rounded-3xl border border-slate-100 bg-[#F3F7FA] px-5 py-7 shadow-[0_12px_32px_rgba(13,19,33,0.08)] md:px-7 md:py-8">
@@ -336,6 +333,9 @@ function ServiceHero({
               {hero.shortOffer}
             </p>
           )}
+          <p className="text-xs uppercase tracking-[0.14em] text-[#F3F7FA]/70">
+            Код услуги: {service.serviceCode}
+          </p>
 
           {/* чипы: цена и длительность 
           <div className="flex flex-wrap items-center gap-2 text-s text-[#F3F7FA]/85">
@@ -380,6 +380,9 @@ function PriceRow({
       <div className="space-y-1">
         <p className="whitespace-pre-line text-base font-medium text-[#0D1321] sm:text-lg">
           {item.title}
+        </p>
+        <p className="text-[11px] uppercase tracking-[0.08em] text-slate-500">
+          Код услуги: {item.serviceCode}
         </p>
         <div className="flex flex-wrap items-center gap-2 text-xs text-slate-600">
           {item.durationMinutes && (
@@ -457,44 +460,11 @@ function BulletList({
   );
 }
 
-function BenefitsList({
-  items,
-  serviceId,
-}: {
-  items: string[];
-  serviceId: number;
-}) {
-  return (
-    <ul className="space-y-2 text-sm text-slate-700 sm:text-base">
-      {items.map((benefit, idx) => (
-        <li
-          key={`${serviceId}-about-benefit-${idx}`}
-          className="flex gap-2"
-        >
-          <span className="mt-1 h-4 w-1.5 shrink-0 rounded-full bg-[#1D2D44]" />
-          <span className="whitespace-pre-line">{benefit}</span>
-        </li>
-      ))}
-    </ul>
-  );
-}
-
-function Checklist({ items }: { items: ChecklistItem[] }) {
-  return (
-    <ul className="space-y-1.5 text-sm text-slate-700 sm:text-[15px]">
-      {items
-        .slice()
-        .sort((a, b) => a.order - b.order)
-        .map((item) => (
-          <li key={item.id} className="flex gap-2">
-            <span className="mt-[2px] inline-flex h-3 w-3 shrink-0 items-center justify-center rounded-full border border-[#1D2D44]/40 bg-white">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#1D2D44]" />
-            </span>
-            <span className="whitespace-pre-line">{item.text}</span>
-          </li>
-        ))}
-    </ul>
-  );
+function mapChecklistItems(items: ChecklistItem[]) {
+  return items
+    .slice()
+    .sort((a, b) => a.order - b.order)
+    .map((item) => item.text);
 }
 
 function EmptyState({ text }: { text: string }) {

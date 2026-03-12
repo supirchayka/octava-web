@@ -38,8 +38,7 @@ export default async function SpecialistPage(props: PageProps) {
   }
 
   const fullName = formatSpecialistFullName(specialist);
-  const experienceLabel = formatExperience(specialist.experienceYears);
-  const services = specialist.services ?? [];
+  const services = [...(specialist.services ?? [])].sort(compareSpecialistServices);
   const biographyHtml = buildBiographyHtml(specialist.biography);
 
   return (
@@ -66,27 +65,13 @@ export default async function SpecialistPage(props: PageProps) {
               <span className="text-base">←</span>
               Все специалисты
             </Link>
-            <div className="space-y-2">
-              <p className="text-xs uppercase tracking-[0.3em] text-[#F3F7FA]/70">
-                {specialist.specialization}
-              </p>
+            <div className="space-y-3">
               <h1 className="text-balance text-3xl font-semibold tracking-tight sm:text-4xl">
                 {fullName}
               </h1>
-              <div className="flex flex-wrap gap-2 text-xs text-[#F3F7FA]/80">
-                <span className="rounded-full bg-white/10 px-3 py-1">
-                  Стаж: {experienceLabel}
-                </span>
-                {services.length > 0 && (
-                  <span className="rounded-full bg-white/10 px-3 py-1">
-                    {services.length} услуг(и) в работе
-                  </span>
-                )}
-              </div>
             </div>
             <p className="text-sm leading-relaxed text-[#F3F7FA]/85 sm:text-base">
-              {`${specialist.specialization} с опытом ${experienceLabel}. ` +
-                "Запишитесь на консультацию, чтобы обсудить цели ухода и получить персональную программу."}
+              {specialist.specialization}
             </p>
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
               <Link
@@ -120,9 +105,6 @@ export default async function SpecialistPage(props: PageProps) {
       <section className="mx-auto max-w-6xl space-y-10 px-4 pb-16 pt-10">
         {biographyHtml && (
           <section className="space-y-3">
-            <h2 className="text-xl font-semibold text-[#0D1321] sm:text-2xl">
-              Биография и подход
-            </h2>
             <div
               className="text-base leading-relaxed text-slate-700 sm:text-[17px] [&_div]:my-3 [&_ol]:my-3 [&_ol]:list-decimal [&_ol]:pl-6 [&_p]:my-3 [&_ul]:my-3 [&_ul]:list-disc [&_ul]:pl-6"
               dangerouslySetInnerHTML={{ __html: biographyHtml }}
@@ -166,6 +148,9 @@ export default async function SpecialistPage(props: PageProps) {
                       <h3 className="text-base font-semibold text-[#0D1321]">
                         {service.name}
                       </h3>
+                      <p className="text-[11px] uppercase tracking-[0.08em] text-slate-500">
+                        Код услуги: {service.serviceCode}
+                      </p>
                       {service.shortOffer && (
                         <p className="text-sm text-slate-600">
                           {service.shortOffer}
@@ -264,4 +249,12 @@ function getInitials(firstName: string, lastName: string) {
 
 function formatSpecialistFullName(specialist: Specialist) {
   return `${specialist.lastName} ${specialist.firstName} ${specialist.middleName ?? ""}`.trim();
+}
+
+function compareSpecialistServices(a: Specialist["services"][number], b: Specialist["services"][number]) {
+  if (a.sortOrder !== b.sortOrder) {
+    return a.sortOrder - b.sortOrder;
+  }
+
+  return a.name.localeCompare(b.name, "ru");
 }

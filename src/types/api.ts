@@ -187,6 +187,7 @@ export type CategoryService = {
   id: number;
   slug: string;
   name: string;
+  serviceCode: string;
   shortOffer: string | null;
   priceFrom: string | null;
   durationMinutes: number | null;
@@ -213,6 +214,7 @@ export type ServiceCategoryDetails = {
 // hero блока услуги
 export type ServiceDetailHero = {
   title: string;
+  serviceCode: string;
   shortOffer: string | null;
   priceFrom: string | null;
   durationMinutes: number | null;
@@ -225,6 +227,7 @@ export type ServiceDetailHero = {
 export type ServicePriceExtended = {
   id: number;
   title: string;
+  serviceCode: string;
   price: string;
   durationMinutes: number | null;
   type: string; // "BASE" | "EXTRA" и т.п.
@@ -244,6 +247,7 @@ export type ServiceDetailResponse = {
     id: number;
     slug: string;
     name: string;
+    serviceCode: string;
     category: {
       id: number;
       slug: string;
@@ -266,7 +270,7 @@ export type ServiceDetailResponse = {
 };
 
 export type ServicePriceCategory = {
-  gender: any;
+  gender: Gender;
   id: number;
   slug: string;
   name: string;
@@ -276,6 +280,7 @@ export type ServicePriceCategory = {
     id: number;
     slug: string;
     name: string;
+    serviceCode: string;
     shortOffer: string | null;
     priceFrom: string | null;
     durationMinutes: number | null;
@@ -352,6 +357,7 @@ export type DeviceRelatedService = {
   id: number;
   slug: string;
   name: string;
+  serviceCode: string;
   shortOffer: string | null;
   priceFrom: string | null;
   durationMinutes: number | null;
@@ -390,8 +396,10 @@ export type SpecialistService = {
   id: number;
   slug: string;
   name: string;
+  serviceCode: string;
   shortOffer: string | null;
   priceFrom: string | null;
+  sortOrder: number;
 };
 
 export type SpecialistPhoto = {

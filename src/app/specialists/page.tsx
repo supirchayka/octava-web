@@ -62,7 +62,6 @@ export default async function SpecialistsPage() {
 
 function SpecialistCard({ specialist }: { specialist: Specialist }) {
   const fullName = formatSpecialistFullName(specialist);
-  const experienceLabel = formatExperience(specialist.experienceYears);
   const initials = getInitials(specialist.firstName, specialist.lastName);
 
   return (
@@ -107,24 +106,6 @@ function SpecialistCard({ specialist }: { specialist: Specialist }) {
       </article>
     </Link>
   );
-}
-
-function formatExperience(years: number) {
-  const mod10 = years % 10;
-  const mod100 = years % 100;
-  let suffix = "лет";
-
-  if (mod10 === 1 && mod100 !== 11) {
-    suffix = "год";
-  } else if (
-    mod10 >= 2 &&
-    mod10 <= 4 &&
-    (mod100 < 12 || mod100 > 14)
-  ) {
-    suffix = "года";
-  }
-
-  return `${years} ${suffix}`;
 }
 
 function getInitials(firstName: string, lastName: string) {
