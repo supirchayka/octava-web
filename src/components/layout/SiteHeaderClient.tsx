@@ -223,6 +223,7 @@ export function SiteHeaderClient({
             >
               Услуги
             </Link>
+            {/* 
             <Link
               href="/devices"
               className="py-1 text-[#0D1321]"
@@ -230,6 +231,7 @@ export function SiteHeaderClient({
             >
               Аппараты
             </Link>
+            */}
             <Link
               href="/prices"
               className="py-1 text-[#0D1321]"
