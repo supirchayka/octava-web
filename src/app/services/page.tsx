@@ -1,31 +1,35 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import { getServicesPage } from "@/lib/api/pages";
+
 export const dynamic = "force-dynamic";
 
-export default function ServicesLandingPage() {
+export default async function ServicesLandingPage() {
+  const { services } = await getServicesPage();
+
   return (
     <main className="bg-white">
-      <section className="mx-auto max-w-6xl px-4 pb-16 pt-10 md:pt-12">
+      <section className="mx-auto max-w-6xl px-4 pb-5 pt-10 md:pt-12">
         <header className="mb-10 max-w-3xl animate-[fade-up_0.6s_ease-out_both]">
           <h1 className="text-2xl font-semibold tracking-tight text-[#0D1321] sm:text-3xl">
-            Выберите направление
+            {services.landingTitle}
           </h1>
-          <p className="mt-3 text-sl leading-relaxed text-slate-600">
-            Перейдите к женским или мужским категориям услуг, чтобы посмотреть подборку процедур.
+          <p className="mt-3 text-sm leading-relaxed text-slate-600">
+            {services.landingDescription}
           </p>
         </header>
 
         <div className="grid gap-5 sm:grid-cols-2">
           <GenderLink
-            label="Женщины"
-            description="Категории эстетического и оздоровительного ухода, собранные для женских запросов."
+            label={services.femaleCardTitle}
+            description={services.femaleCardDescription}
             href="/services/female"
             imageSrc="/woman.png"
           />
           <GenderLink
-            label="Мужчины"
-            description="Процедуры и консультации, разработанные для мужских направлений и задач."
+            label={services.maleCardTitle}
+            description={services.maleCardDescription}
             href="/services/male"
             imageSrc="/man.png"
           />

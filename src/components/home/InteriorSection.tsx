@@ -35,9 +35,10 @@ export function InteriorSection({ interior }: Props) {
         {/* Левая колонка — текст из API + короткий текст про комфорт */}
         <div className="space-y-4">
           {interior.text && (
-            <p className="text-sm leading-relaxed text-slate-700">
-              {interior.text}
-            </p>
+            <div
+              className="text-sm leading-relaxed text-slate-700 [&_b]:font-semibold [&_br]:block [&_div]:mb-3 [&_div:last-child]:mb-0 [&_em]:italic [&_i]:italic [&_ol]:mb-3 [&_ol]:list-decimal [&_ol]:pl-5 [&_p]:mb-3 [&_p:last-child]:mb-0 [&_strong]:font-semibold [&_u]:underline [&_ul]:mb-3 [&_ul]:list-disc [&_ul]:pl-5"
+              dangerouslySetInnerHTML={{ __html: interior.text }}
+            />
           )}
         </div>
 

@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import { getServicesPage } from "@/lib/api/pages";
 import { getServiceCategoriesByGender } from "@/lib/api/serviceCategories";
 import type { ServiceCategory } from "@/types/api";
 import { resolveMediaUrl } from "@/lib/media";
@@ -8,18 +9,21 @@ import { resolveMediaUrl } from "@/lib/media";
 export const dynamic = "force-dynamic";
 
 export default async function FemaleServicesPage() {
-  const categories = await getServiceCategoriesByGender("female");
+  const [categories, page] = await Promise.all([
+    getServiceCategoriesByGender("female"),
+    getServicesPage(),
+  ]);
+  const { services } = page;
 
   return (
     <main className="bg-white">
       <section className="mx-auto max-w-6xl px-4 pb-16 pt-10 md:pt-12">
         <header className="mb-10 max-w-3xl animate-[fade-up_0.6s_ease-out_both]">
           <h1 className="text-2xl font-semibold tracking-tight text-[#0D1321] sm:text-3xl">
-            Почему женщины выбирают нас?
+            {services.femaleTitle}
           </h1>
           <p className="mt-3 text-sm leading-relaxed text-slate-600">
-            Собрали для вас направления, где заботимся о красоте, здоровье и
-            комфорте с персональным подходом и вниманием к деталям.
+            {services.femaleDescription}
           </p>
         </header>
 

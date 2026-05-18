@@ -38,6 +38,7 @@ export default async function ContactsPage(props: PageProps) {
   const primaryPhone = org.phones?.find((p) => p.isPrimary) ?? org.phones?.[0];
   const phoneNumber = contacts?.phone ?? primaryPhone?.number ?? null;
   const mapUrl = normalizeMapUrl(contacts?.yandexMapUrl);
+  const addressHtml = contacts?.address?.trim() || null;
 
   return (
     <main className="bg-white">
@@ -79,9 +80,9 @@ export default async function ContactsPage(props: PageProps) {
 
                 <div>
                   <dt className="text-xs uppercase tracking-[0.16em] text-[#F3F7FA]/60">
-                    Адрес
+                    Режим работы
                   </dt>
-                  <dd className="mt-1">{org.address}</dd>
+                  <dd className="mt-1">10:00 – 22:00, ежедневно</dd>
                 </div>
               </dl>
             </div>
@@ -92,12 +93,16 @@ export default async function ContactsPage(props: PageProps) {
       {/* Контент: форма + боковая панель */}
       <section className="mx-auto max-w-6xl px-4 py-10 md:py-12">
         <div className="grid gap-8 md:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] md:items-start">
-          <ContactForm serviceSlug={serviceSlug} org={org} />
-          <ContactSidePanel
-            org={org}
-            phoneNumber={phoneNumber}
-            mapUrl={mapUrl}
-          />
+          <div className="order-2 md:order-1">
+            <ContactForm serviceSlug={serviceSlug} org={org} />
+          </div>
+          <div className="order-1 md:order-2">
+            <ContactSidePanel
+              org={org}
+              addressHtml={addressHtml}
+              mapUrl={mapUrl}
+            />
+          </div>
         </div>
       </section>
     </main>
@@ -158,11 +163,11 @@ function ContactForm({
 
 function ContactSidePanel({
   org,
-  phoneNumber,
+  addressHtml,
   mapUrl,
 }: {
   org: Organization;
-  phoneNumber: string | null;
+  addressHtml: string | null;
   mapUrl: string | null;
 }) {
   return (
@@ -171,13 +176,14 @@ function ContactSidePanel({
         <h2 className="text-base font-semibold text-[#0D1321] sm:text-lg">
           Как нас найти
         </h2>
-        <p className="mt-2 text-sm leading-relaxed text-slate-700 sm:text-[15px]">
-          {org.address}
-        </p>
-        {phoneNumber && (
-          <p className="mt-1 text-sm text-slate-700">
-            Телефон для связи:{" "}
-            <span className="font-medium">{phoneNumber}</span>
+        {addressHtml ? (
+          <div
+            className="mt-2 text-sm leading-relaxed text-slate-700 sm:text-[15px] [&_b]:font-semibold [&_br]:block [&_em]:italic [&_i]:italic [&_li]:my-1 [&_ol]:my-2 [&_ol]:list-decimal [&_ol]:pl-5 [&_p]:my-2 [&_strong]:font-semibold [&_u]:underline [&_ul]:my-2 [&_ul]:list-disc [&_ul]:pl-5"
+            dangerouslySetInnerHTML={{ __html: addressHtml }}
+          />
+        ) : (
+          <p className="mt-2 text-sm leading-relaxed text-slate-700 sm:text-[15px]">
+            {org.address}
           </p>
         )}
       </div>

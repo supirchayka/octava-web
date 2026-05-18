@@ -3,6 +3,11 @@
 export type ApiImage = {
   id: number;
   url: string;
+  fileId?: number;
+  mime?: string | null;
+  originalName?: string | null;
+  sizeBytes?: number | null;
+  heroVariant?: "DESKTOP" | "MOBILE" | null;
   alt: string | null;
   caption: string | null;
   order: number | null;
@@ -129,6 +134,25 @@ export type PricesPageResponse = {
       sizeBytes: number;
     } | null;
   };
+};
+
+export type ServicesPageCopy = {
+  landingTitle: string;
+  landingDescription: string;
+  femaleCardTitle: string;
+  femaleCardDescription: string;
+  maleCardTitle: string;
+  maleCardDescription: string;
+  femaleTitle: string;
+  femaleDescription: string;
+  maleTitle: string;
+  maleDescription: string;
+};
+
+export type ServicesPageResponse = {
+  page: PageInfo;
+  seo: SeoBlock | null;
+  services: ServicesPageCopy;
 };
 
 // src/types/api.ts

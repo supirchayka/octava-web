@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import { getServicesPage } from "@/lib/api/pages";
 import { getServiceCategoriesByGender } from "@/lib/api/serviceCategories";
 import type { ServiceCategory } from "@/types/api";
 import { resolveMediaUrl } from "@/lib/media";
@@ -8,18 +9,21 @@ import { resolveMediaUrl } from "@/lib/media";
 export const dynamic = "force-dynamic";
 
 export default async function MaleServicesPage() {
-  const categories = await getServiceCategoriesByGender("male");
+  const [categories, page] = await Promise.all([
+    getServiceCategoriesByGender("male"),
+    getServicesPage(),
+  ]);
+  const { services } = page;
 
   return (
     <main className="bg-white">
       <section className="mx-auto max-w-6xl px-4 pb-16 pt-10 md:pt-12">
         <header className="mb-10 max-w-3xl animate-[fade-up_0.6s_ease-out_both]">
           <h1 className="text-2xl font-semibold tracking-tight text-[#0D1321] sm:text-3xl">
-            Почему мужчины выбирают нас?
+            {services.maleTitle}
           </h1>
           <p className="mt-3 text-sm leading-relaxed text-slate-600">
-            Подготовили направления с эффективными решениями для мужского ухода
-            — от эстетики до консультаций специалистов.
+            {services.maleDescription}
           </p>
         </header>
 

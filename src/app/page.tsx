@@ -54,10 +54,10 @@ export default async function HomePage() {
   return (
     <main className="bg-white">
       <HeroSection hero={hero} />
-      <div className="mx-auto max-w-6xl px-4 pb-16 pt-10">
+      <div className="mx-auto max-w-6xl px-4 pt-16 md:pt-10">
         <DirectionsSection />
       </div>
-      <div className="mx-auto max-w-6xl px-4 pb-16 pt-10">
+      <div className="mx-auto max-w-6xl px-4 pb-16 pt-16 md:pt-10">
         <InteriorSection interior={interior} />
         <BottomCtaSection />
       </div>
@@ -66,22 +66,54 @@ export default async function HomePage() {
 }
 
 function HeroSection({ hero }: { hero: HomeHero }) {
-  const heroVideo = hero.images[0];
+  const heroVideos = [...(hero.images ?? [])].sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+  const desktopVideo =
+    heroVideos.find((item) => item.heroVariant === "DESKTOP") ?? heroVideos[0];
+  const mobileVideo =
+    heroVideos.find((item) => item.heroVariant === "MOBILE") ??
+    heroVideos.find((item) => item.order === 1) ??
+    desktopVideo;
+  const desktopVideoSrc = desktopVideo ? resolveMediaUrl(desktopVideo.url) : "/hero-video.mp4";
+  const mobileVideoSrc = mobileVideo ? resolveMediaUrl(mobileVideo.url) : desktopVideoSrc;
 
   return (
-    <section className="relative flex min-h-[82vh] w-full items-end justify-center overflow-hidden">
+    <section className="relative flex min-h-[82vh] min-h-[82svh] w-full items-end justify-center overflow-hidden bg-[#0D1321]">
       <video
-        className="absolute inset-0 h-full w-full object-cover"
+        className="absolute inset-0 h-full w-full object-cover object-center md:hidden"
         autoPlay
         muted
         loop
         playsInline
         preload="metadata"
+        aria-hidden="true"
       >
-        <source src={heroVideo ? resolveMediaUrl(heroVideo.url) : "/hero-video.mp4"} />
+        <source src={mobileVideoSrc} type={mobileVideo?.mime ?? undefined} />
+      </video>
+      <video
+        className="absolute inset-0 hidden h-full w-full object-cover object-center md:block"
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="metadata"
+        aria-hidden="true"
+      >
+        <source src={desktopVideoSrc} type={desktopVideo?.mime ?? undefined} />
       </video>
 
-      <div className="absolute inset-0 bg-gradient-to-tr from-[#0D1321]/90 via-[#1D2D44]/85 to-[#1D2D44]/60" />
+      <div
+        aria-hidden="true"
+        className="absolute inset-0"
+        style={{ backgroundColor: "rgba(13, 19, 33, 0.48)" }}
+      />
+      <div
+        aria-hidden="true"
+        className="absolute inset-0"
+        style={{
+          background:
+            "linear-gradient(35deg, rgba(13, 19, 33, 0.72) 0%, rgba(29, 45, 68, 0.55) 55%, rgba(29, 45, 68, 0.2) 100%)",
+        }}
+      />
 
       <div className="relative w-full pb-10 text-center">
         <p className="text-4xl font-semibold text-white sm:text-5xl tenorSans">
@@ -94,11 +126,7 @@ function HeroSection({ hero }: { hero: HomeHero }) {
 
 function DirectionsSection() {
   return (
-    <section id="services" className="mb-12">
-      <div className="mb-18 flex items-end justify-between gap-3">
-        <div />
-      </div>
-
+    <section id="services">
       <div className="grid gap-5 sm:grid-cols-2">
         <GenderLink
           label="Женщины"
