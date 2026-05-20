@@ -80,17 +80,19 @@ function HeroSection({ hero }: { hero: HomeHero }) {
     heroVideos.find((item) => item.heroVariant === "MOBILE") ??
     heroVideos.find((item) => item.order === 1) ??
     desktopVideo;
-  const desktopVideoSrc = desktopVideo ? resolveMediaUrl(desktopVideo.url) : "/hero-video.mp4";
+  const desktopVideoSrc = desktopVideo ? resolveMediaUrl(desktopVideo.url) : null;
   const mobileVideoSrc = mobileVideo ? resolveMediaUrl(mobileVideo.url) : desktopVideoSrc;
-  const posterSrc = heroPoster ? resolveMediaUrl(heroPoster.url) : "/hero-poster.jpg";
+  const posterSrc = heroPoster ? resolveMediaUrl(heroPoster.url) : null;
 
   return (
     <section className="relative flex min-h-[82vh] min-h-[82svh] w-full items-end justify-center overflow-hidden bg-[#0D1321]">
-      <HeroVideo
-        desktop={{ src: desktopVideoSrc, mime: desktopVideo?.mime ?? "video/mp4" }}
-        mobile={{ src: mobileVideoSrc, mime: mobileVideo?.mime ?? desktopVideo?.mime ?? "video/mp4" }}
-        poster={posterSrc}
-      />
+      {desktopVideoSrc && mobileVideoSrc && (
+        <HeroVideo
+          desktop={{ src: desktopVideoSrc, mime: desktopVideo?.mime ?? "video/mp4" }}
+          mobile={{ src: mobileVideoSrc, mime: mobileVideo?.mime ?? desktopVideo?.mime ?? "video/mp4" }}
+          poster={posterSrc}
+        />
+      )}
 
       <div
         aria-hidden="true"
