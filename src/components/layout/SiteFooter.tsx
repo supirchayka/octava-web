@@ -24,23 +24,6 @@ function buildTelHref(phone: string | null): string | null {
   return `tel:${normalized}`;
 }
 
-function richTextToPlainText(value: string | null | undefined): string | null {
-  const normalized = (value ?? "")
-    .replace(/<\/(p|div|li|h[1-6])>/gi, " ")
-    .replace(/<br\s*\/?>/gi, " ")
-    .replace(/<[^>]*>/g, " ")
-    .replace(/&nbsp;/g, " ")
-    .replace(/&amp;/g, "&")
-    .replace(/&lt;/g, "<")
-    .replace(/&gt;/g, ">")
-    .replace(/&quot;/g, '"')
-    .replace(/&#39;/g, "'")
-    .replace(/\s+/g, " ")
-    .trim();
-
-  return normalized || null;
-}
-
 export async function SiteFooter() {
   const [contactsResult, orgResult] = await Promise.allSettled([
     getContactsPage(),
@@ -54,7 +37,8 @@ export async function SiteFooter() {
   const phoneNumber = contacts?.phone ?? (org ? getPrimaryPhone(org) : null);
   const phoneHref = buildTelHref(phoneNumber);
   const email = contacts?.email ?? org?.email ?? null;
-  const address = richTextToPlainText(contacts?.address) ?? org?.address ?? null;
+  const addressHtml = contacts?.address?.trim() || null;
+  const addressFallback = org?.address ?? null;
 
   return (
     <footer className="mt-16 border-t border-slate-100 bg-white pb-6 pt-8 text-sm text-slate-600">
@@ -167,7 +151,15 @@ export async function SiteFooter() {
                 )}
               </li>
               <li>
-                Адрес: <span>{address ?? "—"}</span>
+                Адрес:{" "}
+                {addressHtml ? (
+                  <div
+                    className="mt-1 break-words leading-relaxed [&_a]:underline [&_b]:font-semibold [&_br]:block [&_div]:my-1 [&_em]:italic [&_i]:italic [&_li]:my-0.5 [&_ol]:my-1 [&_ol]:list-decimal [&_ol]:pl-5 [&_p]:my-1 [&_p:first-child]:mt-0 [&_p:last-child]:mb-0 [&_strong]:font-semibold [&_u]:underline [&_ul]:my-1 [&_ul]:list-disc [&_ul]:pl-5"
+                    dangerouslySetInnerHTML={{ __html: addressHtml }}
+                  />
+                ) : (
+                  <span>{addressFallback ?? "\u2014"}</span>
+                )}
               </li>
             </ul>
           </div>
