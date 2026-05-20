@@ -186,6 +186,9 @@ function ContactSidePanel({
             {org.address}
           </p>
         )}
+        <p className="mt-3 text-sm font-medium leading-relaxed text-[#1D2D44] sm:text-[15px]">
+          Для гостей клиники предусмотрена подземная парковка
+        </p>
       </div>
 
       <div className="relative h-[360px] w-full overflow-hidden rounded-3xl text-[#F3F7FA] shadow-[0_4px_25px_rgba(13,19,33,0.15)] sm:h-[320px]">

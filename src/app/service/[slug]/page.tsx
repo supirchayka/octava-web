@@ -506,58 +506,66 @@ function SpecialistCard({ specialist }: { specialist: Specialist }) {
   const serviceComment = specialist.serviceComment?.trim();
 
   return (
-    <article className="overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-[0_12px_32px_rgba(13,19,33,0.08)]">
-      <div className="flex flex-col sm:flex-row">
-        <div className="relative h-56 w-full shrink-0 overflow-hidden bg-[#0D1321]/10 sm:h-auto sm:min-h-56 sm:w-48">
-          {specialist.photo ? (
-            <>
-              <Image
-                src={resolveMediaUrl(specialist.photo.url)}
-                alt={fullName}
-                fill
-                className="h-full w-full object-cover object-top"
-                sizes="(max-width: 640px) 100vw, 192px"
-              />
-              <div
-                className="absolute inset-0"
-                style={{
-                  background:
-                    "linear-gradient(145deg, rgba(13,19,33,0.35), rgba(29,45,68,0.15), rgba(29,45,68,0.0))",
-                }}
-              />
-            </>
-          ) : (
-            <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-[#1D2D44] to-[#0D1321] text-lg font-semibold text-[#F3F7FA]">
-              {initials}
-            </div>
-          )}
-        </div>
+    <Link
+      href={`/specialists/${specialist.id}`}
+      className="group block rounded-2xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#1D2D44]"
+    >
+      <article className="overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-[0_12px_32px_rgba(13,19,33,0.08)] transition hover:-translate-y-0.5 hover:border-[#1D2D44]/25 hover:shadow-[0_18px_45px_rgba(13,19,33,0.16)]">
+        <div className="flex flex-col sm:flex-row">
+          <div className="relative h-56 w-full shrink-0 overflow-hidden bg-[#0D1321]/10 sm:h-auto sm:min-h-56 sm:w-48">
+            {specialist.photo ? (
+              <>
+                <Image
+                  src={resolveMediaUrl(specialist.photo.url)}
+                  alt={fullName}
+                  fill
+                  className="h-full w-full object-cover object-top transition duration-500 group-hover:scale-105"
+                  sizes="(max-width: 640px) 100vw, 192px"
+                />
+                <div
+                  className="absolute inset-0"
+                  style={{
+                    background:
+                      "linear-gradient(145deg, rgba(13,19,33,0.35), rgba(29,45,68,0.15), rgba(29,45,68,0.0))",
+                  }}
+                />
+              </>
+            ) : (
+              <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-[#1D2D44] to-[#0D1321] text-lg font-semibold text-[#F3F7FA]">
+                {initials}
+              </div>
+            )}
+          </div>
 
-        <div className="flex flex-1 flex-col gap-2 px-4 py-4 sm:px-5">
-          <div className="space-y-1">
-            <h3 className="text-base font-semibold text-[#0D1321] sm:text-lg">
-              {fullName}
-            </h3>
+          <div className="flex flex-1 flex-col gap-2 px-4 py-4 sm:px-5">
+            <div className="space-y-1">
+              <h3 className="text-base font-semibold text-[#0D1321] transition group-hover:text-[#1D2D44] sm:text-lg">
+                {fullName}
+              </h3>
+              <p className="text-sm text-slate-600">
+                {specialist.specialization}
+              </p>
+            </div>
             <p className="text-sm text-slate-600">
-              {specialist.specialization}
+              {experienceLabel} опыта
+            </p>
+            {serviceComment && (
+              <div className="space-y-1.5">
+                <p className="text-xs font-semibold uppercase tracking-[0.08em] text-[#1D2D44]">
+                  Комментарий специалиста
+                </p>
+                <p className="whitespace-pre-line text-sm leading-relaxed text-slate-700">
+                  {serviceComment}
+                </p>
+              </div>
+            )}
+            <p className="mt-auto pt-1 text-sm font-medium text-[#1D2D44] opacity-90 transition group-hover:underline">
+              Подробнее о специалисте
             </p>
           </div>
-          <p className="text-sm text-slate-600">
-            {experienceLabel} опыта
-          </p>
-          {serviceComment && (
-            <div className="space-y-1.5">
-              <p className="text-xs font-semibold uppercase tracking-[0.08em] text-[#1D2D44]">
-                Комментарий специалиста
-              </p>
-              <p className="whitespace-pre-line text-sm leading-relaxed text-slate-700">
-                {serviceComment}
-              </p>
-            </div>
-          )}
         </div>
-      </div>
-    </article>
+      </article>
+    </Link>
   );
 }
 
