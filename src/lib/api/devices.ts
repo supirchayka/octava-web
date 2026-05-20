@@ -1,11 +1,12 @@
 // src/lib/api/devices.ts
 import type { DeviceListItem, DeviceDetailResponse } from "@/types/api";
+import { PUBLIC_API_REVALIDATE_SECONDS } from "./client";
 
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:3005";
 
 export async function getDevices(): Promise<DeviceListItem[]> {
   const res = await fetch(`${API_BASE}/devices`, {
-    cache: "no-store",
+    next: { revalidate: PUBLIC_API_REVALIDATE_SECONDS },
   });
 
   if (!res.ok) {
@@ -23,7 +24,7 @@ export async function getDeviceBySlug(
   slug: string
 ): Promise<DeviceDetailResponse | null> {
   const res = await fetch(`${API_BASE}/devices/${slug}`, {
-    cache: "no-store",
+    next: { revalidate: PUBLIC_API_REVALIDATE_SECONDS },
   });
 
   if (res.status === 404) {

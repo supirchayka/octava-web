@@ -82,7 +82,6 @@ function DeviceCard({ device }: { device: DeviceListItem }) {
                 fill
                 className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
                 sizes="(max-width: 768px) 100vw, 33vw"
-                priority
               />
               <div
                 className="absolute inset-0"

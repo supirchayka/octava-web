@@ -331,6 +331,11 @@ export type Organization = {
   phones: OrgPhone[];
 };
 
+export type OrganizationSummary = Pick<
+  Organization,
+  "id" | "fullName" | "address" | "email" | "phones"
+>;
+
 // ---- /devices (каталог) ----
 
 export type DeviceListItem = {

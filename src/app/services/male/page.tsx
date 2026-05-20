@@ -6,8 +6,6 @@ import { getServiceCategoriesByGender } from "@/lib/api/serviceCategories";
 import type { ServiceCategory } from "@/types/api";
 import { resolveMediaUrl } from "@/lib/media";
 
-export const dynamic = "force-dynamic";
-
 export default async function MaleServicesPage() {
   const [categories, page] = await Promise.all([
     getServiceCategoriesByGender("male"),
@@ -55,7 +53,6 @@ function CategoryCard({ category }: { category: ServiceCategory }) {
           fill
           className="absolute inset-0 h-full w-full object-cover transition duration-700 ease-out group-hover:scale-105"
           sizes="(max-width: 1024px) 100vw, 33vw"
-          priority
         />
       )}
 

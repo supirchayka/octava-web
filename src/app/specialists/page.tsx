@@ -5,8 +5,6 @@ import { getSpecialists } from "@/lib/api/specialists";
 import { resolveMediaUrl } from "@/lib/media";
 import type { Specialist } from "@/types/api";
 
-export const dynamic = "force-dynamic";
-
 export default async function SpecialistsPage() {
   const specialists = await getSpecialists();
 
@@ -76,7 +74,6 @@ function SpecialistCard({ specialist }: { specialist: Specialist }) {
                 fill
                 className="h-full w-full object-cover object-top transition duration-500 group-hover:scale-105"
                 sizes="(max-width: 768px) 100vw, 33vw"
-                priority
               />
               <div
                 className="absolute inset-0"

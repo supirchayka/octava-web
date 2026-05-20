@@ -178,7 +178,7 @@ function ContactSidePanel({
         </h2>
         {addressHtml ? (
           <div
-            className="mt-2 text-sm leading-relaxed text-slate-700 sm:text-[15px] [&_b]:font-semibold [&_br]:block [&_em]:italic [&_i]:italic [&_li]:my-1 [&_ol]:my-2 [&_ol]:list-decimal [&_ol]:pl-5 [&_p]:my-2 [&_strong]:font-semibold [&_u]:underline [&_ul]:my-2 [&_ul]:list-disc [&_ul]:pl-5"
+            className="mt-2 text-sm leading-relaxed text-slate-700 sm:text-[15px] [&_b]:font-semibold [&_br]:block [&_div]:my-2 [&_em]:italic [&_i]:italic [&_li]:my-1 [&_ol]:my-2 [&_ol]:list-decimal [&_ol]:pl-5 [&_p]:my-2 [&_strong]:font-semibold [&_u]:underline [&_ul]:my-2 [&_ul]:list-disc [&_ul]:pl-5"
             dangerouslySetInnerHTML={{ __html: addressHtml }}
           />
         ) : (
@@ -195,6 +195,7 @@ function ContactSidePanel({
             width="100%"
             height="100%"
             style={{ border: 0 }}
+            loading="lazy"
             allowFullScreen
           />
         ) : (

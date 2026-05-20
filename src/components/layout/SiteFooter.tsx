@@ -4,16 +4,16 @@ import { Tenor_Sans } from "next/font/google";
 
 import Link from "next/link";
 
-import { getOrg } from "@/lib/api/org";
+import { getOrgSummary } from "@/lib/api/org";
 import { getContactsPage } from "@/lib/api/pages";
-import type { Organization } from "@/types/api";
+import type { OrganizationSummary } from "@/types/api";
 
 const tenorSans = Tenor_Sans({
   weight: "400",
   subsets: ["latin"],
 });
 
-function getPrimaryPhone(org: Organization): string | null {
+function getPrimaryPhone(org: OrganizationSummary): string | null {
   const phone = org.phones?.find((p) => p.isPrimary) ?? org.phones?.[0];
   return phone?.number ?? null;
 }
@@ -24,10 +24,27 @@ function buildTelHref(phone: string | null): string | null {
   return `tel:${normalized}`;
 }
 
+function richTextToPlainText(value: string | null | undefined): string | null {
+  const normalized = (value ?? "")
+    .replace(/<\/(p|div|li|h[1-6])>/gi, " ")
+    .replace(/<br\s*\/?>/gi, " ")
+    .replace(/<[^>]*>/g, " ")
+    .replace(/&nbsp;/g, " ")
+    .replace(/&amp;/g, "&")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/\s+/g, " ")
+    .trim();
+
+  return normalized || null;
+}
+
 export async function SiteFooter() {
   const [contactsResult, orgResult] = await Promise.allSettled([
     getContactsPage(),
-    getOrg(),
+    getOrgSummary(),
   ]);
 
   const contacts =
@@ -37,7 +54,7 @@ export async function SiteFooter() {
   const phoneNumber = contacts?.phone ?? (org ? getPrimaryPhone(org) : null);
   const phoneHref = buildTelHref(phoneNumber);
   const email = contacts?.email ?? org?.email ?? null;
-  const address = contacts?.address ?? org?.address ?? null;
+  const address = richTextToPlainText(contacts?.address) ?? org?.address ?? null;
 
   return (
     <footer className="mt-16 border-t border-slate-100 bg-white pb-6 pt-8 text-sm text-slate-600">
@@ -51,8 +68,6 @@ export async function SiteFooter() {
                 className=""
                 width={160}
                 height={40}
-                sizes="(max-width: 40px)"
-                priority
               />
             </Link>
             {/*

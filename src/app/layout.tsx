@@ -1,5 +1,6 @@
 // src/app/layout.tsx
 import type { Metadata } from "next";
+import { connection } from "next/server";
 import "./globals.css";
 import { Inter } from "next/font/google";
 
@@ -31,7 +32,9 @@ const inter = Inter({
   variable: "--font-sans",
 });
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  await connection();
+
   return (
     <html lang="ru" className={inter.variable}>
       <body className={`bg-white text-[#1D2D44] ${inter.className}`}>

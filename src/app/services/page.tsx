@@ -3,8 +3,6 @@ import Link from "next/link";
 
 import { getServicesPage } from "@/lib/api/pages";
 
-export const dynamic = "force-dynamic";
-
 export default async function ServicesLandingPage() {
   const { services } = await getServicesPage();
 

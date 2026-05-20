@@ -52,7 +52,6 @@ export function InteriorSection({ interior }: Props) {
               fill
               className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out"
               sizes="100vw"
-              priority
             />
           )}
 

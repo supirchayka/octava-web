@@ -3,7 +3,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { getSpecialists } from "@/lib/api/specialists";
+import { getSpecialistById } from "@/lib/api/specialists";
 import { resolveMediaUrl } from "@/lib/media";
 import type { Specialist } from "@/types/api";
 
@@ -180,14 +180,13 @@ export default async function SpecialistPage(props: PageProps) {
 }
 
 async function findSpecialist(id: string): Promise<Specialist | null> {
-  const specialists = await getSpecialists();
   const specialistId = Number(id);
 
   if (Number.isNaN(specialistId)) {
     return null;
   }
 
-  return specialists.find((item) => item.id === specialistId) ?? null;
+  return getSpecialistById(specialistId);
 }
 
 function buildBiographyHtml(value: string | null): string {

@@ -3,12 +3,24 @@
 const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:3005";
 
-export async function apiGet<T>(path: string, init?: RequestInit): Promise<T> {
+type ApiGetInit = RequestInit & {
+  next?: {
+    revalidate?: number | false;
+    tags?: string[];
+  };
+};
+
+export const PUBLIC_API_REVALIDATE_SECONDS = 300;
+
+export async function apiGet<T>(path: string, init?: ApiGetInit): Promise<T> {
   const url = API_BASE_URL + path;
+  const hasCachePolicy = Boolean(init?.cache || init?.next);
 
   const res = await fetch(url, {
     ...init,
-    cache: "no-store",
+    ...(hasCachePolicy
+      ? {}
+      : { next: { revalidate: PUBLIC_API_REVALIDATE_SECONDS } }),
   });
 
   if (!res.ok) {

@@ -6,6 +6,7 @@ import { Tenor_Sans } from "next/font/google";
 import { getHomePage } from "@/lib/api/pages";
 import { resolveMediaUrl } from "@/lib/media";
 import type { HomePageResponse, HomeHero } from "@/types/api";
+import { HeroVideo } from "@/components/home/HeroVideo";
 import { InteriorSection } from "@/components/home/InteriorSection";
 import { ContactLeadForm } from "@/components/ContactLeadForm";
 
@@ -66,7 +67,13 @@ export default async function HomePage() {
 }
 
 function HeroSection({ hero }: { hero: HomeHero }) {
-  const heroVideos = [...(hero.images ?? [])].sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+  const heroMedia = [...(hero.images ?? [])].sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+  const heroVideos = heroMedia.filter(
+    (item) =>
+      item.mime?.startsWith("video/") ||
+      /\.(mp4|webm|ogg)(\?.*)?$/i.test(item.url),
+  );
+  const heroPoster = heroMedia.find((item) => item.mime?.startsWith("image/"));
   const desktopVideo =
     heroVideos.find((item) => item.heroVariant === "DESKTOP") ?? heroVideos[0];
   const mobileVideo =
@@ -75,31 +82,15 @@ function HeroSection({ hero }: { hero: HomeHero }) {
     desktopVideo;
   const desktopVideoSrc = desktopVideo ? resolveMediaUrl(desktopVideo.url) : "/hero-video.mp4";
   const mobileVideoSrc = mobileVideo ? resolveMediaUrl(mobileVideo.url) : desktopVideoSrc;
+  const posterSrc = heroPoster ? resolveMediaUrl(heroPoster.url) : "/hero-poster.jpg";
 
   return (
     <section className="relative flex min-h-[82vh] min-h-[82svh] w-full items-end justify-center overflow-hidden bg-[#0D1321]">
-      <video
-        className="absolute inset-0 h-full w-full object-cover object-center md:hidden"
-        autoPlay
-        muted
-        loop
-        playsInline
-        preload="metadata"
-        aria-hidden="true"
-      >
-        <source src={mobileVideoSrc} type={mobileVideo?.mime ?? undefined} />
-      </video>
-      <video
-        className="absolute inset-0 hidden h-full w-full object-cover object-center md:block"
-        autoPlay
-        muted
-        loop
-        playsInline
-        preload="metadata"
-        aria-hidden="true"
-      >
-        <source src={desktopVideoSrc} type={desktopVideo?.mime ?? undefined} />
-      </video>
+      <HeroVideo
+        desktop={{ src: desktopVideoSrc, mime: desktopVideo?.mime ?? "video/mp4" }}
+        mobile={{ src: mobileVideoSrc, mime: mobileVideo?.mime ?? desktopVideo?.mime ?? "video/mp4" }}
+        poster={posterSrc}
+      />
 
       <div
         aria-hidden="true"
