@@ -5,5 +5,7 @@ import type { ServiceDetailResponse } from "@/types/api";
 export async function getServiceBySlug(
   slug: string
 ): Promise<ServiceDetailResponse> {
-  return apiGet<ServiceDetailResponse>(`/services/${slug}`);
+  return apiGet<ServiceDetailResponse>(`/services/${slug}`, {
+    cache: "no-store",
+  });
 }
