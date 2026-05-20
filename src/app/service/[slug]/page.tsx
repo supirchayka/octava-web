@@ -506,7 +506,6 @@ function FaqItem({ item }: { item: FaqItem }) {
 function SpecialistCard({ specialist }: { specialist: Specialist }) {
   const fullName = formatSpecialistFullName(specialist);
   const initials = getInitials(specialist.firstName, specialist.lastName);
-  const experienceLabel = formatExperience(specialist.experienceYears);
   const serviceComment = specialist.serviceComment?.trim();
 
   return (
@@ -550,9 +549,6 @@ function SpecialistCard({ specialist }: { specialist: Specialist }) {
                 {specialist.specialization}
               </p>
             </div>
-            <p className="text-sm text-slate-600">
-              {experienceLabel} опыта
-            </p>
             {serviceComment && (
               <div className="space-y-1.5">
                 <p className="text-xs font-semibold uppercase tracking-[0.08em] text-[#1D2D44]">
@@ -618,23 +614,6 @@ function extractUtm(
   };
 }
 
-function formatExperience(years: number) {
-  const mod10 = years % 10;
-  const mod100 = years % 100;
-  let suffix = "лет";
-
-  if (mod10 === 1 && mod100 !== 11) {
-    suffix = "год";
-  } else if (
-    mod10 >= 2 &&
-    mod10 <= 4 &&
-    (mod100 < 12 || mod100 > 14)
-  ) {
-    suffix = "года";
-  }
-
-  return `${years} ${suffix}`;
-}
 
 function getInitials(firstName: string, lastName: string) {
   const first = firstName.trim()[0] ?? "";
