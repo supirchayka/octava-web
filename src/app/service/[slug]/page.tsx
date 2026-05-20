@@ -9,6 +9,7 @@ import type { ReactNode } from "react";
 import { getServiceBySlug } from "@/lib/api/services";
 import { resolveMediaUrl } from "@/lib/media";
 import { ServiceContactForm } from "../ServiceContactForm";
+import { ServiceGalleryCarousel } from "./ServiceGalleryCarousel";
 import { ServiceTabsClient } from "./ServiceTabsClient";
 import type {
   ServiceDetailResponse,
@@ -93,6 +94,7 @@ export default async function ServicePage(props: PageProps) {
     contraindications,
     preparationChecklist,
     rehabChecklist,
+    galleryImages,
     faq,
     legalDisclaimer,
   } = data;
@@ -228,6 +230,8 @@ export default async function ServicePage(props: PageProps) {
             afterAbout={faq.length > 0 ? <FaqSection items={faq} /> : null}
           />
         </section>
+
+        <ServiceGalleryCarousel images={galleryImages ?? []} />
 
         {/* Форма контактов по услуге */}
         <section className="rounded-3xl border border-slate-100 bg-[#F3F7FA] px-5 py-7 shadow-[0_12px_32px_rgba(13,19,33,0.08)] md:px-7 md:py-8">
