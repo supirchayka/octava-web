@@ -97,15 +97,12 @@ function HeroSection({ hero }: { hero: HomeHero }) {
       <div
         aria-hidden="true"
         className="absolute inset-0"
-        style={{ backgroundColor: "rgba(13, 19, 33, 0.48)" }}
+        //style={{ backgroundColor: "rgba(13, 19, 33, 0.48)" }}
       />
       <div
         aria-hidden="true"
         className="absolute inset-0"
-        style={{
-          background:
-            "linear-gradient(35deg, rgba(13, 19, 33, 0.72) 0%, rgba(29, 45, 68, 0.55) 55%, rgba(29, 45, 68, 0.2) 100%)",
-        }}
+        //style={{background:"linear-gradient(35deg, rgba(13, 19, 33, 0.72) 0%, rgba(29, 45, 68, 0.55) 55%, rgba(29, 45, 68, 0.2) 100%)",}}
       />
 
       <div className="relative w-full pb-10 text-center">

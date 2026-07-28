@@ -35,31 +35,32 @@ export function HeroVideo({ desktop, mobile, poster }: HeroVideoProps) {
     const video = videoRef.current;
     if (!video) return;
 
+    video.muted = true;
+    video.defaultMuted = true;
+    video.volume = 0;
     video.load();
 
     const play = () => {
+      video.muted = true;
+      video.defaultMuted = true;
+      video.volume = 0;
       void video.play().catch(() => {
         // Autoplay can be blocked by the browser; the poster/background remains visible.
       });
     };
 
-    if ("requestIdleCallback" in window) {
-      const idleId = window.requestIdleCallback(play, { timeout: 1200 });
-      return () => window.cancelIdleCallback(idleId);
-    }
-
-    const timeoutId = globalThis.setTimeout(play, 300);
-    return () => globalThis.clearTimeout(timeoutId);
+    play();
   }, [source]);
 
   return (
     <video
       ref={videoRef}
       className="absolute inset-0 h-full w-full object-cover object-center"
+      autoPlay
       muted
       loop
       playsInline
-      preload="none"
+      preload="auto"
       poster={poster ?? undefined}
       aria-hidden="true"
     >

@@ -1,15 +1,18 @@
 // src/lib/media.ts
 
 export function resolveMediaUrl(path: string | null | undefined): string {
-  if (!path) return "";
-  if (path.startsWith("http://") || path.startsWith("https://")) return path;
+  const normalizedPath = path?.trim();
+  if (!normalizedPath) return "";
+  if (normalizedPath.startsWith("http://") || normalizedPath.startsWith("https://")) return normalizedPath;
 
   const base =
     process.env.NEXT_PUBLIC_ASSET_BASE_URL ??
     process.env.NEXT_PUBLIC_API_BASE_URL ??
     "";
 
-  if (!base) return path; // на крайний случай — отдаём как есть "/uploads/..."
+  if (!base) {
+    return normalizedPath.startsWith("/") ? normalizedPath : `/${normalizedPath}`;
+  }
 
-  return `${base}${path}`;
+  return `${base.replace(/\/+$/, "")}/${normalizedPath.replace(/^\/+/, "")}`;
 }
